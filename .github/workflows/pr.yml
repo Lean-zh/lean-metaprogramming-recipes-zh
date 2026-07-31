@@ -29,6 +29,9 @@ jobs:
           fi
           echo "All checked .lean files are correctly PascalCased."
 
+      - name: Check Translation Invariants
+        run: python3 scripts/check_translation_integrity.py
+
       - name: Lean Action (Build)
         uses: leanprover/lean-action@v1
         with:
