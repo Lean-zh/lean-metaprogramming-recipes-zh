@@ -8,7 +8,7 @@ open Std Lean Meta Elab Tactic
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Environment Extensions and Attributes: Example" =>
+#doc (Manual) "环境扩展与属性：示例" =>
 
 %%%
 tag := "environment-extensions-and-attributes-example"
@@ -19,11 +19,11 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Environment Extensions and Attributes: Example]
+{index}[环境扩展与属性：示例]
 
-In the recipe {ref "environment-extensions-and-attributes"}[Environment Extensions and Attributes], we defined an environment extension to store lemmas tagged with the `@[distribute]` attribute, and we defined the `@[distribute]` attribute to add lemmas to this environment extension, and implemented the `distribute` tactic that retrieves the lemmas from the environment extension and applies them.
+在配方 {ref "environment-extensions-and-attributes"}[环境扩展与属性] 中，我们定义了一个环境扩展来存储带 `@[distribute]` 属性标记的引理，定义了 `@[distribute]` 属性把引理添加到这个环境扩展中，并实现了 `distribute` 策略，它从环境扩展中取出这些引理并应用它们。
 
-In this recipe, we show how to use the `@[distribute]` attribute and the `distribute` tactic. We cannot tag or use attributes in the same file where they are initialized, so we had to split the code into two files. In this file, we tag some lemmas with the `@[distribute]` attribute, and then we use the `distribute` tactic to apply these lemmas.
+在本配方中，我们展示如何使用 `@[distribute]` 属性和 `distribute` 策略。我们无法在初始化属性的同一个文件中标记或使用属性，因此不得不把代码拆成两个文件。在本文件中，我们给一些引理标记 `@[distribute]` 属性，然后用 `distribute` 策略应用这些引理。
 
 ```lean
 open Distribute
@@ -38,7 +38,7 @@ example : (1 = 1) ∧ (2 = 3 ∨ 3 = 3) := by
   grind
 ```
 
-We can also tag definitions or theorems from imported modules with the `@[distribute]` attribute, and they will be added to the environment extension and used by the `distribute` tactic.
+我们也可以给来自导入模块的定义或定理标记 `@[distribute]` 属性，它们会被添加到环境扩展中，并被 `distribute` 策略使用。
 
 ```lean
 attribute [distribute] Nat.mul_add

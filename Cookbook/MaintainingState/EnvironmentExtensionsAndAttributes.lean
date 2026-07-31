@@ -7,7 +7,7 @@ open Std Lean Meta Elab Tactic
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Environment Extensions and Attributes" =>
+#doc (Manual) "环境扩展与属性" =>
 
 %%%
 tag := "environment-extensions-and-attributes"
@@ -18,19 +18,19 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Environment Extensions and Attributes]
+{index}[环境扩展与属性]
 
-# Environment Extensions and Attributes
+# 环境扩展与属性
 
-Lean allows persistence across files and sessions, and even in imported compiled code, by using _Environment extensions_. A common application of environment extensions is for implementing attributes like `@[simp]` and `@[grind]`. In this chapter we give recipes for defining environment extensions and attributes, with the attribute serving as an example.
+Lean 允许状态跨文件、跨会话持久化，甚至在导入的已编译代码中也是如此，方法是使用 _环境扩展（Environment extensions）_。环境扩展的一个常见应用是实现像 `@[simp]` 和 `@[grind]` 这样的属性。本章我们给出定义环境扩展和属性的配方，并以该属性为例。
 
-Specifically, we implement a tactic `distribute` that tries to apply all lemmas tagged with the `@[distribute]` attribute. We first make an environment extension to store the lemmas tagged with `@[distribute]`, and then we define the `@[distribute]` attribute to add lemmas to this environment extension. Finally, we implement the `distribute` tactic that retrieves the lemmas from the environment extension and applies them.
+具体来说，我们实现一个策略 `distribute`，它尝试应用所有带 `@[distribute]` 属性标记的引理。我们首先制作一个环境扩展来存储带 `@[distribute]` 标记的引理，然后定义 `@[distribute]` 属性，把引理添加到这个环境扩展中。最后，我们实现 `distribute` 策略，它从环境扩展中取出这些引理并应用它们。
 
-## Environment Extension
+## 环境扩展
 
-There are a few different types of environment extensions, of which we will use the {lean}`SimpleScopedEnvExtension`. The `SimpleScopedEnvExtension` takes two type parameters: the type of entries to be stored in the environment extension, and the type of state that is maintained by the environment extension. "Scoped" means that we can scope to a namespace or to the local scope of a section.
+环境扩展有若干不同类型，其中我们将使用 {lean}`SimpleScopedEnvExtension`。`SimpleScopedEnvExtension` 接受两个类型参数：存储在环境扩展中的条目的类型，以及由环境扩展维护的状态的类型。“Scoped” 意味着我们可以作用于某个命名空间或某个 section 的局部作用域。
 
-In our case, we want to store lemmas tagged with `@[distribute]`, so the type of entries is `Name` (the name of the lemma), and we want to maintain an array of these lemmas as state, so the type of state is `Array Name`.
+在我们的情形中，我们想存储带 `@[distribute]` 标记的引理，所以条目的类型是 `Name`（引理的名字），并且我们想把这些引理的一个数组作为状态维护，所以状态的类型是 `Array Name`。
 
 ```lean
 initialize distributeExt :
@@ -42,7 +42,7 @@ initialize distributeExt :
   }
 ```
 
-Once we have defined the environment extension, we can use the `add` function to add entries to the environment extension, and the `getState` function to retrieve the state of the environment extension given an environment.
+一旦定义了环境扩展，我们就可以用 `add` 函数向环境扩展添加条目，并用 `getState` 函数在给定环境下取出环境扩展的状态。
 
 ```lean
 #check distributeExt.add
@@ -54,9 +54,9 @@ def distributeLemmas : MetaM (Array Name) := do
 ```
 
 
-## Attribute
+## 属性
 
-As with environment extensions, there are a few different types of attributes. We will use `registerBuiltinAttribute` to define the `@[distribute]` attribute. The following code defines the `@[distribute]` attribute and specifies that when a lemma is tagged with `@[distribute]`, it should be added to the `distributeExt` environment extension.
+和环境扩展一样，属性也有若干不同类型。我们将用 `registerBuiltinAttribute` 来定义 `@[distribute]` 属性。下面的代码定义 `@[distribute]` 属性，并指定当一个引理被标记 `@[distribute]` 时，应把它添加到 `distributeExt` 环境扩展中。
 
 ```lean
 namespace Distribute
@@ -70,9 +70,14 @@ end Distribute
 open Distribute
 ```
 
-## Tactic
+## 策略
 
-Finally, we implement the `distribute` tactic that retrieves the lemmas from the environment extension and applies them. We use the `apply` tactic to apply each lemma to the goal.
+%%%
+tag := "distribute-tactic-implementation"
+number := false
+%%%
+
+最后，我们实现 `distribute` 策略，它从环境扩展中取出这些引理并应用它们。我们用 `apply` 策略把每个引理应用到目标上。
 
 ```lean
 elab "distribute" : tactic => do
@@ -87,4 +92,4 @@ elab "distribute" : tactic => do
       continue
 ```
 
-We cannot tag or use attributes in the same file where they are initialized, so we have to split the code into two files. In the next recipe {ref "environment-extensions-and-attributes-example"}[Environment Extensions and Attributes: Example], we show how to use the `@[distribute]` attribute and the `distribute` tactic.
+我们无法在初始化属性的同一个文件中标记或使用属性，因此不得不把代码拆成两个文件。在下一个配方 {ref "environment-extensions-and-attributes-example"}[环境扩展与属性：示例] 中，我们展示如何使用 `@[distribute]` 属性和 `distribute` 策略。

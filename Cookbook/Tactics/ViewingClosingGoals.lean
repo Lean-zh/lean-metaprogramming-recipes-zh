@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Viewing and Closing Goals" =>
+#doc (Manual) "查看与关闭目标" =>
 
 %%%
 tag := "viewing-closing-goals"
@@ -20,22 +20,22 @@ htmlSplit := .never
 :::
 
 
-{index}[Viewing and Closing Goals]
+{index}[查看与关闭目标]
 
-Tactics can work with goals in various ways. They can inspect the goals, modify them, or even close them. In this section, we will explore how to write tactics that view and close goals using elaborators.
+策略可以用多种方式处理目标。它们可以检查目标、修改目标，甚至关闭目标。本节我们探讨如何用精译器编写查看和关闭目标的策略。
 
-In the previous {ref "tactics-as-shortcuts"}[recipe], we saw how to use macros to build a tactic by expanding one piece of syntax into another. In this recipe, we will write tactics using elaborators, which let us construct expressions and also give us access to a lot of information, including the goal state.
+在上一个 {ref "tactics-as-shortcuts"}[配方] 中，我们看到了如何用宏把一段语法展开成另一段语法来构建策略。本配方中，我们用精译器编写策略，它让我们能够构造表达式，还让我们能访问大量信息，包括目标状态。
 
-# Tactic to print the main goal
+# 打印主目标的策略
 
 %%%
 tag := "tactic-to-print-the-main-goal"
 number := false
 htmlSplit := .never
 %%%
-{index}[Tactic to print the main goal]
+{index}[打印主目标的策略]
 
-Let's start by writing a basic elaborator that retrieves and displays the expression representing the type of the main goal.
+我们先编写一个基础的精译器，它取出并显示表示主目标类型的表达式。
 
 ```lean
 elab "goalExpr" : tactic => do
@@ -46,26 +46,26 @@ example: 2 + 3 = 5 := by
   goalExpr
   simp
 ```
-Check out {ref "displaying-in-the-infoview"}[Displaying in the Infoview] on how to use string formatting in the InfoView.
+关于如何在 InfoView 中使用字符串格式化，参见 {ref "displaying-in-the-infoview"}[在 Infoview 中显示]。
 
-# Closing Goals: Custom `sorry` Tactic
+# 关闭目标：自定义的 `sorry` 策略
 
-We next illustrate how to close goals using an elaborator. We will make a customized version of the `sorry` tactic that not only closes the goal but also logs a custom message to the Infoview.
+接下来我们说明如何用精译器关闭目标。我们将制作一个定制版的 `sorry` 策略，它不仅关闭目标，还会向 Infoview 记录一条自定义消息。
 
-If you formalize mathematics in Lean, you are likely familiar with the `sorry` tactic. We use it frequently as a placeholder for proofs yet to be written. The `sorry` tactic closes the current main goal but leaves a warning in the Infoview.
+如果你用 Lean 形式化数学，你很可能熟悉 `sorry` 策略。我们经常把它当作尚未写出的证明的占位符。`sorry` 策略关闭当前主目标，但会在 Infoview 中留下一条警告。
 
 ```lean
 example : 847 + 153 = 1000 := by sorry
 ```
 
-Under the hood, the `sorry` tactic works by creating a term of the main goal's type using the [`sorryAx`](https://lean-lang.org/doc/reference/latest/Axioms/?terms=sorryAx#standard-axioms) axiom. We can inspect this internal component directly:
+在底层，`sorry` 策略的工作方式是用 [`sorryAx`](https://lean-lang.org/doc/reference/latest/Axioms/?terms=sorryAx#standard-axioms) 公理创建一个主目标类型的项。我们可以直接查看这个内部组件：
 
 ```lean
 #check sorryAx
 -- sorryAx.{u} (α : Sort u) (synthetic :  Bool) : α
 ```
 
-Now, let's write a custom tactic called `toDo` using `elab` and `sorryAx`. The `toDo` tactic will close the main goal just like `sorry`, but it will also accept a string argument to log a custom reminder to the Infoview.
+现在，我们用 `elab` 和 `sorryAx` 编写一个名为 `toDo` 的自定义策略。`toDo` 策略会像 `sorry` 一样关闭主目标，但它还接受一个字符串参数，用来向 Infoview 记录一条自定义提醒。
 
 ```lean
 elab "toDo" s: str : tactic => do
@@ -80,10 +80,10 @@ example : 34 ≤ 47 := by
   toDo "This should be easy to do"
 ```
 
-Let's break down the specific metaprogramming functions used to make this work:
+我们逐一分析实现这一功能所用到的具体元编程函数：
 
-- {lean}`getMainTarget` retrieves the expression for the type of the current main goal.
-- {lean}`mkAppM` is a highly useful function that constructs a function application expression. It takes the `Name` of the function, in this case `sorryAx`, and an array of expressions representing the arguments we want to pass to it.
-- {lean}`closeMainGoal` closes the current main goal with the expression we constructed.
+- {lean}`getMainTarget` 取出当前主目标类型的表达式。
+- {lean}`mkAppM` 是一个非常有用的函数，它构造一个函数应用表达式。它接受函数的 `Name`（这里是 `sorryAx`）和一个表示我们想传给它的参数的表达式数组。
+- {lean}`closeMainGoal` 用我们构造的表达式关闭当前主目标。
 
-This example shows the basic pattern for elaborator-based tactics: inspect the current goal, build an expression of the right type, and use it to update the proof state.
+这个例子展示了基于精译器的策略的基本模式：检查当前目标，构造一个正确类型的表达式，并用它更新证明状态。

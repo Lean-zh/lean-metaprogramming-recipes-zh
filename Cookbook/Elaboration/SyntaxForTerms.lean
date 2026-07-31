@@ -10,7 +10,7 @@ open Lean Elab Meta Tactic Command Term Parser Category
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Adding Syntax for terms" =>
+#doc (Manual) "为项添加语法" =>
 
 %%%
 tag := "adding-syntax-for-terms"
@@ -21,22 +21,22 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Adding Syntax for terms]
+{index}[为项添加语法]
 
-# Syntax for Python `for` loop
+# Python `for` 循环的语法
 
-We will improve upon the `macro` that we defined in the recipe {ref "macro-for-python-for-loop"}[A `macro` that parses Python-like `for` loop], for parsing Python `for` loop syntax. Here we use an elaborator (`elab`) instead of a `macro` to parse the same syntax. Thus, rather than just doing a simple syntactic transformation, we generate an expression from the syntax. This lets us perform more complex transformations and checks during elaboration.
+我们将改进配方 {ref "macro-for-python-for-loop"}[解析类 Python `for` 循环的 `macro`] 中定义的、用于解析 Python `for` 循环语法的 `macro`。这里我们用精译器（`elab`）而非 `macro` 来解析相同的语法。这样一来，我们不再只做简单的语法变换，而是从语法生成一个表达式。这让我们能够在精译过程中执行更复杂的变换和检查。
 
-This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly. This also gives a more informative error message when the collection is of an unexpected type.
+这个版本会检查被遍历的集合是 {name}`List` 还是 {name}`Array`，并分别处理各种情况。当集合是意料之外的类型时，它还会给出更有信息量的错误消息。
 
-## An elaborator that parses Python-like `for` loop
+## 解析类 Python `for` 循环的精译器
 
 %%%
 tag := "elaborator-for-python-for-loop"
 number := false
 %%%
 
-Here is a more robust and complete implementation using an elaborator (`elab`). This version checks whether the collection being iterated over is a {name}`List` or an {name}`Array` and handles each case accordingly:
+下面是用精译器（`elab`）实现的一个更健壮、更完整的版本。这个版本会检查被遍历的集合是 {name}`List` 还是 {name}`Array`，并分别处理各种情况：
 
 ```lean
 elab "[" t:term "py_for" x:ident "in" l:term  "]" :
@@ -65,8 +65,8 @@ error: Expected a List or Array in py_for
 #guard_msgs in
 #eval [x * 2 py_for x in "List"]
 ```
-Let's break down the specific metaprogramming functions used in the elaborator above:
+我们逐一分析上面精译器中用到的具体元编程函数：
 
-- {name}`Term.elabTerm` is used to elaborate the syntax of the collection `l` and the function `fnStx` into actual Lean expressions, while {name}`Meta.inferType` is used to determine the type of the collection.
-- {name}`Term.synthesizeSyntheticMVarsNoPostponing` is called to ensure that any metavariables generated during elaboration are fully resolved before we attempt to check the type. If the term `l` is a {name}`List`, `ltype` will have the form `List ?m`, where `?m` is a metavariable representing the element type. Calling {name}`Term.synthesizeSyntheticMVarsNoPostponing` ensures that `?m` is resolved to a concrete type, allowing us to proceed with the application of `mkAppM` without running into issues caused by unresolved metavariables.
-- {name}`Expr.isAppOf` is used to check whether the type of `l` is a {name}`List` or an {name}`Array`. Depending on the result, we use {name}`mkAppM` to construct the appropriate {name}`List.map` or {name}`Array.map` expression. If the type is neither, we throw a custom error.
+- {name}`Term.elabTerm` 用来把集合 `l` 和函数 `fnStx` 的语法精译成真正的 Lean 表达式，而 {name}`Meta.inferType` 用来确定集合的类型。
+- 调用 {name}`Term.synthesizeSyntheticMVarsNoPostponing` 是为了确保在我们尝试检查类型之前，精译过程中产生的任何元变量都已完全解析。如果项 `l` 是一个 {name}`List`，`ltype` 会具有 `List ?m` 的形式，其中 `?m` 是表示元素类型的元变量。调用 {name}`Term.synthesizeSyntheticMVarsNoPostponing` 确保 `?m` 被解析为具体类型，使我们能够继续应用 `mkAppM`，而不会遇到未解析元变量导致的问题。
+- {name}`Expr.isAppOf` 用来检查 `l` 的类型是 {name}`List` 还是 {name}`Array`。根据结果，我们用 {name}`mkAppM` 构造相应的 {name}`List.map` 或 {name}`Array.map` 表达式。如果两者都不是，就抛出一个自定义错误。

@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Modifying Goals" =>
+#doc (Manual) "修改目标" =>
 
 %%%
 tag := "modifying-goals"
@@ -20,19 +20,19 @@ htmlSplit := .never
 :::
 
 
-{index}[Modifying Goals]
+{index}[修改目标]
 
-Tactics can work with goals in various ways. They can inspect the goals, modify them, or even close them. In this section, we will explore how to write tactics that modify goals using elaborators.
+策略可以用多种方式处理目标。它们可以检查目标、修改目标，甚至关闭目标。本节我们探讨如何用精译器编写修改目标的策略。
 
-# Modifying Goals
+# 修改目标
 
-The goals in a tactic state, in particular the main goal, are represented by metavariables. The type of the main goal is called the main target. These are obtained using the {lean}`getMainGoal` and {lean}`getMainTarget` functions, respectively.
+策略状态中的目标，特别是主目标，用元变量表示。主目标的类型称为主目标类型（main target）。它们分别通过 {lean}`getMainGoal` 和 {lean}`getMainTarget` 函数获得。
 
-A tactic typically assigns to the main goal an expression that is a proof of the goal, i.e., has type the main target. However, the expression assigned to the main goal may also involve new metavariables, which in turn become new goals to be solved. In this way, a tactic can modify the goal state without fully closing the main goal.
+策略通常给主目标赋一个作为该目标证明的表达式，即类型为主目标类型的表达式。然而，赋给主目标的表达式也可以涉及新的元变量，这些元变量进而成为待求解的新目标。这样，策略就能在不完全关闭主目标的情况下修改目标状态。
 
-Note that if the main goal is assigned, we must change the list of goals. The most convenient way to do this is to use the {lean}`replaceMainGoal` function, which replaces the main goal with a new list of goals. The new list of goals typically includes the new metavariables that were introduced in the expression assigned to the main goal.
+注意，如果主目标被赋值，我们必须改变目标列表。最方便的做法是使用 {lean}`replaceMainGoal` 函数，它用新的目标列表替换主目标。这个新目标列表通常包含在赋给主目标的表达式中引入的新元变量。
 
-We illustrate this with a tactic that reduces the main target.
+我们用一个化简主目标类型的策略来说明这一点。
 
 ```lean
 elab "reduce" : tactic => do
@@ -48,11 +48,11 @@ example : 1 + 1 = 2 := by -- goal `1 + 1 = 2`
   rfl
 ```
 
-We emphasize that it is the responsibility of the tactic author to ensure that if a metavariable, such as a goal, is assigned an expression, then the expression has the same type as the goal up to definitional equality. One also has to correctly modify the list of goals to reflect any new metavariables that were introduced and remove those that were assigned. Otherwise we get a low-level error on using the tactic.
+我们要强调，确保以下这点是策略作者的责任：如果给一个元变量（例如一个目标）赋了某个表达式，那么该表达式的类型必须与目标的类型在定义等价意义下相同。作者还必须正确地修改目标列表，以反映引入的任何新元变量，并移除那些已被赋值的元变量。否则，使用该策略时我们会得到一个底层错误。
 
-## Splitting goals in `∧`
+## 拆分 `∧` 目标
 
-As a slightly more complex example, we can write a tactic that splits a goal of the form `P ∧ Q` into two separate goals `P` and `Q`. This is done by assigning the main goal an expression of the form `And.intro p q`, where `p` and `q` are new metavariables representing the proofs of `P` and `Q`, respectively. We then replace the main goal with the new goals corresponding to these metavariables. To recognize that the main target is of the form `P ∧ Q`, we can use the {lean}`Expr.app2?` function, which checks if an expression is an application of a given constant with two arguments, and if so, returns the arguments of the application.
+作为一个稍微复杂一点的例子，我们可以编写一个策略，把形如 `P ∧ Q` 的目标拆成两个独立的目标 `P` 和 `Q`。做法是给主目标赋一个形如 `And.intro p q` 的表达式，其中 `p` 和 `q` 是分别表示 `P` 和 `Q` 的证明的新元变量。然后我们用对应这些元变量的新目标替换主目标。为了识别主目标类型是否为 `P ∧ Q` 的形式，我们可以使用 {lean}`Expr.app2?` 函数，它检查一个表达式是否是某个给定常量带两个参数的应用，如果是，则返回该应用的参数。
 
 ```lean
 elab "and" : tactic => do

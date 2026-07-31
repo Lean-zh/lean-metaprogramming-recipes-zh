@@ -8,7 +8,7 @@ open Std
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Mutable Variables: Example" =>
+#doc (Manual) "可变变量：示例" =>
 
 %%%
 tag := "mutable-variables-example"
@@ -19,18 +19,23 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Mutable Variables: Example]
+{index}[可变变量：示例]
 
-# Mutable Variables: Example
+# 可变变量：示例
 
-Mutable variables defined by `IO.Ref` and `Std.Mutex` cannot be evaluated in the same file where they are defined. Here, we continue the example of computing Catalan numbers from the previous recipe {ref "mutable-variables"}[Mutable Variables across commands] and show how to use mutable variables to preserve the computed values across different commands.
+%%%
+tag := "mutable-variables-example-overview"
+number := false
+%%%
 
-When we initially lookup the cached value of `C(32)`, we get `none` since it has not been computed yet.
+由 `IO.Ref` 和 `Std.Mutex` 定义的可变变量无法在定义它们的同一个文件中求值。这里，我们延续上一个配方 {ref "mutable-variables"}[跨命令的可变变量] 中计算卡塔兰数的例子，展示如何用可变变量跨不同命令保留已计算的值。
+
+当我们最初查找 `C(32)` 的缓存值时，得到的是 `none`，因为它还没有被计算。
 ```lean
 #eval getCatalanCache? 32
 ```
 
-After we compute `C(32)` using the `catalanCached` function, the value is stored in the cache. When we lookup the cached value of `C(31)`, we get `some 14544636039226909`, which is the correct value of `C(31)`.
+在我们用 `catalanCached` 函数计算出 `C(32)` 之后，该值就被存入缓存。当我们查找 `C(31)` 的缓存值时，得到 `some 14544636039226909`，这正是 `C(31)` 的正确值。
 
 ```lean
 #eval catalanCached 32
