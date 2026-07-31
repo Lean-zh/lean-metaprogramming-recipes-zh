@@ -2,7 +2,7 @@
 
 这是 [Lean 4 (Meta)programming Cookbook](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes) 的简体中文译本，收录 Lean 4 编程与元编程中可直接复用的代码配方。
 
-在线阅读：<https://lean-zh.github.io/lean-metaprogramming-recipes-zh/>
+在线阅读：<https://www.leanprover.cn/lean-metaprogramming-recipes-zh/>
 
 > 本项目仍在翻译和校对。进度见 [PROGRESS.md](PROGRESS.md)。
 
