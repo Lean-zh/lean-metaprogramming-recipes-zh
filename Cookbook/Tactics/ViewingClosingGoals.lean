@@ -46,13 +46,13 @@ example: 2 + 3 = 5 := by
   goalExpr
   simp
 ```
-关于如何在 InfoView 中使用字符串格式化，参见 {ref "displaying-in-the-infoview"}[在 Infoview 中显示]。
+关于如何在信息视图（Infoview）中使用字符串格式化，参见 {ref "displaying-in-the-infoview"}[在信息视图中显示内容]。
 
 # 关闭目标：自定义的 `sorry` 策略
 
-接下来我们说明如何用精译器关闭目标。我们将制作一个定制版的 `sorry` 策略，它不仅关闭目标，还会向 Infoview 记录一条自定义消息。
+接下来说明如何用精译器关闭目标。我们将实现一个定制版的 `sorry` 策略，它不仅关闭目标，还会向信息视图记录一条自定义消息。
 
-如果你用 Lean 形式化数学，你很可能熟悉 `sorry` 策略。我们经常把它当作尚未写出的证明的占位符。`sorry` 策略关闭当前主目标，但会在 Infoview 中留下一条警告。
+如果你用 Lean 形式化数学，你很可能熟悉 `sorry` 策略。我们经常把它当作尚未写出的证明的占位符。`sorry` 策略关闭当前主目标，但会在信息视图中留下一条警告。
 
 ```lean
 example : 847 + 153 = 1000 := by sorry
@@ -65,7 +65,7 @@ example : 847 + 153 = 1000 := by sorry
 -- sorryAx.{u} (α : Sort u) (synthetic :  Bool) : α
 ```
 
-现在，我们用 `elab` 和 `sorryAx` 编写一个名为 `toDo` 的自定义策略。`toDo` 策略会像 `sorry` 一样关闭主目标，但它还接受一个字符串参数，用来向 Infoview 记录一条自定义提醒。
+现在，我们用 `elab` 和 `sorryAx` 编写一个名为 `toDo` 的自定义策略。`toDo` 策略会像 `sorry` 一样关闭主目标，但它还接受一个字符串参数，用来向信息视图记录一条自定义提醒。
 
 ```lean
 elab "toDo" s: str : tactic => do
@@ -83,7 +83,7 @@ example : 34 ≤ 47 := by
 我们逐一分析实现这一功能所用到的具体元编程函数：
 
 - {lean}`getMainTarget` 取出当前主目标类型的表达式。
-- {lean}`mkAppM` 是一个非常有用的函数，它构造一个函数应用表达式。它接受函数的 `Name`（这里是 `sorryAx`）和一个表示我们想传给它的参数的表达式数组。
+- {lean}`mkAppM` 构造函数应用表达式。它接受函数的 `Name`（这里是 `sorryAx`），以及一个由待传入参数的表达式组成的数组。
 - {lean}`closeMainGoal` 用我们构造的表达式关闭当前主目标。
 
 这个例子展示了基于精译器的策略的基本模式：检查当前目标，构造一个正确类型的表达式，并用它更新证明状态。

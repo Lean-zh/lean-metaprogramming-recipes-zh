@@ -36,7 +36,7 @@ number := false
 
 {index}[“Hello World” 命令]
 
-我们从一个简单的例子开始：一个打印 "Hello World" 的命令。下面的 `elab` 声明告诉 Lean 把 `#helloWorld` 解析为一个命令，并说明该命令应当做什么。
+我们从一个简单的例子开始：一个打印 `"Hello World"` 的命令。下面的 `elab` 声明告诉 Lean 把 `#helloWorld` 解析为一个命令，并说明该命令应当做什么。
 
 ```lean
 elab "#helloWorld" : command => do
@@ -44,7 +44,7 @@ elab "#helloWorld" : command => do
 
 #helloWorld
 ```
-这里，`logInfo s` 会在 InfoView 中打印字符串 `s`。
+这里，`logInfo s` 会在信息视图（Infoview）中打印字符串 `s`。
 
 # 检查某个命题是否能被 grind 解决的命令
 
@@ -56,7 +56,7 @@ number := false
 {index}[检查某个命题是否能被 grind 解决的命令]
 我们定义一个自定义命令，用来测试某个命题能否被 {name}`grind` 策略自动解决。目标是提供一个小巧的命令行风格工具，报告 {name}`grind` 能否关闭一个目标。
 
-同样，我们可以直接用 `elab` 定义该命令。在下面的声明中，Lean 把形如 `#grindable? <term>` 的输入解析为一个命令，精译器则说明该命令应如何行为。
+同样，我们可以直接用 `elab` 定义该命令。在下面的声明中，Lean 把形如 `#grindable? <term>` 的输入解析为一个命令，精译器则规定该命令的行为。
 
 ```lean
 elab "#grindable?" t:term : command => do
@@ -81,7 +81,7 @@ elab "#grindable?" t:term : command => do
 
 我们逐一分析上面精译器中用到的具体元编程函数：
 - 需要调用 {name}`Command.liftTermElabM`，因为命令精译发生在 {name}`CommandElabM` 单子中，而精译项和运行策略用的是 {name}`TermElabM` 单子里的项精译机制。
-- Lean 的精译器有时会把精译错误转成 sorry。{name}`withoutErrToSorry` 阻止这种转换，从而让我们能捕获精译过程中抛出的异常。
+- Lean 的精译器有时会把精译错误转成 `sorry`。{name}`withoutErrToSorry` 阻止这种转换，从而让我们能捕获精译过程中抛出的异常。
 - 我们写一个 `try … catch` 块，并把 {name}`withoutErrToSorry` 放在 `try` 块内部。
 - {name}`Lean.Elab.Term.elabTerm` 把用户提供的命题（即 `t`）精译成一个表达式。
 - 然后 {name}`mkFreshExprMVar` 创建一个新的元变量目标，其类型由一个表达式给出（即 `tExpr`）。
