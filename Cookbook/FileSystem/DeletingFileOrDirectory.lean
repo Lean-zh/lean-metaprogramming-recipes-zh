@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Deleting a file or Directory" =>
+#doc (Manual) "删除文件或目录" =>
 
 %%%
 htmlSplit := .never
@@ -17,18 +17,18 @@ htmlSplit := .never
 ::: contributors
 :::
 
-# How to delete a file
+# 如何删除文件
 
 %%%
 tag := "deleting-a-file"
 number := false
 %%%
 
-{index}[Deleting a file]
+{index}[删除文件]
 
-You can delete a file using {lean}`IO.FS.removeFile` function. It returns
-an {lean}`IO Unit` which means it performs the action of deleting the file but
-does not return any value.
+你可以使用 {lean}`IO.FS.removeFile` 函数删除一个文件。它返回
+一个 {lean}`IO Unit`，也就是说它执行删除文件的动作，但
+不返回任何值。
 
 ```lean
 def deleteFile (path : String) : IO Unit := do
@@ -38,18 +38,18 @@ def deleteFile (path : String) : IO Unit := do
   catch e =>
     IO.println s!"Failed to delete file {path}: {e}"
 ```
-# How to delete a directory
+# 如何删除目录
 
 %%%
 tag := "delete-a-directory"
 number := false
 %%%
 
-{index}[Deleting a directory]
+{index}[删除目录]
 
-You can delete a directory using {lean}`IO.FS.removeDir` function to delete an
-empty directory. If you want to delete all the contents inside the directory,
-use {lean}`IO.FS.removeDirAll`
+你可以使用 {lean}`IO.FS.removeDir` 函数删除一个空目录。
+如果你想删除目录内的所有内容，
+请使用 {lean}`IO.FS.removeDirAll`。
 
 ```lean
 def deleteEmptyDir (path : String) : IO Unit := do
@@ -59,5 +59,4 @@ def deleteDir (path: String) : IO Unit := do
   IO.FS.removeDirAll path
 ```
 
-Refer to {ref "creating-directories"}[Creating directories] section bottom to
-know more about why {lean}`String` works as a file path here.
+关于这里为什么 {lean}`String` 能当作文件路径使用，请参阅 {ref "creating-directories"}[创建目录] 一节的末尾了解更多。

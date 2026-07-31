@@ -11,7 +11,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Accessing and Modifying TOML" =>
+#doc (Manual) "访问与修改 TOML" =>
 
 %%%
 tag := "accessing-modifying-toml"
@@ -21,18 +21,18 @@ number := false
 ::: contributors
 :::
 
-The {name}`Lake.DecodeToml` and {name}`Lake.ToToml` classes allow you to automatically 
-transform TOML tables into Lean structures and vice versa.
+{name}`Lake.DecodeToml` 与 {name}`Lake.ToToml` 类让你能够自动
+把 TOML 表转换成 Lean 结构，反之亦然。
 
-# Reading values from TOML
+# 从 TOML 读取值
 
-{index}[Reading values from TOML]
+{index}[从 TOML 读取值]
 
-To transform TOML into Lean types, we primarily use two methods: high-level type-safe decoding via the {name}`Lake.DecodeToml` class, and low-level extraction using {name}`Lake.Toml.Table` methods.
+要把 TOML 转换成 Lean 类型，我们主要用两种方法：通过 {name}`Lake.DecodeToml` 类进行高层的类型安全解码，以及使用 {name}`Lake.Toml.Table` 的方法进行低层的提取。
 
-1. *decodeTable*: Converts a generic {name}`Lake.Toml.Value` into a {lean}`Table`. This is how you "open the box" to access the keys inside a nested section.
-2. *decode*: A high-level method on {lean}`Table` that retrieves a key and immediately converts it to a Lean type (like {lean}`String`).
-3. *decodeValue*: A low-level method that simply retrieves the raw {name}`Lake.Toml.Value` for a key.
+1. *decodeTable*：把一个通用的 {name}`Lake.Toml.Value` 转换成一个 {lean}`Table`。这就是你“打开盒子”以访问嵌套小节内部键的方式。
+2. *decode*：{lean}`Table` 上的一个高层方法，它取出一个键并立即把它转换成一个 Lean 类型（如 {lean}`String`）。
+3. *decodeValue*：一个低层方法，仅仅取出某个键对应的原始 {name}`Lake.Toml.Value`。
 
 ```lean
 structure ToolConfig where
@@ -90,12 +90,12 @@ is_active = true
 #eval egGetValue
 ```
 
-# Encoding and Modifying TOML
+# 编码与修改 TOML
 
-{index}[Encoding TOML]
-{index}[Modifying TOML objects]
+{index}[编码 TOML]
+{index}[修改 TOML 对象]
 
-To convert Lean structures back to TOML, implement the {name}`Lake.ToToml` class. When creating a table, we use `Value.table .missing tbl` to wrap our dictionary into a TOML value.
+要把 Lean 结构转换回 TOML，需实现 {name}`Lake.ToToml` 类。创建表时，我们用 `Value.table .missing tbl` 把字典包装成一个 TOML 值。
 
 ```lean
 instance : ToToml ToolConfig where
@@ -120,7 +120,7 @@ def egTomlEncode (cfg : ToolConfig) : CoreM String := do
   { name := "my-tool", version := "0.1.0", active := true }
 ```
 
-For a given {lean}`Table`, if you want to modify it (e.g., add or update keys), you can use {name}`Table.insert` to create a new table with the desired changes. For default values, you can use the {name}`Table.insertD` method instead.
+对于给定的 {lean}`Table`，如果你想修改它（例如添加或更新键），可以用 {name}`Table.insert` 创建一个带有所需改动的新表。对于默认值，可以改用 {name}`Table.insertD` 方法。
 
 ```lean
 def updateValue [ToToml α] (table : Table) (key : String) 

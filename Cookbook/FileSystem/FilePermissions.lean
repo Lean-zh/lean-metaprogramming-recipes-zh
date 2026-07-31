@@ -9,7 +9,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Read and Set File Permissions" =>
+#doc (Manual) "读取与设置文件权限" =>
 
 %%%
 tag := "file-permissions"
@@ -19,18 +19,18 @@ number := false
 ::: contributors
 :::
 
-{index}[Read and Set File Permissions]
+{index}[读取与设置文件权限]
 
-# Setting File Permissions
+# 设置文件权限
 
 %%%
 tag := "setting-file-permissions"
 number := false
 %%%
 
-{index}[Setting File Permissions]
+{index}[设置文件权限]
 
-Writing permissions for files is quite confusing since the API is not quite intuitive. Here is an example of how to set file permissions for a file path using the {lean}`IO.AccessRight`, {lean}`IO.FileRight`, and {lean}`IO.setAccessRights` APIs provided [here](https://lean-lang.org/doc/reference/latest/IO/Files___-File-Handles___-and-Streams/#IO___AccessRight___mk) in the Lean4 reference manual.
+由于 API 不太直观，设置文件的写入权限相当令人困惑。下面是一个示例，展示如何用 Lean4 参考手册[这里](https://lean-lang.org/doc/reference/latest/IO/Files___-File-Handles___-and-Streams/#IO___AccessRight___mk)提供的 {lean}`IO.AccessRight`、{lean}`IO.FileRight` 和 {lean}`IO.setAccessRights` API 为一个文件路径设置文件权限。
 
 ```lean
 def setFilePermissions (path : System.FilePath) : 
@@ -54,9 +54,9 @@ def setFilePermissions (path : System.FilePath) :
   IO.println s!"Access rights for {path} have been updated."
 ```
 
-# Reading File Permissions
+# 读取文件权限
 
-To read the permissions of a file, Lean does not provide a built-in API for it(if you know one, please let us know!, I could not find one in the documentation). However, we can use the Linux `stat` command to get the permissions in octal format and then convert it to an {lean}`IO.FileRight` structure.
+要读取一个文件的权限，Lean 没有提供内置 API（如果你知道有，请告诉我们！我在文档里没有找到）。不过，我们可以用 Linux 的 `stat` 命令以八进制格式获取权限，然后把它转换为一个 {lean}`IO.FileRight` 结构体。
 
 ```lean
 /-- Convert an octal digit to an IO.AccessRight structure. -/
@@ -112,4 +112,4 @@ def demoPermissions (path : System.FilePath) : IO Unit := do
   IO.println "Updated user to allow execution."
 ```
 
-This works nicely on Unix systems, you can modify the commands accordingly. Note that when you are setting permissions, you will only change the permissions mentioned in the {lean}`IO.FileRight` structure, previously set permissions that are not mentioned will remain unchanged.
+这在 Unix 系统上运行良好，你可以相应地修改命令。注意，当你设置权限时，只会改变 {lean}`IO.FileRight` 结构体中提到的那些权限，之前设置的、未被提到的权限将保持不变。

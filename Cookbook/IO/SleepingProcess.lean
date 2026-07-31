@@ -9,16 +9,17 @@ open Lean Elab Meta Tactic Command Std.Internal.IO.Async Std.Time
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Putting a Process to Sleep" =>
+#doc (Manual) "让进程休眠" =>
 
 %%%
+tag := "sleeping-process"
 htmlSplit := .never
 %%%
 
 ::: contributors
 :::
 
-# Putting a Process to Sleep
+# 让进程休眠
 
 %%%
 tag := "sleep-process"
@@ -26,9 +27,9 @@ number := false
 %%%
 
 
-{index}[Putting a Process to Sleep]
+{index}[让进程休眠]
 
-You can pause the current thread using {lean}`IO.sleep`. It takes the duration in *milliseconds*.
+你可以使用 {lean}`IO.sleep` 暂停当前线程。它以*毫秒*为单位接受休眠时长。
 
 ```lean
 def sleepProcessHello : IO Unit := do
@@ -37,21 +38,21 @@ def sleepProcessHello : IO Unit := do
   IO.println "Hello Lean!"
 ```
 
-Note that {lean}`IO.sleep` is non-blocking for other Lean tasks; it only pauses the current execution flow.
+注意 {lean}`IO.sleep` 对其他 Lean 任务是非阻塞的；它只暂停当前的执行流。
 
-# Async Sleep
+# 异步休眠
 
 %%%
 tag := "async-sleep"
 number := false
 %%%
 
-{index}[Async Sleep]
+{index}[异步休眠]
 
-Asynchronous sleep operates on the principle of Yielding. Instead of telling the OS "Stop this thread," the program tells the Lean Runtime "I have nothing to do for the next N milliseconds. Take my current execution state, save it, and give this CPU time to another task." The underlying OS thread remains Active and Running. It immediately looks at the queue of other pending Lean tasks and begins executing them. When the timer expires, the original task is moved back into the "Ready" queue to be resumed.
+异步休眠基于让出（Yielding）的原理运作。程序不是告诉操作系统“停止这个线程”，而是告诉 Lean 运行时“接下来 N 毫秒我没有事可做。把我当前的执行状态取走保存起来，把这段 CPU 时间给另一个任务。”底层的操作系统线程仍然保持活跃并运行。它会立即查看其他待处理 Lean 任务的队列并开始执行它们。当计时器到期时，原来的任务会被移回“就绪”队列以便恢复。
 
-While {lean}`IO.sleep` is the standard way to pause in a task, Lean's internal library provides a more specialized event-driven asynchronous I/O framework in `Std.Internal.IO.Async`. Within this framework, {lean}`Std.Internal.IO.Async.sleep` is used to pause execution without blocking the task manager's thread pool. 
-This framework is an implementation of an Event Loop. It is designed to handle thousands of concurrent operations (like network requests or timers) using a small, fixed number of OS threads (usually equal to the number of CPU cores).
+虽然 {lean}`IO.sleep` 是在任务中暂停的标准方式，但 Lean 的内部库在 `Std.Internal.IO.Async` 中提供了一个更专门化的事件驱动异步 I/O 框架。在这个框架内，{lean}`Std.Internal.IO.Async.sleep` 用于暂停执行而不阻塞任务管理器的线程池。
+这个框架是事件循环（Event Loop）的一个实现。它被设计为使用少量固定数目的操作系统线程（通常等于 CPU 核心数）来处理成千上万个并发操作（如网络请求或计时器）。
 
 ```lean
 /-- 
@@ -145,12 +146,12 @@ Workflow Finished.
 -- #eval asyncSleepEg
 ```
 
-You might notice the use of `.block` in the example. What does this do?
+你可能注意到例子中使用了 `.block`。它有什么作用？
 
-- *Local vs. Global Blocking:* `computation.block` executes the current Task, but it does not block the underlying OS Thread.
+- *局部阻塞与全局阻塞：* `computation.block` 会执行当前的 Task，但它不会阻塞底层的操作系统线程。
 
-- *The Event Loop:* When you call `.block` on an Async object, you are essentially telling the Lean runtime, "I am going to sit here and wait for this specific result. In the meantime, use my thread to run any other tasks in the queue." Since the async thread went to sleep, after it is done sleeping and yields control(via an interrupt), the original task is continued, computing the sum of the first N numbers, which when done goes back to the {lean}`taskPulse` task and finished it.
+- *事件循环：* 当你对一个 Async 对象调用 `.block` 时，本质上是在告诉 Lean 运行时：“我要坐在这里等待这个特定的结果。与此同时，用我的线程去运行队列中任何其他任务。”由于这个异步线程进入了休眠，在它休眠结束并让出控制权（通过一次中断）之后，原来的任务会继续，计算前 N 个数的和；完成后返回到 {lean}`taskPulse` 任务并把它完成。
 
-*If the thread is not blocked, who is waking up the sleeping task?*
+*如果线程没有被阻塞，那是谁在唤醒休眠中的任务？*
 
-A task cannot go to waitqueue of the OS. Instead, the runtime uses `epoll` to delegate the timer to the OS kernel, which serves as the global timekeeper. While the {lean}`Task` is moved into a logical wait queue in the runtime's memory, the OS Thread remains unblocked and free to rotate to other pending work. Note that *tid* may be different, but *pid* remains the same for sure.
+一个任务无法进入操作系统的等待队列。运行时改用 `epoll` 把计时器委托给操作系统内核，由内核充当全局计时器。当 {lean}`Task` 被移入运行时内存中的一个逻辑等待队列时，操作系统线程仍未被阻塞，可以自由地轮转去处理其他待办工作。注意 *tid* 可能不同，但 *pid* 一定保持不变。

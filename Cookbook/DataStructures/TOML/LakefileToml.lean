@@ -12,7 +12,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Working with lakefile.toml" =>
+#doc (Manual) "处理 lakefile.toml" =>
 
 %%%
 tag := "lakefile-toml"
@@ -22,18 +22,18 @@ number := false
 ::: contributors
 :::
 
-Lean 4 uses *lakefile.toml* for package configuration. While you usually edit this file manually, you might want to read or update it programmatically using `Lake.Toml`.
+Lean 4 使用 *lakefile.toml* 进行包配置。虽然你通常手动编辑这个文件，但有时你可能想用 `Lake.Toml` 以编程方式读取或更新它。
 
-# Parsing a lakefile.toml
+# 解析 lakefile.toml
 
 %%%
 tag := "parsing-lakefile-toml"
 number := false
 %%%
 
-{index}[Parsing lakefile.toml]
+{index}[解析 lakefile.toml]
 
-A *lakefile.toml* is essentially a TOML table. We can define structures to match specific sections like `[[lean_lib]]` or `[[require]]`.
+*lakefile.toml* 本质上是一个 TOML 表。我们可以定义结构来匹配 `[[lean_lib]]` 或 `[[require]]` 这样的特定小节。
 
 ```lean
 structure LibConfig where
@@ -73,16 +73,16 @@ def readLibName (path : System.FilePath) :
 #eval readLibName "lakefile.toml"
 ```
 
-# Updating Dependencies in lakefile.toml
+# 更新 lakefile.toml 中的依赖
 
 %%%
 tag := "updating-lakefile-toml"
 number := false
 %%%
 
-{index}[Updating lakefile.toml]
+{index}[更新 lakefile.toml]
 
-To add a dependency, we define a structure that matches the `[[require]]` format, decode the existing list, and then push our new entry.
+要添加一个依赖，我们定义一个匹配 `[[require]]` 格式的结构，解码现有的列表，然后压入我们的新条目。
 
 ```lean
 structure Dependency where

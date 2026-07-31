@@ -10,7 +10,7 @@ open Std (HashMap)
 
 set_option pp.rawOnError true
 
-#doc (Manual) "RBMap and RBTree" =>
+#doc (Manual) "RBMap 与 RBTree" =>
 
 %%%
 tag := "rbmap-rbtree"
@@ -20,13 +20,13 @@ number := false
 ::: contributors
 :::
 
-{lean}`RBMap` and {lean}`RBTree` are red-black trees used extensively throughout the Lean 4 compiler. Unlike {lean}`HashMap`, which requires a {lean}`Hashable` instance, these structures only require an ordering instance ({lean}`Ord`).
+{lean}`RBMap` 和 {lean}`RBTree` 是红黑树，在整个 Lean 4 编译器中被广泛使用。与需要 {lean}`Hashable` 实例的 {lean}`HashMap` 不同，这些结构只需要一个排序实例（{lean}`Ord`）。
 
-# RBMap (Red-Black Map)
+# RBMap（红黑映射）
 
-{index}[RBMap Operations]
+{index}[RBMap 操作]
 
-{lean}`RBMap` is a persistent, ordered map. It is often preferred in pure functional code because it doesn't rely on the {lean}`IO` or {lean}`ST` monads for performance.
+{lean}`RBMap` 是一个持久化的有序映射。在纯函数式代码中它常常更受青睐，因为它的性能不依赖 {lean}`IO` 或 {lean}`ST` 单子。
 
 ```lean
 -- Defining an RBMap with Name keys and Nat values
@@ -50,11 +50,11 @@ def rb2 := rb1.insert `banana 2
 #eval rb2.toList.map (λ (k, v) => (k.toString, v * 10))
 ```
 
-# RBTree (Red-Black Tree)
+# RBTree（红黑树）
 
-{index}[RBTree Basic Operations]
+{index}[RBTree 基本操作]
 
-{lean}`RBTree` is a set implemented as a red-black tree. In metaprogramming, Lean provides several "aliases" (pre-defined versions) of {lean}`RBTree` so you don't have to provide the comparison function manually, like {lean}`NameSet` is an alias for {lean}`RBTree Name Name.quickCmp`.
+{lean}`RBTree` 是用红黑树实现的集合。在元编程中，Lean 提供了若干 {lean}`RBTree` 的“别名”（预定义版本），这样你就不必手动提供比较函数，例如 {lean}`NameSet` 就是 {lean}`RBTree Name Name.quickCmp` 的别名。
 
 ```lean
 def s1 : NameSet := {}
@@ -66,16 +66,16 @@ def s3 := s2.insert `y
 #eval s3.toList
 ```
 
-# Application: Scheduling Processes with RBMap
+# 应用：用 RBMap 调度进程
 
 %%%
 tag := "rbmap-scheduling"
 number := false
 %%%
 
-{index}[Scheduling Processes with RBMap]
+{index}[用 RBMap 调度进程]
 
-In CFS (Completely Fair Scheduler), Linux uses a red-black tree to manage processes based on their virtual runtime. Each process is represented as a node in the tree, and the scheduler can efficiently find the process with the smallest virtual runtime. 
+在 CFS（完全公平调度器）中，Linux 使用红黑树，依据进程的虚拟运行时间来管理进程。每个进程都表示为树中的一个节点，调度器可以高效地找到虚拟运行时间最小的进程。
 
 ```lean
 structure Proc where
@@ -180,16 +180,16 @@ def egRunSchedule : IO Unit := do
 #eval! egRunSchedule
 ```
 
-# Application: Tracking Undefined Identifiers with RBTree
+# 应用：用 RBTree 追踪未定义的标识符
 
 %%%
 tag := "rbtree-tracking-undefined"
 number := false
 %%%
 
-{index}[Tracking Undefined Identifiers with RBTree]
+{index}[用 RBTree 追踪未定义的标识符]
 
-The following example implements a simple "linter" that finds all undefined identifiers in a piece of syntax. Because {lean}`RBTree` is persistent, we can simply pass the set down to nested expressions. When we "insert" a new variable into the set for a `let` body, the original set remains unchanged for other branches of the syntax tree.
+下面的示例实现了一个简单的“linter”，用于找出一段语法中所有未定义的标识符。由于 {lean}`RBTree` 是持久化的，我们可以直接把这个集合向下传递给嵌套的表达式。当我们为某个 `let` 主体把一个新变量“插入”集合时，原来的集合对于语法树的其他分支保持不变。
 
 ```lean
 /-- A simple linter that finds undefined variables 

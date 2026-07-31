@@ -8,23 +8,23 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Miscellaneous FileSystem Usages" =>
+#doc (Manual) "杂项文件系统用法" =>
 
 ::: contributors
 :::
 
-These are some miscellaneous File System usages that you might find useful when working with file paths in Lean.
+以下是一些杂项文件系统用法，在 Lean 中处理文件路径时你可能会觉得有用。
 
-# How to concatenate file paths
+# 如何拼接文件路径
 
 %%%
 tag := "concatenating-file-paths"
 number := false
 %%%
 
-{index}[Concatenating file paths]
+{index}[拼接文件路径]
 
-To concatenate file paths, you can use the {lean}`System.FilePath` module. You can create a file path using {lean}`System.mkFilePath` and then concatenate it with another path using the `/` operator:
+要拼接文件路径，可以使用 {lean}`System.FilePath` 模块。你可以用 {lean}`System.mkFilePath` 创建一个文件路径，然后用 `/` 运算符把它与另一个路径拼接起来：
 
 ```lean
 def concatPaths (base : System.FilePath) (sub : String)
@@ -35,9 +35,9 @@ def concatPaths (base : System.FilePath) (sub : String)
   / System.mkFilePath ["dir"]
 ```
 
-This object you can use like usual since the new path is still a {lean}`System.FilePath` object.
+这个对象你可以像平常一样使用，因为新路径仍然是一个 {lean}`System.FilePath` 对象。
 
-# How to get the current working directory
+# 如何获取当前工作目录
 
 %%%
 tag := "getting-current-working-directory"
@@ -45,9 +45,9 @@ number := false
 %%%
 
 
-{index}[Getting Current Working Directory]
+{index}[获取当前工作目录]
 
-In order to get the current working directory(cwd), we can use the {lean}`IO.currentDir` API.
+为了获取当前工作目录（cwd），我们可以使用 {lean}`IO.currentDir` API。
 
 ```lean
 def getCurrentWorkingDirectory : IO Unit := do
@@ -55,17 +55,17 @@ def getCurrentWorkingDirectory : IO Unit := do
   IO.println s!"Current working directory: {cwd}"
 ```
 
-# Checking metadata for path
+# 检查路径的元数据
 
 %%%
 tag := "checking-metadata-for-path"
 number := false
 %%%
 
-{index}[Checking Metadata for Path]
-{index}[Check File Size]
+{index}[检查路径的元数据]
+{index}[检查文件大小]
 
-To check metadata for a path, you can use the {lean}`System.FilePath.metadata` function, which can tell you metadata like filetype, size, access time, etc. 
+要检查一个路径的元数据，可以使用 {lean}`System.FilePath.metadata` 函数，它能告诉你诸如文件类型、大小、访问时间等元数据。
 
 ```lean
 def checkFileSize (path : System.FilePath) : IO Unit := do
@@ -73,14 +73,14 @@ def checkFileSize (path : System.FilePath) : IO Unit := do
   IO.println s!"Size of {path}: {metadata.byteSize} bytes"
 ```
 
-# Checking if a path is absolute or relative 
+# 检查路径是绝对路径还是相对路径
 
 %%%
 tag := "checking-if-path-is-absolute-or-relative"
 number := false
 %%%
 
-{index}[Checking if Path is Absolute or Relative]
+{index}[检查路径是绝对路径还是相对路径]
 
 ```lean
 def checkAbsolutePath (path₁ path₂: System.FilePath)
@@ -96,14 +96,14 @@ def checkAbsolutePath (path₁ path₂: System.FilePath)
     IO.println s!"{path₂} is not a relative path"
 ```
 
-# Normalizing a file path
+# 规范化文件路径
 
 %%%
 tag := "normalizing-file-path"
 number := false
 %%%
 
-To normalize a file path, which means to resolve any `.` or `..` components and remove redundant separators and make it OS-compatible, you can use the {lean}`System.FilePath.normalize` method.
+要规范化一个文件路径——也就是解析其中的任何 `.` 或 `..` 组成部分、去掉多余的分隔符并使其与操作系统兼容——你可以使用 {lean}`System.FilePath.normalize` 方法。
 
 ```lean
 def normalizePath (path: System.FilePath) : IO Unit := do

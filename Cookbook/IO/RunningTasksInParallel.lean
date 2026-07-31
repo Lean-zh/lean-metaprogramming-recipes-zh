@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Running Tasks in Parallel" =>
+#doc (Manual) "并行运行任务" =>
 
 %%%
 htmlSplit := .never
@@ -17,18 +17,18 @@ htmlSplit := .never
 ::: contributors
 :::
 
-To know what {lean}`Task`s are and how to spawn and handle them, check out {ref "spawning-tasks-and-worker-threads"}[Spawning Tasks and Worker Threads] recipe before.
+在了解 {lean}`Task` 是什么、以及如何派生和处理它们之前，请先查看 {ref "spawning-tasks-and-worker-threads"}[派生任务与工作线程] 这篇配方。
 
-# Running Tasks in Parallel
+# 并行运行任务
 
 %%%
 tag := "running-tasks-in-parallel"
 number := false
 %%%
 
-{index}[Running Tasks in Parallel]
+{index}[并行运行任务]
 
-One of the most powerful uses of tasks is running multiple {lean}`IO` operations at the same time. Since {lean}`Task` `α` is a primitive for asynchronous computation, you can spawn multiple tasks to perform {lean}`IO` in the background and wait for their results later. This allows you to interleave the outputs of different tasks, demonstrating concurrency.
+任务最强大的用途之一是同时运行多个 {lean}`IO` 操作。由于 {lean}`Task` `α` 是异步计算的一个原语，你可以派生多个任务在后台执行 {lean}`IO`，稍后再等待它们的结果。这让你能够交错不同任务的输出，从而展示并发性。
 
 ```lean
 def heavyWork (name : String) (iters : Nat) : IO Unit := do
@@ -68,6 +68,6 @@ Both tasks finished!
 -- #eval runParallel
 ```
 
-In this example, the outputs of A and B are interleaved, demonstrating that they are running concurrently. Notice that even when flushed, the "Starting heavy work..." is coming later. When printing the output do to the terminal, but to a buffer and so does other worker thread's output too, and hence based on more interrupts and thread behaviour, the order may differ among main thread and worker threads {margin}[If you have a better explanation, Please share].
+在本例中，A 和 B 的输出交错在一起，说明它们在并发运行。注意即便执行了刷新，“Starting heavy work...” 也是稍后才出现。打印输出时并不是直接写到终端，而是写到一个缓冲区，其他工作线程的输出也是如此，因此根据中断更多和线程行为的不同，主线程与工作线程之间的顺序可能各不相同 {margin}[如果你有更好的解释，请分享]。
 
-However in many cases due to spawning too many threads, you might create a deadlock. Check out the {ref "deadlocking-the-task-system"}[Deadlocking the Task System] section for more information on how to avoid deadlocks when spawning too many threads.
+然而在许多情况下，由于派生了过多线程，你可能会造成死锁。关于派生过多线程时如何避免死锁的更多信息，请查看 {ref "deadlocking-the-task-system"}[让任务系统死锁] 一节。

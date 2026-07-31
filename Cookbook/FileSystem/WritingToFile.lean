@@ -8,27 +8,28 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Writing to a file" =>
+#doc (Manual) "写入文件" =>
 
 %%%
+tag := "writing-to-a-file"
 htmlSplit := .never
 %%%
 
 ::: contributors
 :::
 
-# How to write to a file
+# 如何写入文件
 
 %%%
 tag := "writing-to-file"
 number := false
 %%%
 
-{index}[Writing to a file]
+{index}[写入文件]
 
-Writing to a file in Lean can be done using the {lean}`IO.FS.writeFile` function simply. However, another way to create a new file and write a string to it, you can use {lean}`IO.FS.Handle.mk` to create a file handle using a string path and the {lean}`IO.FS.Mode.write` mode to indicate that you want to write to the file. The `file` has type {lean}`IO.FS.Handle`, which means you are given the handle to the file and can do operations on it.
+在 Lean 中写入文件可以简单地使用 {lean}`IO.FS.writeFile` 函数完成。不过，另一种创建新文件并向其写入字符串的方式是：使用 {lean}`IO.FS.Handle.mk`，以一个字符串路径和 {lean}`IO.FS.Mode.write` 模式创建一个文件句柄，其中该模式表示你想写入文件。`file` 的类型是 {lean}`IO.FS.Handle`，也就是说你拿到的是文件的句柄，可以对它执行各种操作。
 
-To write a string to the file, you can use the {lean}`IO.FS.Handle.putStr` method on the file handle. This will overwrite the contents of the file with the string you provide. If the file does not exist, it will be created.
+要向文件写入字符串，可以对文件句柄使用 {lean}`IO.FS.Handle.putStr` 方法。这会用你提供的字符串覆盖文件的内容。如果文件不存在，则会被创建。
 
 ```lean
 def writeToFile (path : System.FilePath) (s : String)
@@ -41,18 +42,18 @@ def writeToFile' (path s : String) : IO Unit := do
   file.putStr s
 ```
 
-# How to append text to a file
+# 如何向文件追加文本
 
 %%%
 tag := "appending-to-file"
 number := false
 %%%
 
-{index}[Appending to a file]
+{index}[向文件追加]
 
-To append text to a file instead of overwriting it, you can use the {lean}`IO.FS.Mode.append` mode when creating the file handle. This will allow you to add new content to the end of the file without deleting the existing content. Note that it will not add a newline character automatically, you would have to include it.
+要向文件追加文本而不是覆盖它，可以在创建文件句柄时使用 {lean}`IO.FS.Mode.append` 模式。这让你能在文件末尾添加新内容，而不删除已有内容。注意它不会自动添加换行符，你需要自己包含它。
 
-*Important:* `flush` is necessary to ensure that the file handler writes the content to the file immediately. Otherwise, the content may be buffered and not written until later.
+*重要：* `flush` 是必要的，用来确保文件句柄立即把内容写入文件。否则内容可能被缓冲，直到稍后才写入。
 
 ```lean
 def appendToFile (path s : String) : IO Unit := do
@@ -67,10 +68,10 @@ def appendToFile' (path : System.FilePath) (s : String)
     handle.putStr s
 
 ```
-Note, {lean}`IO.FS.withFile` is recommended because it ensures the handle is closed and the buffer is flushed, even if an exception is thrown.
+注意，推荐使用 {lean}`IO.FS.withFile`，因为即便抛出异常，它也能确保句柄被关闭、缓冲区被刷新。
 
 
-Now if you wanted to write the string in the beginning of the file and keep the existing content, you can read the existing content first, then write the new string followed by the old content.
+现在如果你想把字符串写在文件开头并保留已有内容，可以先读取已有内容，再写入新字符串，后面接上旧内容。
 
 ```lean
 def prependToFile (path s : String) : IO Unit := do
@@ -87,16 +88,16 @@ def prependToFile' (path : System.FilePath) (s : String)
   IO.FS.writeFile path (s ++ oldContent)
 ```
 
-# Renaming a file path
+# 重命名文件路径
 
 %%%
 tag := "renaming-file-path"
 number := false
 %%%
 
-{index}[Renaming a File Path]
+{index}[重命名文件路径]
 
-To rename a file path, you can use the {lean}`IO.FS.rename` function, which takes the old path and the new path as arguments.
+要重命名一个文件路径，可以使用 {lean}`IO.FS.rename` 函数，它接受旧路径和新路径作为参数。
 
 ```lean
 def renameFile (oldPath newPath : System.FilePath) :

@@ -11,24 +11,24 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Reading and Writing TOML Files" =>
+#doc (Manual) "读写 TOML 文件" =>
 
 %%%
 tag := "reading-writing-toml"
 number := false
 %%%
 
-{index}[Reading TOML files]
-{index}[Writing TOML files]
+{index}[读取 TOML 文件]
+{index}[写入 TOML 文件]
 
 ::: contributors
 :::
 
-Working with files involves reading strings from disk and passing them to our parser, or taking a {name}`Table` and pretty-printing it back to a file. We will use the {name}`ServiceConfig` structure defined in the previous section.
+处理文件包括从磁盘读取字符串并传给我们的解析器，或者把一个 {name}`Table` 漂亮打印回文件。我们将使用上一节中定义的 {name}`ServiceConfig` 结构。
 
-# Reading TOML Files
+# 从 TOML 文件读取
 
-To read a TOML file, we read the file content as a string, parse it into a {name}`Table`, and then decode that table into a Lean structure.
+要读取一个 TOML 文件，我们把文件内容读为字符串，解析成一个 {name}`Table`，然后把该表解码成一个 Lean 结构。
 
 ```lean
 def loadTomlConfig (path : System.FilePath) : 
@@ -48,9 +48,9 @@ def loadTomlConfig (path : System.FilePath) :
     throwError s!"Failed to decode {path}: {msgs}"
 ```
 
-# Writing TOML Files
+# 写入 TOML 文件
 
-To write TOML, we convert our Lean structure into a {name}`Value` using `toToml`, extract the underlying {name}`Table`, and then use `ppTable` to format it as a standard multi-line TOML string.
+要写入 TOML，我们用 `toToml` 把 Lean 结构转换成一个 {name}`Value`，提取其底层的 {name}`Table`，然后用 `ppTable` 把它格式化为标准的多行 TOML 字符串。
 
 ```lean
 def saveTomlConfig (path : System.FilePath) 
@@ -64,7 +64,7 @@ def saveTomlConfig (path : System.FilePath)
   IO.FS.writeFile path content
 ```
 
-## Example: Nested Round-trip
+## 示例：嵌套的往返转换
 
 ```lean
 def egRoundTrip : CoreM String := do

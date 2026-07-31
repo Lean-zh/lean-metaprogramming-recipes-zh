@@ -8,9 +8,10 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Spawning a Child Process" =>
+#doc (Manual) "派生子进程" =>
 
 %%%
+tag := "spawning-a-child-process"
 htmlSplit := .never
 %%%
 
@@ -18,16 +19,16 @@ htmlSplit := .never
 :::
 
 
-# Spawning a Child Process
+# 派生子进程
 
 %%%
 tag := "spawning-child-process"
 number := false
 %%%
 
-{index}[Spawning a Child Process]
+{index}[派生子进程]
 
-In order to run an external program from inside a Lean file, we can use {lean}`IO.Process.run`, which takes a {lean}`IO.Process.SpawnArgs` structure and returns the command's stdout as a {lean}`String`. You can check out [IO.Process.SpawnArgs](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk) in Lean4 reference manual for more details on the available options.
+要从 Lean 文件内部运行一个外部程序，我们可以使用 {lean}`IO.Process.run`，它接受一个 {lean}`IO.Process.SpawnArgs` 结构体，并以 {lean}`String` 的形式返回该命令的 stdout。关于可用选项的更多细节，你可以在 Lean4 参考手册中查阅 [IO.Process.SpawnArgs](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk)。
 
 ```lean
 def runExternalProgram (cmd : String) (args : Array String)
@@ -40,7 +41,7 @@ def runExternalProgram (cmd : String) (args : Array String)
 -- #eval runExternalProgram "curl" #["https://www.test.com"]
 ```
 
-If the program fails (returns a non-zero exit code), {lean}`IO.Process.run` will throw an exception. To handle the output more gracefully and see the exit code and stderr, you can use {lean}`IO.Process.output`.
+如果程序失败（返回非零退出码），{lean}`IO.Process.run` 会抛出异常。要更优雅地处理输出并查看退出码和 stderr，可以使用 {lean}`IO.Process.output`。
 
 ```lean
 def runExternalWithOutput (cmd : String)
@@ -56,7 +57,7 @@ def runExternalWithOutput (cmd : String)
       Error: {out.stderr}"
 ```
 
-If you want to know more information about the process, such as its PID, you can use {lean}`IO.Process.spawn` to start the process and get a `IO.Process` object.
+如果你想了解进程的更多信息，例如它的 PID，可以使用 {lean}`IO.Process.spawn` 启动进程并获得一个 `IO.Process` 对象。
 
 ```lean
 def spawnExternalProgram (cmd : String) 
@@ -72,16 +73,16 @@ def spawnExternalProgram (cmd : String)
 -- #eval spawnExternalProgram "touch" #["test.txt"]
 ```
 
-## Get PID of a Process
+## 获取进程的 PID
 
 %%%
 tag := "get-pid-process"
 number := false
 %%%
 
-{index}[Get PID of a Process]
+{index}[获取进程的 PID]
 
-To get the PID a process you spawn, you use {lean}`IO.Process.Child.pid` method.
+要获取你派生的进程的 PID，可以使用 {lean}`IO.Process.Child.pid` 方法。
 
 ```lean
 def getProcessInfo (cmd : String) (args : Array String) 
@@ -96,21 +97,21 @@ def getProcessInfo (cmd : String) (args : Array String)
   IO.println s!"Child Process PID: {proc.pid}"
 ```
 
-To check the status of a child process if it is still running, you can use the {lean}`IO.Process.Child.tryWait` method
+要检查一个子进程是否仍在运行，可以使用 {lean}`IO.Process.Child.tryWait` 方法。
 
 
-# Setting Environment Variables for Child Process
+# 为子进程设置环境变量
 
 %%%
 tag := "setting-environment-variables-child-process"
 number := false
 %%%
 
-{index}[Setting Environment Variables for Child Process]
+{index}[为子进程设置环境变量]
 
-You can set environment variables when spawning a new child process to configure its environment. Remember that it is not possible to change the environment of the current process since it's already running.
+你可以在派生新子进程时设置环境变量来配置它的环境。记住，无法改变当前进程的环境，因为它已经在运行。
 
-When using [{lean}`IO.Process.SpawnArgs`](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk), you can pass an `env` array to specify variables for the new process.
+使用 [{lean}`IO.Process.SpawnArgs`](https://lean-lang.org/doc/reference/latest/IO/Processes/#IO___Process___SpawnArgs___mk) 时，可以传入一个 `env` 数组来为新进程指定变量。
 
 ```lean
 def runWithCustomEnv : IO Unit := do
@@ -123,4 +124,4 @@ def runWithCustomEnv : IO Unit := do
   IO.println s!"Process exited with code: {exitCode}"
 ```
 
-This ensures that `MY_VAR` is available to the child process without affecting the parent process's environment.
+这样就能确保 `MY_VAR` 对子进程可用，同时不影响父进程的环境。

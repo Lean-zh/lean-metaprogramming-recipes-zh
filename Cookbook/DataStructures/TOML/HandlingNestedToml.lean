@@ -12,34 +12,34 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Nested TOML & Arrays of Tables" =>
+#doc (Manual) "嵌套 TOML 与表数组" =>
 
 %%%
 tag := "handling-nested-toml"
 number := false
 %%%
 
-{index}[Handling Nested TOML]
+{index}[处理嵌套 TOML]
 
 ::: contributors
 :::
 
-TOML supports nested structures through tables (sections like `[server]`) and arrays of tables (indicated by `[[endpoints]]`). These are handled by nesting {name}`DecodeToml` and {name}`ToToml` instances.
+TOML 通过表（如 `[server]` 这样的小节）和表数组（用 `[[endpoints]]` 表示）支持嵌套结构。这些是通过嵌套 {name}`DecodeToml` 和 {name}`ToToml` 实例来处理的。
 
-In `Lake.Toml`, you may see both {name}`Value.table` and {name}`Value.table'`. They are almost identical:
-*   *`Value.table'`*: The raw constructor for the {name}`Lake.Toml.Value` inductive type.
-*   *`Value.table`*: A shorthand for `table'` that is often used for clarity. 
+在 `Lake.Toml` 中，你可能同时见到 {name}`Value.table` 和 {name}`Value.table'`。它们几乎完全相同：
+*   *`Value.table'`*：{name}`Lake.Toml.Value` 归纳类型的原始构造子。
+*   *`Value.table`*：`table'` 的简写，常为清晰起见而使用。
 
-Both take two arguments: a {name}`Lean.Syntax` (usually `.missing` for manual creation) and a {name}`Lake.Toml.Table`.
+两者都接受两个参数：一个 {name}`Lean.Syntax`（手动创建时通常为 `.missing`）和一个 {name}`Lake.Toml.Table`。
 
-# Defining Nested Structures
+# 定义嵌套结构
 
 %%%
 tag := "defining-nested-toml"
 number := false
 %%%
 
-First, we define our Lean structures and provide the logic to convert them to and from TOML.
+首先，我们定义 Lean 结构，并提供把它们与 TOML 相互转换的逻辑。
 
 ```lean
 structure Address where
@@ -79,14 +79,14 @@ instance : ToToml ServiceConfig where
     |> Table.insert `addresses c.addresses
 ```
 
-# Encoding (Representing as TOML)
+# 编码（表示为 TOML）
 
 %%%
 tag := "encoding-nested-toml"
 number := false
 %%%
 
-To see what the nested structure looks like in TOML format, we use {name}`Lake.Toml.ppTable`.
+要查看嵌套结构在 TOML 格式下的样子，我们使用 {name}`Lake.Toml.ppTable`。
 
 ```lean
 def egEncodeNested : CoreM String := do
@@ -106,16 +106,16 @@ def egEncodeNested : CoreM String := do
 #eval egEncodeNested
 ```
 
-# Decoding (Reading and Accessing)
+# 解码（读取与访问）
 
 %%%
 tag := "decoding-nested-toml"
 number := false
 %%%
 
-{index}[Reading Nested TOML]
+{index}[读取嵌套 TOML]
 
-When reading, you can either decode the entire file at once or target a specific nested section.
+读取时，你既可以一次性解码整个文件，也可以针对某个特定的嵌套小节。
 
 ```lean
 def egDecodeNested : CoreM String := do
@@ -140,7 +140,7 @@ port = 3000
 #eval egDecodeNested
 ```
 
-If you only want one part of a complex TOML file, you can extract the raw {name}`Value` first and then decode just that part.
+如果你只想要一个复杂 TOML 文件中的某一部分，可以先提取原始的 {name}`Value`，然后只解码那一部分。
 
 ```lean
 def egDecodeSection : CoreM String := do
@@ -166,14 +166,14 @@ port = 80
       throwError s!"Error: {e.toList.map (·.msg)}"
 ```
 
-# Modifying Nested TOML
+# 修改嵌套 TOML
 
 %%%
 tag := "modifying-nested-toml"
 number := false
 %%%
 
-To modify a nested structure, you can either update the Lean object and re-encode it, or use helper functions like {name}`decodeTomlValue` and {name}`updateValue` to manipulate the {name}`Table` directly.
+要修改嵌套结构，你既可以更新 Lean 对象再重新编码，也可以使用 {name}`decodeTomlValue` 和 {name}`updateValue` 之类的辅助函数直接操作 {name}`Table`。
 
 ```lean
 def egModifyNested : CoreM String := do

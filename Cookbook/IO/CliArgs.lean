@@ -8,25 +8,26 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Parsing Command Line Arguments" =>
+#doc (Manual) "解析命令行参数" =>
 
 %%%
+tag := "parsing-command-line-arguments"
 htmlSplit := .never
 %%%
 
 ::: contributors
 :::
 
-{index}[Parsing Command Line Arguments]
+{index}[解析命令行参数]
 
-# Parsing Command Line Arguments
+# 解析命令行参数
 
 %%%
 tag := "parsing-cli-args"
 number := false
 %%%
 
-In Lean 4, the most common and idiomatic way to access command-line arguments is to define your `main` function to accept a {lean}`List String`. When you run your executable, Lean automatically populates this list with the arguments provided.
+在 Lean 4 中，访问命令行参数最常见、最地道的方式是把 `main` 函数定义为接受一个 {lean}`List String`。当你运行可执行文件时，Lean 会自动用所提供的参数填充这个列表。
 
 ```lean
 def getCliArgs (args : List String) : IO Unit := do
@@ -35,11 +36,11 @@ def getCliArgs (args : List String) : IO Unit := do
     IO.println s!"- {arg}"
 ```
 
-If you are running a script using `lean --run test.lean arg1 arg2`, then `args` will be `["arg1", "arg2"]`.
+如果你用 `lean --run test.lean arg1 arg2` 运行脚本，那么 `args` 将是 `["arg1", "arg2"]`。
 
-# Simple Argument Parsing
+# 简单的参数解析
 
-For many tools, you just need to check for specific flags or a single input file. Pattern matching on the list of strings is the most idiomatic way to do this.
+对许多工具来说，你只需检查特定的标志或单个输入文件。对字符串列表进行模式匹配是做这件事最地道的方式。
 
 ```lean
 def parseArgs (args : List String) : IO Unit := do
@@ -60,9 +61,9 @@ def parseArgs (args : List String) : IO Unit := do
     IO.Process.exit 1
 ```
 
-# Recursive Parsing for Options
+# 递归解析选项
 
-If your tool takes multiple options in any order, a recursive function that builds up a configuration structure is recommended.
+如果你的工具以任意顺序接受多个选项，推荐使用一个递归函数来逐步构建一个配置结构体。
 
 ```lean
 structure CliConfig where
@@ -90,4 +91,4 @@ def runParser (args : List String) : IO Unit := do
   IO.println s!"Configuration: {repr cfg}"
 ```
 
-For a better and more robust tool, refer [Lean4-cli](https://github.com/leanprover/lean4-cli) for a more comprehensive command-line parsing library.
+若想要更好、更健壮的工具，可以参考 [Lean4-cli](https://github.com/leanprover/lean4-cli)，这是一个更全面的命令行解析库。
