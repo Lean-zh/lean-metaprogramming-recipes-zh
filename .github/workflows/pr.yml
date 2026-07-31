@@ -30,7 +30,7 @@ jobs:
           echo "所有受检 .lean 文件均使用 PascalCase。"
 
       - name: 检查翻译结构守恒
-        run: python3 scripts/check_translation_integrity.py
+        run: python3 scripts/check_translation_integrity.py --strict-prose
 
       - name: Lean Action 构建
         uses: leanprover/lean-action@v1

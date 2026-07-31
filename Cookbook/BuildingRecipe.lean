@@ -163,7 +163,7 @@ tag := "cross-references"
 
 通过 tag 可以链接其他章节：`{ref "tag-name"}[链接文字]`。
 
-例如，源码 `` {ref "building-recipe"}[返回开头] `` 的效果是 {ref "building-recipe"}[返回开头]。
+例如，源码 `{ref "building-recipe"}[返回开头]` 的效果是 {ref "building-recipe"}[返回开头]。
 
 ## 边注
 
