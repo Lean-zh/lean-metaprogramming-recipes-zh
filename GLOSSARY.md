@@ -32,6 +32,9 @@
 | monad | 单子 | 首次出现保留英文 monad |
 | state | 状态 | |
 | task | 任务 | Lean 对象 `Task` 保留原名 |
+| promise | 承诺 | Lean 对象 `IO.Promise` 保留原名 |
+| thread starvation | 线程饥饿 | |
+| linter | 代码检查器 | 首次出现保留英文 linter |
 | process | 进程 | |
 | file system | 文件系统 | |
 | hash map | 哈希表 | Lean 对象 `HashMap` 保留原名 |

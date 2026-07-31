@@ -8,12 +8,12 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "杂项 JSON" =>
+#doc (Manual) "其他 JSON 操作" =>
 
 ::: contributors
 :::
 
-# 杂项 JSON 操作
+# 其他 JSON 操作
 
 %%%
 tag := "misc-json-operations"

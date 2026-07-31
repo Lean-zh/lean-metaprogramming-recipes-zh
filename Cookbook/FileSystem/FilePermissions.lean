@@ -30,7 +30,7 @@ number := false
 
 {index}[设置文件权限]
 
-由于 API 不太直观，设置文件的写入权限相当令人困惑。下面是一个示例，展示如何用 Lean4 参考手册[这里](https://lean-lang.org/doc/reference/latest/IO/Files___-File-Handles___-and-Streams/#IO___AccessRight___mk)提供的 {lean}`IO.AccessRight`、{lean}`IO.FileRight` 和 {lean}`IO.setAccessRights` API 为一个文件路径设置文件权限。
+由于相关 API 不够直观，设置文件权限较为复杂。下面是一个示例，展示如何用 Lean4 参考手册[这里](https://lean-lang.org/doc/reference/latest/IO/Files___-File-Handles___-and-Streams/#IO___AccessRight___mk)提供的 {lean}`IO.AccessRight`、{lean}`IO.FileRight` 和 {lean}`IO.setAccessRights` API 为一个文件路径设置文件权限。
 
 ```lean
 def setFilePermissions (path : System.FilePath) : 

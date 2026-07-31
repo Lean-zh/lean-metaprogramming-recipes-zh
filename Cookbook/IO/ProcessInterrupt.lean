@@ -30,11 +30,11 @@ number := false
 
 {index}[可中断的休眠]
 
-一个常见需求是让线程休眠一段时间，但允许在时间到期之前被“唤醒”或中断。在 Lean 中，这可以用 {lean}`IO.Promise` 实现，见[参考文档](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises)。{lean}`IO.Promise` 是一种同步原语，允许一个线程等待由另一个线程稍后提供的值。在这里，它充当一个“信号”或“信箱”，休眠的线程在其中等待 promise 被兑现，从而让外部触发能够中断这次等待。
+一个常见需求是让线程休眠一段时间，但允许在时间到期之前被“唤醒”或中断。在 Lean 中，这可以用 {lean}`IO.Promise` 实现，见[参考文档](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises)。{lean}`IO.Promise` 是一种同步原语，允许一个线程等待由另一个线程稍后提供的值。在这里，它充当一个“信号”或“信箱”，休眠的线程在其中等待承诺（promise）被兑现，从而让外部触发能够中断这次等待。
 
 ## 使用额外的任务（超时任务）
 
-这种方法会派生一个独立的任务，在延迟后兑现一个 promise。主工作者在同一个 promise 上等待。
+这种方法会派生一个独立的任务，在延迟后兑现一个承诺。主工作者等待同一个承诺。
 
 ```lean
 def interruptibleWorker (p : IO.Promise Bool) 
@@ -95,7 +95,7 @@ number := false
 
 “空闲休眠”是这样一种状态：进程什么都不做，消耗极少资源，直到被某个外部事件（如一个信号或一条消息）显式唤醒。
 
-在 Lean 中，你可以通过等待一个没有关联超时任务的 promise 来实现它。
+在 Lean 中，你可以通过等待一个没有关联超时任务的承诺来实现它。
 
 ```lean
 def idleProcess (wakeUpSignal : IO.Promise Unit) 
@@ -122,4 +122,4 @@ def runSystem : IO Unit := do
   IO.println "System shutdown."
 ```
 
-在这种模式下，“休眠”是真正空闲的；没有计时器在运行。进程只是让出，直到 promise 被系统的另一部分兑现。
+在这种模式下，“休眠”是真正空闲的；没有计时器在运行。进程只是让出，直到承诺被系统的另一部分兑现。

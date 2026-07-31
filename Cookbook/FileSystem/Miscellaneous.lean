@@ -8,12 +8,12 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "杂项文件系统用法" =>
+#doc (Manual) "其他文件系统操作" =>
 
 ::: contributors
 :::
 
-以下是一些杂项文件系统用法，在 Lean 中处理文件路径时你可能会觉得有用。
+以下是一些处理文件路径时可能有用的文件系统操作。
 
 # 如何拼接文件路径
 

@@ -44,8 +44,11 @@
 
   ```bash
   LEAN_NUM_THREADS=6 lake build lean-cookbook
+  rm -rf _out
   LEAN_NUM_THREADS=6 lake exe lean-cookbook
   ```
+
+  Verso 不会主动删除旧标题生成的页面；渲染前必须清空 `_out`，否则本地目录会同时保留英文旧页面和中文新页面。
 
 - 构建成功只证明 Lean/Verso 接受源码。合并前还要检查生成页面中的标题、中文正文、链接和代码块。
 - 翻译提交与上游同步提交分开，避免把语义更新和中文润色混在一个 diff 中。

@@ -10,12 +10,12 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "杂项 IO" =>
+#doc (Manual) "其他 I/O 操作" =>
 
 ::: contributors
 :::
 
-以下是一些你可能在 Lean 代码中觉得有用的杂项 IO 函数。
+以下是一些可能有用的 I/O 函数。
 
 # 获取一个随机数
 
@@ -56,7 +56,7 @@ def terminateProcess (someCondition : Bool) : IO Unit := do
     IO.Process.exit 1
 ```
 
-你也可以使用 {lean}`IO.Process.forceExit` 派生一个新进程来强制、突然地终止当前进程。
+也可以使用 {lean}`IO.Process.forceExit` 强制立即终止当前进程。
 
 此外，你还可以通过派生一个子进程，用 Linux 的 `kill` 命令（或你机器上对应的版本）并给出目标进程的 PID，来杀掉任何其他进程。
 
@@ -126,14 +126,14 @@ def checkUser : IO Unit := do
   | none      => IO.println "Could not find USER variable."
 ```
 
-# 让任务系统死锁
+# 任务系统死锁
 
 %%%
 tag := "deadlocking-the-task-system"
 number := false
 %%%
 
-{index}[让任务系统死锁]
+{index}[任务系统死锁]
 
 ::: contributors
 :::
@@ -151,7 +151,7 @@ number := false
 2. 然后，每位厨师都意识到自己需要另一位厨师做的一种秘制酱料。
 3. *错误所在：* 每位厨师不去做其他工作，而是伸着手一动不动地站着，说：“拿不到我的酱料我就不动！”
 
-由于 4 位厨师都站着不动地等着，就没人去真正做酱料了。这家店就永远卡住了。在编程中，我们称之为*线程饿死*（Thread Starvation）。
+由于 4 位厨师都站着不动地等着，就没人去真正做酱料了。这家店就永远卡住了。在编程中，我们称之为*线程饥饿*（thread starvation）。
 
 
 ## 会死锁的代码

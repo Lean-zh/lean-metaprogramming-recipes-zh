@@ -27,7 +27,7 @@ number := false
 
 {index}[派生任务与工作线程]
 
-Lean 4 通过 {lean}`Task` 支持轻量级并发。你可以派生任务在后台执行 {lean}`IO`，稍后再等待它们的结果。{lean}`Task` `α` 是异步计算的一个原语。它表示一个最终会归结为 `type α` 类型值的计算，这个计算可能在另一个线程上进行。
+Lean 4 通过 {lean}`Task` 支持轻量级并发。你可以派生任务在后台执行 {lean}`IO`，稍后再等待它们的结果。{lean}`Task` `α` 是异步计算的一个原语。它表示一个最终会得到 `α` 类型值的计算，这个计算可能在另一个线程上进行。
 
 关于 {lean}`Task` API 的信息，请查阅 Lean 4 参考手册的 [任务与线程](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads) 一节。
 
@@ -127,7 +127,7 @@ number := false
 
 {index}[IO.asTask 与 BaseIO.asTask]
 
-{lean}`IO.asTask` 为可能失败的操作创建任务，把结果包裹在一个 {lean}`Except IO.Error` 盒子中；而 {lean}`BaseIO.asTask` 用于保证不会出错的逻辑，直接返回原始值。
+{lean}`IO.asTask` 为可能失败的操作创建任务，把结果封装在 {lean}`Except IO.Error` 中；而 {lean}`BaseIO.asTask` 用于保证不会出错的逻辑，直接返回原始值。
 
 基本上，如果你想使用 {name}`throw`、{lean}`IO.userError` 等，{lean}`IO.asTask` 能帮你更好地处理，而 {lean}`BaseIO.asTask` 不能。因此你必须做适当的错误处理来提取值或显示错误。但如果你确信你的 {lean}`Task` 一定会成功、只需要直接拿到原始值，那么可以使用 {lean}`BaseIO.asTask`。
 

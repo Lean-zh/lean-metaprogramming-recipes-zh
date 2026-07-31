@@ -24,7 +24,7 @@ number := false
 ::: contributors
 :::
 
-处理文件包括从磁盘读取字符串并传给我们的解析器，或者把一个 {name}`Table` 漂亮打印回文件。我们将使用上一节中定义的 {name}`ServiceConfig` 结构。
+处理文件包括从磁盘读取字符串并传给我们的解析器，或者把一个 {name}`Table` 格式化输出到文件。我们将使用上一节中定义的 {name}`ServiceConfig` 结构。
 
 # 从 TOML 文件读取
 

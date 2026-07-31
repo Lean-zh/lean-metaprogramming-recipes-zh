@@ -45,7 +45,7 @@ def egTomlParse : CoreM String := do
 #eval egTomlParse
 ```
 
-上面的 {name}`parseToml` 同样可以用于嵌套的 TOML 结构。你可以用 {name}`ppTable` 把解析得到的 {name}`Table` 漂亮打印回一个 TOML 字符串，如下所示：
+上面的 {name}`parseToml` 同样可以用于嵌套的 TOML 结构。你可以用 {name}`ppTable` 把解析得到的 {name}`Table` 格式化输出为一个 TOML 字符串，如下所示：
 
 ```lean
 def egNestedParse : CoreM String := do
