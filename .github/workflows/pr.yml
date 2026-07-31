@@ -1,4 +1,4 @@
-name: Pull Request Check
+name: Pull Request 检查
 
 on:
   push:
@@ -7,38 +7,38 @@ on:
 
 jobs:
   build:
-    name: Build and Verify Docs
+    name: 构建并验证文档
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 检出仓库
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Check for Case Mismatches (PascalCase)
+      - name: 检查文件名大小写（PascalCase）
         run: |
-          # Git Index check for any .lean file starting with a lowercase letter in Cookbook/
+          # 检查 Git 索引中 Cookbook/ 下是否有以小写字母开头的 .lean 文件。
           LOWERCASE_FILES=$(git ls-files Cookbook/ TemplateRecipe.lean | grep '\.lean$' | grep -E '(^|/)[a-z]' || true)
           if [ -n "$LOWERCASE_FILES" ]; then
-            echo "::error::The following files have lowercase names in the Git index:"
+            echo "::error::以下文件在 Git 索引中使用了小写开头的文件名："
             echo "$LOWERCASE_FILES"
-            echo "Lean 4 and case-sensitive systems (Linux) require PascalCase for imports."
-            echo "To fix this on macOS, run: git mv path/to/lowercase.lean path/to/PascalCase.lean"
+            echo "Lean 4 与区分大小写的系统（Linux）要求 import 对应 PascalCase 文件名。"
+            echo "在 macOS 上可运行：git mv path/to/lowercase.lean path/to/PascalCase.lean"
             exit 1
           fi
-          echo "All checked .lean files are correctly PascalCased."
+          echo "所有受检 .lean 文件均使用 PascalCase。"
 
-      - name: Check Translation Invariants
+      - name: 检查翻译结构守恒
         run: python3 scripts/check_translation_integrity.py
 
-      - name: Lean Action (Build)
+      - name: Lean Action 构建
         uses: leanprover/lean-action@v1
         with:
-          # This builds the library and the executable target
+          # 同时构建库与可执行目标。
           build-args: lean-cookbook
 
-      - name: Verify Docs Generation (EXE)
+      - name: 验证文档生成程序
         run: |
-          # This catches the "INTERNAL PANIC" that build might miss
+          # 捕获普通 build 可能漏掉的 "INTERNAL PANIC"。
           lake exe lean-cookbook
