@@ -7,7 +7,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Types of Expressions" =>
+#doc (Manual) "表达式的种类" =>
 
 %%%
 tag := "kinds-of-expressions"
@@ -19,19 +19,19 @@ htmlSplit := .never
 :::
 
 
-{index}[Types of Expressions]
+{index}[表达式的种类]
 
-# The `Expr` type
+# `Expr` 类型
 
-Expressions in Lean are represented by the `Expr` type. This is a recursive data structure that can represent a wide variety of expressions, including variables, constants, applications, lambda abstractions, and more. The `Expr` type is defined in the Lean core library and is used extensively in metaprogramming.
+Lean 中的表达式由 `Expr` 类型表示。这是一种递归数据结构，能够表示各种各样的表达式，包括变量、常量、函数应用、lambda 抽象等等。`Expr` 类型定义在 Lean 核心库中，在元编程中被广泛使用。
 
-We sketch the different kinds of expressions that can be represented by the `Expr` type, along with their constructors. First, we look at the different constructors of the `Expr` type.
+我们勾勒 `Expr` 类型能表示的各种表达式及其构造子。首先，我们看看 `Expr` 类型的各个构造子。
 ```lean
 #print Lean.Expr
 ```
 
 
-Using `#print Lean.Expr` we can see that Lean has the following constructors for the `Expr` type:
+通过 `#print Lean.Expr` 我们可以看到 Lean 为 `Expr` 类型提供了如下构造子：
 
 - `Lean.Expr.bvar : Nat → Lean.Expr`
 - `Lean.Expr.fvar : Lean.FVarId → Lean.Expr`
@@ -46,55 +46,55 @@ Using `#print Lean.Expr` we can see that Lean has the following constructors for
 - `Lean.Expr.mdata : Lean.MData → Lean.Expr → Lean.Expr`
 - `Lean.Expr.proj : Lean.Name → Nat → Lean.Expr → Lean.Expr`
 
-The most important constructors for us are `const`, `app`, `lam`, and `forallE`, as these are the ones we will encounter most often when working with expressions in Lean. We first look at these constructors and then briefly mention the others.
+对我们来说最重要的构造子是 `const`、`app`、`lam` 和 `forallE`，因为它们是我们在 Lean 中操作表达式时最常遇到的。我们先看这些构造子，然后简要提及其他构造子。
 
-## Names
+## 名字
 
-Literal names in Lean can be written with a single back-tick like {lean}`` `f `` or with a double back-tick like {lean}``` ``Nat ```. The single back-tick means that we take the name as is, while the double back-tick means that we take the name and resolve it to a constant in the current environment. If we are referring to a global constant, it is safer to use the double back-tick to ensure that we do not make typos and to allow hover to resolve the name to the actual constant.
+Lean 中的字面名字可以用单反引号写，如 {lean}`` `f ``，也可以用双反引号写，如 {lean}``` ``Nat ```。单反引号表示按原样取该名字，而双反引号表示取该名字并把它解析为当前环境中的一个常量。如果我们引用的是一个全局常量，用双反引号更安全，可以确保不会打错字，还能让悬停把名字解析到实际的常量。
 
-## `const` expressions
+## `const` 表达式
 
-These are given by the `const` constructor and represent constants in Lean. They consist of a name (which can be a qualified name) and a list of universe levels. For example, the expression `Nat` would be represented as {lean}```Lean.Expr.const ``Nat []```, while the expression `List Nat` would be represented as {lean}```Lean.Expr.app (Lean.Expr.const ``List []) (Lean.Expr.const ``Nat [])```.
+这些由 `const` 构造子给出，表示 Lean 中的常量。它们由一个名字（可以是限定名）和一个宇宙层级列表组成。例如，表达式 `Nat` 会被表示为 {lean}```Lean.Expr.const ``Nat []```，而表达式 `List Nat` 会被表示为 {lean}```Lean.Expr.app (Lean.Expr.const ``List []) (Lean.Expr.const ``Nat [])```。
 
-## `app` expressions
+## `app` 表达式
 
-These are given by the `app` constructor and represent function applications. They consist of a function expression and an argument expression. For example, the expression `f x` would be represented as {lean}``Lean.Expr.app (Lean.Expr.const `f []) (Lean.Expr.const `x [])``.
+这些由 `app` 构造子给出，表示函数应用。它们由一个函数表达式和一个参数表达式组成。例如，表达式 `f x` 会被表示为 {lean}``Lean.Expr.app (Lean.Expr.const `f []) (Lean.Expr.const `x [])``。
 
-## `lam` expressions
+## `lam` 表达式
 
-These are given by the `lam` constructor and represent lambda abstractions, i.e., function definitions of the form `fun x ↦ y`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info (which indicates whether the variable is implicit or explicit). The body expression cannot have free variables, but can refer to the bound variable using a de Bruijn index, which is a natural number that indicates how many binders away the variable is from its binding site. For example, the expression `fun x : Nat ↦ Nat.succ x` would be represented as {lean}```Lean.Expr.lam `x (Lean.Expr.const `Nat []) (Lean.Expr.app (Lean.Expr.const ``Nat.succ []) (Lean.Expr.bvar 0))  Lean.BinderInfo.default```.
+这些由 `lam` 构造子给出，表示 lambda 抽象，即形如 `fun x ↦ y` 的函数定义。它们由一个名字（约束变量的名字）、一个类型表达式、一个主体表达式和一个 binder info（指示该变量是隐式还是显式）组成。主体表达式不能含有自由变量，但可以用德布鲁因索引（de Bruijn index）引用约束变量，该索引是一个自然数，表示该变量距离其绑定位置有多少个绑定子。例如，表达式 `fun x : Nat ↦ Nat.succ x` 会被表示为 {lean}```Lean.Expr.lam `x (Lean.Expr.const `Nat []) (Lean.Expr.app (Lean.Expr.const ``Nat.succ []) (Lean.Expr.bvar 0))  Lean.BinderInfo.default```。
 
-Constructing `lam` expressions directly can be tricky due to the need to manage de Bruijn indices and universes correctly. It is best to use Lean's monadic helper's for this, as we see in the recipe {ref "expressions-for-functions"}[Expressions for Functions].
+由于需要正确管理德布鲁因索引和宇宙，直接构造 `lam` 表达式可能会很棘手。最好使用 Lean 的单子式辅助函数来做这件事，正如我们在配方 {ref "expressions-for-functions"}[函数的表达式]中所见。
 
-## `forallE` expressions
+## `forallE` 表达式
 
-These are given by the `forallE` constructor and represent dependent function types, i.e., types of the form `(x : A) → B` or `∀ x : A, B`. They consist of a name (which is the name of the bound variable), a type expression, a body expression, and a binder info. As in the case of `lam` expressions, the body expression cannot have free variables, but can refer to the bound variable using a de Bruijn index. In this case too, constructing `forallE` expressions directly can be tricky, and it is best to use Lean's monadic helpers for this, as we see in the recipe {ref "expressions-for-functions"}[Expressions for Functions].
+这些由 `forallE` 构造子给出，表示依值函数类型，即形如 `(x : A) → B` 或 `∀ x : A, B` 的类型。它们由一个名字（约束变量的名字）、一个类型表达式、一个主体表达式和一个 binder info 组成。与 `lam` 表达式的情形一样，主体表达式不能含有自由变量，但可以用德布鲁因索引引用约束变量。同样，直接构造 `forallE` 表达式可能会很棘手，最好使用 Lean 的单子式辅助函数来做这件事，正如我们在配方 {ref "expressions-for-functions"}[函数的表达式]中所见。
 
 
-## `sort` expressions
+## `sort` 表达式
 
-These are given by the `sort` constructor and represent universe levels in Lean. They consist of a universe level expression. For example, the expression `Type` would be represented as {lean}`Lean.Expr.sort (Lean.Level.succ (Lean.Level.zero))`, while the expression `Prop` would be represented as {lean}`Lean.Expr.sort (Lean.Level.zero)`.
+这些由 `sort` 构造子给出，表示 Lean 中的宇宙层级。它们由一个宇宙层级表达式组成。例如，表达式 `Type` 会被表示为 {lean}`Lean.Expr.sort (Lean.Level.succ (Lean.Level.zero))`，而表达式 `Prop` 会被表示为 {lean}`Lean.Expr.sort (Lean.Level.zero)`。
 
-## `letE` expressions
+## `letE` 表达式
 
-These are given by the `letE` constructor and represent let expressions, i.e., expressions of the form `let x := a; b`. They consist of a name (which is the name of the bound variable), a type expression, a value expression, a body expression, and a boolean indicating whether the let binding is recursive.
+这些由 `letE` 构造子给出，表示 let 表达式，即形如 `let x := a; b` 的表达式。它们由一个名字（约束变量的名字）、一个类型表达式、一个值表达式、一个主体表达式，以及一个指示该 let 绑定是否递归的布尔值组成。
 
-## `lit` expressions
+## `lit` 表达式
 
-These are given by the `lit` constructor and represent natural number or string literals, which are used in Lean for efficiency in place of, for example, expressions in the inductive type `Nat`. They consist of a literal value. For example, the expression `123` would be represented as {lean}`Lean.Expr.lit (Lean.Literal.natVal 123)`.
+这些由 `lit` 构造子给出，表示自然数或字符串字面量，Lean 出于效率考虑用它们来代替（例如）归纳类型 `Nat` 中的表达式。它们由一个字面值组成。例如，表达式 `123` 会被表示为 {lean}`Lean.Expr.lit (Lean.Literal.natVal 123)`。
 
-## `fvar` and `mvar` expressions
+## `fvar` 和 `mvar` 表达式
 
-These are given by the `fvar` and `mvar` constructors and represent free variables and metavariables, respectively. They consist of an identifier for the variable. Free variables are used to represent variables that are not bound by any quantifier or lambda abstraction, while metavariables are used as placeholders for expressions that have not yet been determined.
+这些分别由 `fvar` 和 `mvar` 构造子给出，分别表示自由变量和元变量。它们由一个变量的标识符组成。自由变量用来表示不被任何量词或 lambda 抽象绑定的变量，而元变量用作尚未确定的表达式的占位符。
 
-## `bvar` expressions
+## `bvar` 表达式
 
-These are given by the `bvar` constructor and represent bound variables, i.e., variables that are bound by a quantifier or lambda abstraction. They consist of a de Bruijn index, which is a natural number that indicates how many binders away the variable is from its binding site.
+这些由 `bvar` 构造子给出，表示约束变量，即被量词或 lambda 抽象绑定的变量。它们由一个德布鲁因索引组成，该索引是一个自然数，表示该变量距离其绑定位置有多少个绑定子。
 
-## `proj` expressions
+## `proj` 表达式
 
-These are given by the `proj` constructor and represent projections from structures. They consist of a structure name, a field index, and a structure expression. For example, if we have a structure `Point` with fields `x` and `y`, then the expression `p.x` would be represented as `Lean.Expr.proj Point 0 (Lean.Expr.const p [])`, while the expression `p.y` would be represented as `Lean.Expr.proj Point 1 (Lean.Expr.const p [])`.
+这些由 `proj` 构造子给出，表示从结构体中的投影。它们由一个结构体名、一个字段索引和一个结构体表达式组成。例如，如果我们有一个带字段 `x` 和 `y` 的结构体 `Point`，那么表达式 `p.x` 会被表示为 `Lean.Expr.proj Point 0 (Lean.Expr.const p [])`，而表达式 `p.y` 会被表示为 `Lean.Expr.proj Point 1 (Lean.Expr.const p [])`。
 
-## `mdata` expressions
+## `mdata` 表达式
 
-These are given by the `mdata` constructor and represent expressions with metadata. They consist of a metadata object and an expression. Metadata can be used to attach additional information to an expression, such as source location information or annotations.
+这些由 `mdata` 构造子给出，表示带元数据的表达式。它们由一个元数据对象和一个表达式组成。元数据可用来给表达式附加额外信息，例如源代码位置信息或注解。

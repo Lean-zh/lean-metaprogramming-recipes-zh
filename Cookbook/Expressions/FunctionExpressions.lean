@@ -6,7 +6,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Expressions for (dependent) Functions and Function-types" =>
+#doc (Manual) "（依值）函数与函数类型的表达式" =>
 
 %%%
 tag := "expressions-for-functions"
@@ -18,11 +18,11 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Expressions for (dependent) Functions and Function-types]
+{index}[（依值）函数与函数类型的表达式]
 
-# Defining functions using λ-expressions
+# 用 λ 表达式定义函数
 
-Suppose we want to define an expression for the function that takes a natural number `n` and returns `n + n`. It is not advisable to directly build an expression using the constructor `Expr.lam` for lambda expressions, as Lean's hygeine modifies the expression. However, Lean provides convenient ways to introduce local variables and build lambda expressions using `withLocalDeclD` (or `withLocalDecl`) and `mkLambdaFVars`. Here is how we can define the expression for the doubling function:
+假设我们想为一个函数定义表达式，该函数接受一个自然数 `n` 并返回 `n + n`。不建议直接用 lambda 表达式的构造子 `Expr.lam` 来构建表达式，因为 Lean 的卫生（hygiene）机制会修改该表达式。不过，Lean 提供了引入局部变量并构建 lambda 表达式的便捷方式，即 `withLocalDeclD`（或 `withLocalDecl`）和 `mkLambdaFVars`。下面是我们定义倍增函数表达式的方法：
 
 ```lean
 open Lean Meta Elab
@@ -33,9 +33,9 @@ def doubleExpr : MetaM Expr :=
     mkLambdaFVars #[n] double
 ```
 
-The function `withLocalDeclD` has three arguments: the name of the local variable, its type (in this case `Nat`), and a continuation function that takes the newly created local variable as an argument. Inside the continuation, we can build the body of the lambda expression using `mkAppM` to apply the addition function to `n` and `n`. Finally, we use `mkLambdaFVars` to create a lambda expression that abstracts over the local variable `n`.
+函数 `withLocalDeclD` 有三个参数：局部变量的名字、它的类型（此处为 `Nat`），以及一个把新创建的局部变量作为参数的续延函数。在续延内部，我们可以用 `mkAppM` 把加法函数应用到 `n` 和 `n` 上，从而构建 lambda 表达式的主体。最后，我们用 `mkLambdaFVars` 创建一个对局部变量 `n` 进行抽象的 lambda 表达式。
 
-To illustrate how to use this expression, we can write an elaborator (see {ref "elaboration-extending-syntax"}[Elaboration]) that allows us to use it in term position:
+为了说明如何使用这个表达式，我们可以写一个精译器（见 {ref "elaboration-extending-syntax"}[精译]），让我们能在项位置使用它：
 
 ```lean
 elab "double%" : term =>
@@ -44,9 +44,9 @@ elab "double%" : term =>
 #eval double% 7 -- 14
 ```
 
-# Defining dependent functions using Π-types
+# 用 Π 类型定义依值函数
 
-We can use similar techniques to define expressions for dependent functions and `∀` quantified propositions, which are represented by Π-types in Lean. For example, we can define an expression for the proposition `forall n : Nat, n = n` as follows:
+我们可以用类似的技术为依值函数以及 `∀` 量化的命题定义表达式，它们在 Lean 中由 Π 类型表示。例如，我们可以按如下方式为命题 `forall n : Nat, n = n` 定义一个表达式：
 
 ```lean
 def rflNatExpr : MetaM Expr :=
@@ -61,11 +61,11 @@ example : rflnat% := by -- goal `∀ (n : Nat), n = n`
   simp
 ```
 
-# Example : Proving the result `∀ (n : Nat), n = n`
+# 例子：证明结论 `∀ (n : Nat), n = n`
 
-Let us put the above two constuctions together to prove the result `∀ (n : Nat), n = n`. We will construct an expression that gives a proof of this result, and then we check that the type of the expression is indeed `∀ (n : Nat), n = n`. This will use the functions `inferType` for inferring the type of an expression and `isDefEq` for checking whether two expressions are definitionally equal.
+把上面两个构造放在一起，来证明结论 `∀ (n : Nat), n = n`。我们将构造一个给出该结论证明的表达式，然后检查该表达式的类型确实是 `∀ (n : Nat), n = n`。这会用到函数 `inferType`（推断表达式的类型）和 `isDefEq`（检查两个表达式是否在定义上相等）。
 
-We define a function `rflNatExprProof` that constructs an expression for a proof of the result `∀ (n : Nat), n = n` and checks that its type is correct:
+我们定义一个函数 `rflNatExprProof`，它构造结论 `∀ (n : Nat), n = n` 的一个证明表达式，并检查其类型正确：
 
 ```lean
 def rflNatExprProof : MetaM Bool := do
@@ -79,9 +79,9 @@ def rflNatExprProof : MetaM Bool := do
 ```
 
 
-# Defining function types using `mkArrow`
+# 用 `mkArrow` 定义函数类型
 
-In case of non-dependent function types, we can use the `mkArrow` function to build expressions for function types. For example, we can define an expression for the type of functions from `Nat` to `Nat` as follows:
+对于非依值的函数类型，我们可以用 `mkArrow` 函数来构建函数类型的表达式。例如，我们可以按如下方式为从 `Nat` 到 `Nat` 的函数类型定义一个表达式：
 
 ```lean
 def natToNatExpr : MetaM Expr :=

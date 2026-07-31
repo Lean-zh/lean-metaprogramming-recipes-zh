@@ -8,7 +8,7 @@ import Cookbook.Expressions.MatchingExpressionsWithSolving
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Working with Expressions" =>
+#doc (Manual) "使用表达式" =>
 
 %%%
 tag := "expressions"
@@ -18,9 +18,9 @@ number := false
 ::: contributors
 :::
 
-In this chapter we collect recipes to manipulate expressions including building and pattern-matching.
+本章收集操作表达式的配方，包括构建和模式匹配。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.Expressions.TypesOfExpressions}
 {include 1 Cookbook.Expressions.FunctionApplicationExpressions}

@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Pattern-Matching Expressions directly" =>
+#doc (Manual) "直接对表达式进行模式匹配" =>
 
 %%%
 tag := "pattern-matching-expressions-directly"
@@ -19,13 +19,13 @@ number := false
 :::
 
 
-{index}[Pattern-matching expressions directly]
+{index}[直接对表达式进行模式匹配]
 
-In Metaprogramming, for instance for writing tactics, it is often necessary to see whether an expression matches a certain pattern. Lean provides several [Recognizers](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html) that can be used to check if an expression matches a certain pattern and to extract the relevant sub-expressions. For example, the function {lean}`Expr.isAppOf` checks if an expression is an application of a certain function and extracts the arguments of the application.
+在元编程中，例如编写策略时，常常需要判断一个表达式是否匹配某个模式。Lean 提供了若干[识别器（Recognizers）](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html)，可用来检查一个表达式是否匹配某个模式并提取相关的子表达式。例如，函数 {lean}`Expr.isAppOf` 检查一个表达式是否是某个函数的应用，并提取该应用的参数。
 
-# Example : Splitting goals in `∧`
+# 例子：拆分 `∧` 中的目标
 
-As an example, we may want to decompose goals iteratively of the form `P ∧ Q` into separate goals `P` and `Q`. To do this, we can check if the main target is of the form `P ∧ Q` using the {lean}`Expr.app2?` function, which checks if an expression is an application of a given constant with two arguments, and if so, returns the arguments of the application. Doing this recursively allows us to split goals of the form `P1 ∧ P2 ∧ P3` into three separate goals `P1`, `P2`, and `P3`. We do so in the following function.
+作为一个例子，我们可能想把形如 `P ∧ Q` 的目标迭代地分解为独立的目标 `P` 和 `Q`。为此，我们可以用 {lean}`Expr.app2?` 函数检查主目标是否为 `P ∧ Q` 的形式，该函数检查一个表达式是否是给定常量带两个参数的应用，如果是，就返回该应用的参数。递归地这样做，就能把形如 `P1 ∧ P2 ∧ P3` 的目标拆分成三个独立的目标 `P1`、`P2` 和 `P3`。我们在下面的函数中这样做。
 
 ```lean
 partial def splitAnds (e: Expr) : List Expr :=
@@ -34,7 +34,7 @@ partial def splitAnds (e: Expr) : List Expr :=
   | none => [e]
 ```
 
-To see this function in action we write an elaborator that fetches the main goal during the proof and passes it to `matchNatLe` (see {ref "viewing-closing-goals"}[Viewing and Closing Goals] for how to write tactics using elaborators and {ref "displaying-in-the-infoview"}[Displaying in the Infoview] for how to display information in the Infoview).
+为了看到这个函数的实际效果，我们写一个精译器，它在证明过程中获取主目标并把它传给 `matchNatLe`（关于如何用精译器编写策略见 {ref "viewing-closing-goals"}[查看与关闭目标]，关于如何在信息视图中显示信息见 {ref "displaying-in-the-infoview"}[在信息视图中显示]）。
 
 ```lean
 elab "splitAnds" : tactic => do
@@ -59,10 +59,10 @@ example: (123 ≤ 234) ∧ (234 ≤ 345) ∧
   simp
 ```
 
-## Other Recognizers
+## 其他识别器
 
-As mentioned above, there are several other recognizers that can be used to check if an expression matches a certain pattern and to extract the relevant sub-expressions. There are also related Boolean functions that check if an expression matches a certain pattern without extracting sub-expressions.
+如上所述，还有若干其他识别器，可用来检查一个表达式是否匹配某个模式并提取相关的子表达式。也有相关的布尔函数，它们检查一个表达式是否匹配某个模式，但不提取子表达式。
 
-For example, the function {lean}`Expr.isLambda` checks if an expression is a lambda abstraction and extracts the body of the lambda. The function {lean}`Expr.isForall` checks if an expression is a universal quantification and extracts the body of the quantification. The function {lean}`Expr.isAppOfArity` checks if an expression is an application of a certain function with a certain number of arguments and extracts the arguments of the application. We also have matchers {lean}`Expr.eq?`, {lean}`Expr.const?`, {lean}`Expr.prod?`, etc. that check if an expression is of a certain form and extract the relevant sub-expressions.
+例如，函数 {lean}`Expr.isLambda` 检查一个表达式是否是 lambda 抽象并提取该 lambda 的主体。函数 {lean}`Expr.isForall` 检查一个表达式是否是全称量化并提取该量化的主体。函数 {lean}`Expr.isAppOfArity` 检查一个表达式是否是某个函数带一定数量参数的应用并提取该应用的参数。我们还有匹配器 {lean}`Expr.eq?`、{lean}`Expr.const?`、{lean}`Expr.prod?` 等，它们检查一个表达式是否为某种形式并提取相关的子表达式。
 
-You can find the full list of recognizers in the [Lean 4 documentation](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html).
+你可以在 [Lean 4 文档](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html)中找到识别器的完整列表。

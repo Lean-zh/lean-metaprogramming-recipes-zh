@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Adding syntax (categories)" =>
+#doc (Manual) "添加语法（类别）" =>
 
 %%%
 tag := "adding-syntax-and-syntax-categories"
@@ -20,13 +20,13 @@ htmlSplit := .never
 :::
 
 
-{index}[Adding syntax (categories)]
+{index}[添加语法（类别）]
 
-While the Lean objects we care about are typically terms, tactics, and commands, the syntax has to represent various intermediate objects involved in their constructions, such as arguments to functions, patterns in match statements, and so on. To represent these various objects, Lean's syntax system has the notion of _syntax categories_. A syntax category is a collection of parsing rules that describe how to parse a certain kind of syntax. For example, the `term` syntax category includes rules for parsing expressions like `1 + 2`, while the `tactic` syntax category includes rules for parsing tactics like `simp`.
+我们关心的 Lean 对象通常是项、策略和命令，但语法必须表示构造它们时涉及的各种中间对象，例如函数的参数、match 语句中的模式等等。为了表示这些各式各样的对象，Lean 的语法系统有_语法类别_（syntax category）的概念。一个语法类别是一组解析规则，描述如何解析某种语法。例如，`term` 语法类别包含解析像 `1 + 2` 这样的表达式的规则，而 `tactic` 语法类别包含解析像 `simp` 这样的策略的规则。
 
-Lean already includes built-in syntax categories like `term` (for expressions like 1+2), `tactic` (for tactics), and `command` (for commands). The syntax categories fit perfectly into Lean's extensibility framework. They are particularly helpful when implementing Domain Specific Languages (DSLs).
+Lean 已经内置了像 `term`（用于像 1+2 这样的表达式）、`tactic`（用于策略）和 `command`（用于命令）这样的语法类别。语法类别完美地融入了 Lean 的可扩展性框架。它们在实现领域特定语言（DSL）时尤其有用。
 
-# Declaring a syntax category
+# 声明一个语法类别
 
 %%%
 tag := "declaring-a-syntax-category"
@@ -34,43 +34,43 @@ number := false
 
 %%%
 
-{index}[Declaring a syntax category]
+{index}[声明一个语法类别]
 
-We can declare a syntax category by using the built-in Lean command `declare_syntax_cat`. The new syntax category is declared as follows:
+我们可以用 Lean 内置的命令 `declare_syntax_cat` 声明一个语法类别。新的语法类别按如下方式声明：
 ```lean
 declare_syntax_cat mySyntax
 ```
-The new custom rules for the category are added using `syntax <my-syntax-rule> : mySyntax`. When Lean’s parser sees `<my-syntax-rule>`, it parses it according to `mySyntax` rules. For example, you can define an HTML paragraph block in mySyntax like `<p> … </p>` (with a string inside), and it will parse as `mySyntax`.
+该类别的新自定义规则通过 `syntax <my-syntax-rule> : mySyntax` 添加。当 Lean 的解析器遇到 `<my-syntax-rule>` 时，会按照 `mySyntax` 规则来解析它。例如，你可以在 mySyntax 中定义一个像 `<p> … </p>`（内部含一个字符串）的 HTML 段落块，它会被解析为 `mySyntax`。
 
 ```lean
 syntax "<p>" str "</p>" : mySyntax
 ```
 
-# DSL for HTML unordered lists
+# HTML 无序列表的 DSL
 
 %%%
 tag := "dsl-for-html-unordered-lists"
 number := false
 %%%
 
-{index}[DSL for HTML unordered lists]
+{index}[HTML 无序列表的 DSL]
 
-In this recipe, we will parse HTML syntax for unordered lists by creating a custom syntax category called `listItem`. We will also write a macro that converts this custom syntax into a standard Lean {name}`List`. Since we want to define a list as a collection of list-items, it is convenient to define a syntax category for list-items, and then define the syntax for lists in terms of this category. This way, we can easily extend our DSL to include more complex list items in the future, such as lists with items with attributes.
+在本配方中，我们将通过创建一个名为 `listItem` 的自定义语法类别来解析无序列表的 HTML 语法。我们还会写一个宏，把这个自定义语法转换成标准的 Lean {name}`List`。由于我们想把列表定义为列表项的集合，方便的做法是先为列表项定义一个语法类别，然后用这个类别来定义列表的语法。这样我们以后就能轻松地扩展 DSL，加入更复杂的列表项，例如带属性的列表项。
 
-We start by declaring the syntax category `listItem`.
+我们先声明语法类别 `listItem`。
 
 ```lean
 declare_syntax_cat listItem
 ```
-Next, we will incorporate new parsing rules into the `listItem` syntax category. The standard format for adding a new rule is `syntax <new_rule> : <syntax_category>`.
+接下来，我们要把新的解析规则加入 `listItem` 语法类别。添加新规则的标准格式是 `syntax <new_rule> : <syntax_category>`。
 
 ```lean
 syntax "<li>" term "</li>" : listItem
 syntax "<ul>" listItem* "</ul>" : term
 ```
-These two rules together form a recursive definition that allows our DSL to handle nested lists. The first rule defines an item inside an HTML list as an `<li> … </li>` block containing any Lean term inside. The second rule states that a `<ul> … </ul>` contains zero or more `listItem` blocks. The `(<syntax_block>)*` notation tells the parser that the `syntax_block` pattern can appear zero or more times.
+这两条规则一起构成一个递归定义，让我们的 DSL 能够处理嵌套列表。第一条规则把 HTML 列表中的一项定义为一个 `<li> … </li>` 块，内部含有任意 Lean 项。第二条规则规定一个 `<ul> … </ul>` 包含零个或多个 `listItem` 块。`(<syntax_block>)*` 记法告诉解析器 `syntax_block` 模式可以出现零次或多次。
 
-At last, we want to convert this parsed HTML-style unordered list into a {name}`List` in Lean. For this purpose, we define a helper function `liTerm` to extract the inner term from the syntax of the `listItem` category.
+最后，我们要把这个解析出来的 HTML 风格无序列表转换成 Lean 中的 {name}`List`。为此我们定义一个辅助函数 `liTerm`，从 `listItem` 类别的语法中提取内部的项。
 
 ```lean
 
@@ -78,10 +78,10 @@ def liTerm : TSyntax `listItem → MacroM Syntax.Term
 | `(listItem| <li> $t </li>) => return t
 | _ => Macro.throwUnsupported
 ```
-Let's break down the type signature of `liTerm` function:
-- {lean}`` TSyntax `listItem `` ensures that the input to this function strictly belongs to the `listItem` category we just defined.
-- The output of `liTerm` is a syntax representing a Lean term ({name}`Syntax.Term`) wrapped inside the {name}`MacroM` monad. The macro expansion needs context that is provided by {name}`MacroM`.
-- If the function receives syntax that does not match our expected `<li>` pattern, it safely fails by throwing a {name}`Macro.throwUnsupported` error.
+我们来拆解 `liTerm` 函数的类型签名：
+- {lean}`` TSyntax `listItem `` 确保该函数的输入严格属于我们刚刚定义的 `listItem` 类别。
+- `liTerm` 的输出是一个表示 Lean 项的语法（{name}`Syntax.Term`），包裹在 {name}`MacroM` 单子里。宏展开需要由 {name}`MacroM` 提供的上下文。
+- 如果函数收到不匹配我们期望的 `<li>` 模式的语法，它会通过抛出 {name}`Macro.throwUnsupported` 错误安全地失败。
 
 ```lean
 macro_rules
@@ -110,4 +110,4 @@ macro_rules
 
 ```
 
-The `macro_rules` command is used to pattern-match on our custom syntax and define exactly how it should be translated (or "expanded") into standard Lean code. In the macro expansion block, `ts` is an array of {name}`Syntax.Term` and we want to output a Lean {name}`List` that contains these terms. This is accomplished by the notation `[$ts, *]`. The brackets `[]` are the Lean {name}`List` literal and `$ts,*` unpacks the `ts` {name}`Array` and puts them into a comma-separated sequence of terms.
+`macro_rules` 命令用来对我们的自定义语法进行模式匹配，并精确定义它应如何被翻译（或“展开”）成标准 Lean 代码。在宏展开块中，`ts` 是一个 {name}`Syntax.Term` 数组，我们想输出一个包含这些项的 Lean {name}`List`。这由记法 `[$ts, *]` 实现。方括号 `[]` 是 Lean 的 {name}`List` 字面量，`$ts,*` 把 `ts` 这个 {name}`Array` 解包，放入一个逗号分隔的项序列中。
