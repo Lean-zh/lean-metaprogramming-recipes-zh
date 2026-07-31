@@ -15,6 +15,10 @@
 | quotation | 引用 | |
 | quasiquotation | 准引用 | |
 | antiquotation | 反引用 | |
+| lambda abstraction | λ 抽象 | 首次出现可保留英文；避免与一般的“函数表达式”混用 |
+| binder info | 绑定子信息 | Lean 对象 `BinderInfo` 保留原名 |
+| pretty-print | 格式化打印 | API 名与配置项不翻译 |
+| scoped | 有作用域 | 例如 `SimpleScopedEnvExtension` 中的 scoped |
 | infoview | 信息视图 | UI 名称首次出现可写 Infoview |
 | goal | 目标 | 证明目标 |
 | metavariable | 元变量 | |
