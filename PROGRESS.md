@@ -30,7 +30,7 @@
 - [x] 清空 `_out` 后，`lake exe lean-cookbook` 通过
 - [x] 90 个生成页面均有稳定且互不碰撞的 ASCII 路径
 - [x] 90 个页面的标题、站内链接与 Lean 高亮代码块已由 `scripts/check_generated_site.py` 检查
-- [ ] GitHub Pages 最新部署成功并从公开 URL 验证
+- [x] GitHub Pages 最新部署成功并从公开 URL 验证
 
 ## 维护说明
 
