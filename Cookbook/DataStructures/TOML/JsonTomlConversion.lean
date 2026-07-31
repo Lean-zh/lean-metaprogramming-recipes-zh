@@ -11,7 +11,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "JSON and TOML Conversion" =>
+#doc (Manual) "JSON 与 TOML 互转" =>
 
 %%%
 tag := "json-toml-conversion"
@@ -21,16 +21,16 @@ number := false
 ::: contributors
 :::
 
-# Converting TOML to JSON
+# 把 TOML 转换成 JSON
 
 %%%
 tag := "toml-to-json"
 number := false
 %%%
 
-{index}[Converting TOML to JSON]
+{index}[把 TOML 转换成 JSON]
 
-It is often useful to convert TOML data into JSON format for interoperability with other systems. Below is an example of how you can convert your own TOML {lean}`Value` into a {lean}`Json` object by recursively mapping the TOML structure to {lean}`Json`. 
+为了与其他系统互操作，把 TOML 数据转换成 JSON 格式常常很有用。下面的示例展示如何通过递归地把 TOML 结构映射到 {lean}`Json`，把你自己的 TOML {lean}`Value` 转换成一个 {lean}`Json` 对象。
 
 ```lean
 open Lake Toml Lean
@@ -60,16 +60,16 @@ ports = [ 8000, 8001, 8002 ]
 #eval egTomlToJson
 ```
 
-# Converting JSON to TOML
+# 把 JSON 转换成 TOML
 
 %%%
 tag := "json-to-toml"
 number := false
 %%%
 
-{index}[Converting JSON to TOML]
+{index}[把 JSON 转换成 TOML]
 
-Converting JSON back to TOML involves mapping JSON types to their corresponding TOML constructors. Since JSON numbers are represented as {lean}`JsonNumber`, we attempt to convert them to integers or floats.
+把 JSON 转换回 TOML 需要把 JSON 类型映射到对应的 TOML 构造子。由于 JSON 数字用 {lean}`JsonNumber` 表示，我们会尝试把它们转换成整数或浮点数。
 
 ```lean
 open Lake Toml Lean

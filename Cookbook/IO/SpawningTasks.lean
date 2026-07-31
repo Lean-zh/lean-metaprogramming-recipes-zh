@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Spawning Tasks and Worker Threads" =>
+#doc (Manual) "派生任务与工作线程" =>
 
 %%%
 htmlSplit := .never
@@ -17,7 +17,7 @@ htmlSplit := .never
 ::: contributors
 :::
 
-# Spawning Tasks and Worker Threads
+# 派生任务与工作线程
 
 %%%
 tag := "spawning-tasks-and-worker-threads"
@@ -25,16 +25,16 @@ number := false
 %%%
 
 
-{index}[Spawning Tasks and Worker Threads]
+{index}[派生任务与工作线程]
 
-Lean 4 supports lightweight concurrency through {lean}`Task`. You can spawn tasks to perform {lean}`IO` in the background and wait for their results later. {lean}`Task` `α` is a primitive for asynchronous computation. It represents a computation that will resolve to a value of `type α`, possibly being computed on another thread.
+Lean 4 通过 {lean}`Task` 支持轻量级并发。你可以派生任务在后台执行 {lean}`IO`，稍后再等待它们的结果。{lean}`Task` `α` 是异步计算的一个原语。它表示一个最终会归结为 `type α` 类型值的计算，这个计算可能在另一个线程上进行。
 
-Do check out information about the {lean}`Task` API can be found in the Lean 4 reference manual [Task and Threads](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads) section.
+关于 {lean}`Task` API 的信息，请查阅 Lean 4 参考手册的 [任务与线程](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads) 一节。
 
 
-## Spawning a Task
+## 派生一个任务
 
-If you have a pure computation that is very heavy, you can use {lean}`Task.spawn` to run it in parallel without the {lean}`IO` monad. As mentioned before, when a {lean}`Task` `α` is spawned, it will give you output of type `α`. Each {lean}`Task` `α` is done by a Worker Thread spawned by Lean. 
+如果你有一个非常繁重的纯计算，可以使用 {lean}`Task.spawn` 在不借助 {lean}`IO` 单子的情况下并行运行它。如前所述，当派生一个 {lean}`Task` `α` 时，它会给你一个 `α` 类型的输出。每个 {lean}`Task` `α` 由 Lean 派生的一个工作线程完成。
 
 ```lean
 def computeSomething : Nat :=
@@ -42,7 +42,7 @@ def computeSomething : Nat :=
   t.get
 ```
 
-## Spawning Background Tasks
+## 派生后台任务
 
 %%%
 tag := "spawning-background-task"
@@ -50,7 +50,7 @@ number := false
 %%%
 
 
-Tasks which have side effects beyond computation, you should use {lean}`IO.asTask` to run an {lean}`IO` action in a background thread. It returns a {lean}`Task` that will eventually contain the result (wrapped in an {lean}`Except`). These are asynchronous and automatically runs in the background.
+对于除计算之外还有副作用的任务，你应当使用 {lean}`IO.asTask` 在后台线程中运行一个 {lean}`IO` 动作。它返回一个 {lean}`Task`，最终会包含结果（包裹在 {lean}`Except` 中）。这些任务是异步的，会自动在后台运行。
 
 ```lean
 def backgroundWork : IO Unit := do
@@ -82,9 +82,9 @@ Task returned: Result Data
 -- #eval backgroundWork
 ```
 
-## Task Status
+## 任务状态
 
-You can check if a task is still running using {lean}`IO.TaskState`. This will tell you if it is still running, waiting to be run or has already completed. Note that {lean}`Task` is not a Process or Thread, so you cannot use {lean}`IO.TaskState` to check the status of a child process.
+你可以使用 {lean}`IO.TaskState` 检查一个任务是否仍在运行。它会告诉你任务是仍在运行、等待运行还是已经完成。注意 {lean}`Task` 不是进程也不是线程，因此你不能用 {lean}`IO.TaskState` 检查子进程的状态。
 
 ```lean
 def monitorTask (task : Task α) : IO String := do
@@ -116,20 +116,20 @@ Task has finished.
 -- #eval checkTaskStatus
 ```
 
-You can use {lean}`IO.getTID` to get the thread ID of the current thread, check out {ref "get-thread-ids"}[Get Thread IDs] for more information on how to get thread IDs of a process.
+你可以使用 {lean}`IO.getTID` 获取当前线程的线程 ID，关于如何获取一个进程的线程 ID 的更多信息，请查看 {ref "get-thread-ids"}[获取线程 ID]。
 
-## *IO.asTask* and *BaseIO.Task*
+## *IO.asTask* 与 *BaseIO.Task*
 
 %%%
 tag := "io-baseio-astask"
 number := false
 %%%
 
-{index}[IO.asTask and BaseIO.asTask]
+{index}[IO.asTask 与 BaseIO.asTask]
 
-{lean}`IO.asTask` creates a task for operations that might fail, wrapping the result in an {lean}`Except IO.Error` box, whereas {lean}`BaseIO.asTask` is used for guaranteed, error-free logic and returns the raw value directly. 
+{lean}`IO.asTask` 为可能失败的操作创建任务，把结果包裹在一个 {lean}`Except IO.Error` 盒子中；而 {lean}`BaseIO.asTask` 用于保证不会出错的逻辑，直接返回原始值。
 
-Basically, {lean}`IO.asTask` will help you in better handling if you want to use {name}`throw`, {lean}`IO.userError`, etc. while {lean}`BaseIO.asTask` will not. Hence you will have to do appropriate error handling to extract value or show error. But if you know for sure that your {lean}`Task` will succeed for sure and you just need the raw value directly, then {lean}`BaseIO.asTask` can be used.
+基本上，如果你想使用 {name}`throw`、{lean}`IO.userError` 等，{lean}`IO.asTask` 能帮你更好地处理，而 {lean}`BaseIO.asTask` 不能。因此你必须做适当的错误处理来提取值或显示错误。但如果你确信你的 {lean}`Task` 一定会成功、只需要直接拿到原始值，那么可以使用 {lean}`BaseIO.asTask`。
 
 ```lean
 /-- A division which fails in IO monad if d is 0 -/
@@ -162,18 +162,18 @@ def computeWithBaseIO : IO Unit := do
 ```
 
 
-# Get Thread ID's
+# 获取线程 ID
 
 %%%
 tag := "get-thread-ids"
 number := false
 %%%
 
-{index}[Get Thread IDs]
+{index}[获取线程 ID]
 
-Lean spawns worker threads to execute tasks in parallel for the same process for performing any {lean}`Task`. Thus there can be multiple threads running for the same process. Since these are all asynchronous tasks, the output may come in any order as well.{lean}`Task` execution is scheduled on a bounded worker thread pool, hence it maynot be always done by a separate worker thread. 
+为了执行任何 {lean}`Task`，Lean 会为同一进程派生工作线程来并行执行任务。因此同一进程可以有多个线程在运行。由于这些都是异步任务，输出也可能以任意顺序出现。{lean}`Task` 的执行被调度在一个有界的工作线程池上，因此它不一定总是由一个独立的工作线程完成。
 
-This example illustrates that separate worker threads run for each {lean}`Task` hence having different TID's but same PID. You can get the Thread ID using {lean}`IO.getTID`.
+本例说明每个 {lean}`Task` 都由各自独立的工作线程运行，因此有不同的 TID 但相同的 PID。你可以用 {lean}`IO.getTID` 获取线程 ID。
 
 
 ```lean

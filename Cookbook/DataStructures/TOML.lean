@@ -22,19 +22,19 @@ number := false
 ::: contributors
 :::
 
-`Lake.Toml` is commonly used for configuration files. Lean 4 provides a module for working with `Lake.Toml`. This chapter covers how to create, manipulate, and persist `Lake.Toml` data in Lean.
+`Lake.Toml` 常用于配置文件。Lean 4 提供了一个用于处理 `Lake.Toml` 的模块。本章介绍如何在 Lean 中创建、操作和持久化 `Lake.Toml` 数据。
 
-Working with TOML in Lean requires understanding two primary types:
+在 Lean 中处理 TOML 需要理解两个主要类型：
 
-*   *Table*: This is essentially a map (dictionary) of keys to values. When you parse a TOML string, you get a {name}`Table`.
-*   *Value*: This is an inductive type that can be a string, integer, boolean, array, or another table.
-    *   *Why Value is important*: A {lean}`Table` maps keys to values, but those values could be of any type (a string, then a number, then a nested table). In Lean, a map must have a single type for its values. {name}`Value` acts as a "wrapper" or "box" that lets us store different types of data in the same {lean}`Table`.
-*   *Syntax* and *.missing*: Most TOML types in Lean carry a {name}`Lean.Syntax` object. This is used to track the exact location of the value in the source file for better error reporting.
-    *   *Why .missing is important*: When we create TOML values programmatically (not from a file), there is no "source line" to point to. We use {name}`Lean.Syntax.missing` (or the shorthand *.missing*) to satisfy the type system without providing a fake source location.
+*   *Table*：本质上是一个从键到值的映射（字典）。当你解析一个 TOML 字符串时，得到的是一个 {name}`Table`。
+*   *Value*：这是一个归纳类型，可以是字符串、整数、布尔值、数组或另一个表。
+    *   *为什么 Value 很重要*：{lean}`Table` 把键映射到值，但这些值可以是任意类型（先是字符串，再是数字，然后是嵌套表）。在 Lean 中，一个映射的所有值必须是同一种类型。{name}`Value` 充当一个“包装器”或“盒子”，让我们能在同一个 {lean}`Table` 中存放不同类型的数据。
+*   *Syntax* 与 *.missing*：Lean 中大多数 TOML 类型都携带一个 {name}`Lean.Syntax` 对象。它用于追踪值在源文件中的确切位置，以便提供更好的错误报告。
+    *   *为什么 .missing 很重要*：当我们以编程方式（而非从文件）创建 TOML 值时，没有可指向的“源代码行”。我们使用 {name}`Lean.Syntax.missing`（或简写 *.missing*）来满足类型系统的要求，而不必提供一个虚构的源位置。
 
-Working with `Lake.Toml` is not as straightforward as working with {lean}`Json`, but the following sections provide the necessary tools to handle TOML data effectively.
+处理 `Lake.Toml` 不像处理 {lean}`Json` 那样直接，但接下来的各节会提供有效处理 TOML 数据所需的工具。
 
-*Recipes:*
+*食谱：*
 
 {include 1 Cookbook.DataStructures.TOML.ParsingToml}
 {include 1 Cookbook.DataStructures.TOML.AccessingModifyingToml}

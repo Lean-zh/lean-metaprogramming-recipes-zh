@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Process Interruption and Idle Sleep" =>
+#doc (Manual) "进程中断与空闲休眠" =>
 
 %%%
 tag := "process-interrupt-idle-sleep"
@@ -19,22 +19,22 @@ htmlSplit := .never
 ::: contributors
 :::
 
-Lean 4 provides several mechanisms to manage concurrent tasks and handle interruptions. This section explores how to implement interruptible sleeps and "idle" states that wait for external signals. Check out how to put a Process to sleep at {ref "sleep-process"}[Putting a Process to Sleep].
+Lean 4 提供了若干机制来管理并发任务并处理中断。本节探讨如何实现可中断的休眠，以及等待外部信号的“空闲”状态。让进程休眠的方法参见 {ref "sleep-process"}[让进程休眠]。
 
-# Interruptible Sleep (The "Shift" Pattern)
+# 可中断的休眠（“换班”模式）
 
 %%%
 tag := "interruptible-sleep-pattern"
 number := false
 %%%
 
-{index}[Interruptible Sleep]
+{index}[可中断的休眠]
 
-A common requirement is to put a thread to sleep for a duration, but allow it to be "woken up" or interrupted before the time expires. In Lean, this can be achieved using {lean}`IO.Promise`, see [reference](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises). {lean}`IO.Promise` acts as a synchronization primitive that allows one thread to wait for a value that is provided by another thread at a later time. In this context, it serves as a "signal" or a "mailbox" where the sleeping thread waits for the promise to be fulfilled, effectively allowing an external trigger to interrupt the wait.
+一个常见需求是让线程休眠一段时间，但允许在时间到期之前被“唤醒”或中断。在 Lean 中，这可以用 {lean}`IO.Promise` 实现，见[参考文档](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises)。{lean}`IO.Promise` 是一种同步原语，允许一个线程等待由另一个线程稍后提供的值。在这里，它充当一个“信号”或“信箱”，休眠的线程在其中等待 promise 被兑现，从而让外部触发能够中断这次等待。
 
-## Using an Extra Task (Timeout Task)
+## 使用额外的任务（超时任务）
 
-This method involves spawning a separate task that resolves a promise after a delay. The main worker waits on that same promise.
+这种方法会派生一个独立的任务，在延迟后兑现一个 promise。主工作者在同一个 promise 上等待。
 
 ```lean
 def interruptibleWorker (p : IO.Promise Bool) 
@@ -60,16 +60,16 @@ def interruptibleWorker (p : IO.Promise Bool)
     IO.println "Worker: finished naturally (timeout)."
 ```
 
-## Using `IO.waitAny` (Without an Extra Task for Logic)
+## 使用 `IO.waitAny`（逻辑上不需要额外的任务）
 
-If you already have multiple tasks running and you want to wait for the *first* one to complete (or a specific "interrupt" task), you can use {name}`IO.waitAny`.
+如果你已经有多个任务在运行，并且想等待其中*第一个*完成的（或某个特定的“中断”任务），可以使用 {name}`IO.waitAny`。
 
 ```lean
 def waitFirst (t1 t2 : Task α) : IO α := do
   IO.waitAny [t1, t2]
 ```
 
-You can also use {name}`IO.waitAny` to implement a timeout mechanism by racing a computation task against a timer task.
+你也可以用 {name}`IO.waitAny` 实现一个超时机制，让一个计算任务与一个计时器任务竞速。
 
 ```lean
 /-- Waits for a task to complete or 
@@ -84,18 +84,18 @@ def waitWithTimeout {α : Type} (action : Task α)
   return finished
 ```
 
-# Application: Interrupting Idle Sleep (OS-like Sleep)
+# 应用：中断空闲休眠（类操作系统的休眠）
 
 %%%
 tag := "idle-sleep-application"
 number := false
 %%%
 
-{index}[Process Idle Sleep]
+{index}[进程空闲休眠]
 
-An "idle sleep" is a state where a process does nothing and consumes minimal resources until it is explicitly woken up by an external event (like a signal or a message).
+“空闲休眠”是这样一种状态：进程什么都不做，消耗极少资源，直到被某个外部事件（如一个信号或一条消息）显式唤醒。
 
-In Lean, you can implement this by waiting on a promise that has no timeout task associated with it.
+在 Lean 中，你可以通过等待一个没有关联超时任务的 promise 来实现它。
 
 ```lean
 def idleProcess (wakeUpSignal : IO.Promise Unit) 
@@ -122,4 +122,4 @@ def runSystem : IO Unit := do
   IO.println "System shutdown."
 ```
 
-In this pattern, the "sleep" is truly idle; there is no timer running. The process simply yields until the promise is resolved by another part of the system.
+在这种模式下，“休眠”是真正空闲的；没有计时器在运行。进程只是让出，直到 promise 被系统的另一部分兑现。

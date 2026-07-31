@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Creating JSON Objects" =>
+#doc (Manual) "创建 JSON 对象" =>
 
 %%%
 tag := "creating-json-objects"
@@ -18,18 +18,18 @@ number := false
 ::: contributors
 :::
 
-{index}[Handling Json Object]
+{index}[处理 Json 对象]
 
 
-In Lean, the {name}`Lean.Json` type is an inductive type that represents the different types of values that can be in a JSON structure. You can find its definition in `import Lean.Data.Json`:
+在 Lean 中，{name}`Lean.Json` 类型是一个归纳类型，表示 JSON 结构中可能出现的各种值类型。你可以在 `import Lean.Data.Json` 中找到它的定义：
 
-# Creating JSON objects
+# 创建 JSON 对象
 
-There are three main ways to create JSON objects in Lean.
+在 Lean 中创建 JSON 对象主要有三种方式。
 
-## 1. Using the `json%` macro
+## 1. 使用 `json%` 宏
 
-The most convenient way to create literal JSON values is with the `json%` macro. It allows you to write JSON syntax directly in your Lean code.
+创建字面量 JSON 值最方便的方式是使用 `json%` 宏。它让你可以直接在 Lean 代码中书写 JSON 语法。
 
 ```lean
 def myJson : Json := json% {
@@ -40,9 +40,9 @@ def myJson : Json := json% {
 }
 ```
 
-## 2. Using `Json.mkObj`
+## 2. 使用 `Json.mkObj`
 
-You can manually build a JSON object using `Json.mkObj` which takes a list of key-value pairs (as `String × Json`).
+你可以用 `Json.mkObj` 手动构建一个 JSON 对象，它接受一个键值对列表（形式为 `String × Json`）。
 
 ```lean
 def manualJson : Json := Json.mkObj [
@@ -51,9 +51,9 @@ def manualJson : Json := Json.mkObj [
 ]
 ```
 
-## 3. Using custom structures with `Deriving ToJson`
+## 3. 使用带 `Deriving ToJson` 的自定义结构体
 
-The most idiomatic way to handle JSON in Lean is by defining a structure and deriving a {lean}`Lean.ToJson` instance. This allows you to convert Lean objects directly to JSON using the `toJson` function.
+在 Lean 中处理 JSON 最地道的方式是定义一个结构体并派生一个 {lean}`Lean.ToJson` 实例。这让你可以用 `toJson` 函数直接把 Lean 对象转换为 JSON。
 
 ```lean
 structure User where

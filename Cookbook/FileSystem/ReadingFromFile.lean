@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Reading from a file" =>
+#doc (Manual) "从文件读取" =>
 
 %%%
 tag := "reading-from-file"
@@ -18,16 +18,16 @@ number := false
 ::: contributors
 :::
 
-{index}[Reading from a file]
+{index}[从文件读取]
 
-Reading from a file is needs to be done in the {lean}`IO` monad. To read the whole file as a string, you can use {lean}`IO.FS.readFile`:
+从文件读取需要在 {lean}`IO` 单子中完成。要把整个文件作为字符串读取，可以使用 {lean}`IO.FS.readFile`：
 
 ```lean
 def readWholeFile (path : System.FilePath) : IO String :=
   IO.FS.readFile path
 ```
 
-If you want to use the file text in a variable, you can get the result of {lean}`IO.FS.readFile` and manipulate it as a string:
+如果你想把文件文本放到一个变量里使用，可以取得 {lean}`IO.FS.readFile` 的结果并把它当作字符串来操作：
 
 ```lean
 def readAndUse (path : System.FilePath) : IO String := do
@@ -36,7 +36,7 @@ def readAndUse (path : System.FilePath) : IO String := do
   return content.toUpper
 ```
 
-If you want to read the file line by line, you can use {lean}`IO.FS.withFile` to get a handle to the file and then read lines from it. The {lean}`IO.FS.Handle.getLine` method reads a line from the file:
+如果你想逐行读取文件，可以使用 {lean}`IO.FS.withFile` 获取文件的句柄，然后从中读取行。{lean}`IO.FS.Handle.getLine` 方法从文件读取一行：
 
 ```lean
 def readFirstLine (path : System.FilePath) : IO String :=
@@ -44,7 +44,7 @@ def readFirstLine (path : System.FilePath) : IO String :=
     handle.getLine
 ```
 
-If you want to read all lines into an array, you can use {lean}`IO.FS.lines`:
+如果你想把所有行读入一个数组，可以使用 {lean}`IO.FS.lines`：
 
 ```lean
 def readAllLines (path : System.FilePath) :
@@ -52,7 +52,7 @@ def readAllLines (path : System.FilePath) :
   IO.FS.lines path
 ```
 
-Now say you want to trim the line you read by removing leading and trailing whitespace. You can use the {lean}`String.trimAscii` method to do that. This will also remove `\n` characters at the end of the line:
+现在假设你想通过去掉读到的行两端的空白来修剪它。你可以用 {lean}`String.trimAscii` 方法来做，这也会去掉行末的 `\n` 字符：
 
 ```lean
 def readTrimmedLines (path : System.FilePath) :

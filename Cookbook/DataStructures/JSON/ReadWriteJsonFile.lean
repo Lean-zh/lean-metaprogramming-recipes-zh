@@ -8,25 +8,25 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Reading & Writing JSON Files" =>
+#doc (Manual) "读取与写入 JSON 文件" =>
 
 ::: contributors
 :::
 
-{index}[Handling JSON files]
+{index}[处理 JSON 文件]
 
-This section covers how to interact with the file system to read and write JSON data. For details on how to construct or manipulate JSON objects themselves, see {ref "creating-json-objects"}[Creating JSON Objects].
+本节讲述如何与文件系统交互来读写 JSON 数据。关于如何构造或操作 JSON 对象本身的细节，参见 {ref "creating-json-objects"}[创建 JSON 对象]。
 
-# How to read a JSON file
+# 如何读取 JSON 文件
 
 %%%
 tag := "reading-json-file"
 number := false
 %%%
 
-{index}[Reading a JSON file]
+{index}[读取 JSON 文件]
 
-To read a JSON file, you can use the {lean}`Lean.Json` module in Lean. You read the file as a string using {lean}`IO.FS.readFile` and then parse it using {lean}`Lean.Json.parse`:
+要读取一个 JSON 文件，你可以使用 Lean 中的 {lean}`Lean.Json` 模块。用 {lean}`IO.FS.readFile` 把文件作为字符串读取，然后用 {lean}`Lean.Json.parse` 解析它：
 
 ```lean
 def readJsonFile (path : System.FilePath) : IO Json := do
@@ -38,23 +38,23 @@ def readJsonFile (path : System.FilePath) : IO Json := do
       s!"Failed to parse JSON from {path}: {err}"
 ```
  
-# How to write to JSON files
+# 如何写入 JSON 文件
 
 %%%
 tag := "writing-json-file"
 number := false
 %%%
 
-{index}[Writing to JSON files]
+{index}[写入 JSON 文件]
 
-To write JSON data to a file, you first convert the `Json` object to a string. You can use `toString` for a compact representation or `.pretty` for a formatted version.
+要把 JSON 数据写入文件，你首先要把 `Json` 对象转换为字符串。你可以用 `toString` 得到紧凑表示，或用 `.pretty` 得到格式化的版本。
 
 ```lean
 def writeJsonToFile (path : System.FilePath) (data : Json)
   : IO Unit := do IO.FS.writeFile path (data.pretty)
 ```
 
-If you need more control, such as setting the indentation level, you can use the `.pretty` method with an argument:
+如果你需要更多控制，比如设置缩进级别，可以给 `.pretty` 方法传一个参数：
 
 ```lean
 def writeJsonIndented (path : System.FilePath) (data : Json)

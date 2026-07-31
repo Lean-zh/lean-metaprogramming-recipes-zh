@@ -11,7 +11,7 @@ open Std (HashMap)
 set_option pp.rawOnError true
 set_option linter.unusedVariables false
 
-#doc (Manual) "Binary Tree" =>
+#doc (Manual) "二叉树" =>
 
 %%%
 tag := "binary-tree"
@@ -22,18 +22,18 @@ htmlSplit := .never
 ::: contributors
 :::
 
-Binary trees are a fundamental data structure commonly used in various applications. They consist of nodes, where each node has at most two children, referred to as the left and right child. Binary trees are often used to implement binary search trees, heaps, and expression trees an
+二叉树是一种基础的数据结构，广泛用于各类应用。它由节点组成，每个节点最多有两个子节点，分别称为左子节点和右子节点。二叉树常用于实现二叉搜索树、堆和表达式树
 
-# Defining Binary Tree
+# 定义二叉树
 
 %%%
 tag := "binary-tree-definition"
 number := false
 %%%
 
-{index}[Defining Binary Tree]
+{index}[定义二叉树]
 
-Since a binary tree is an inductive data structure where the child itself is another binary tree, we define it using an inductive type. We use `Option` to represent the possibility of a child being absent (i.e., a leaf node). For various applications, the nodes may carry a value and a weight, so we include those in the definition as well.
+由于二叉树是一种归纳数据结构，其子节点本身又是另一棵二叉树，我们用归纳类型来定义它。我们用 `Option` 来表示某个子节点可能不存在（即叶子节点）。为适应各种应用，节点可以携带一个值和一个权重，因此我们也把它们纳入定义中。
 
 ```lean
 inductive BinaryTree (α : Type) where
@@ -44,24 +44,24 @@ inductive BinaryTree (α : Type) where
 deriving Inhabited, Repr
 ```
 
-- For recursive data structures, we often need to define a custom {lean}`BEq` instance if we want to check for equality between two trees. Check out [Lean Reference Recursive Instance](https://lean-lang.org/doc/reference/latest/Type-Classes/Instance-Declarations/#recursive-instances) on how to define `instance BEq` for recursive data structures.
+- 对于递归数据结构，如果我们想检查两棵树是否相等，往往需要定义一个自定义的 {lean}`BEq` 实例。关于如何为递归数据结构定义 `instance BEq`，参见 [Lean 参考手册的递归实例](https://lean-lang.org/doc/reference/latest/Type-Classes/Instance-Declarations/#recursive-instances)。
 
-# Operations on Binary Tree
+# 二叉树上的操作
 
 %%%
 tag := "binary-tree-operations"
 number := false
 %%%
 
-{index}[Operations on Binary Tree]
+{index}[二叉树上的操作]
 
-Typically, you need to define recursive functions to perform operations on binary trees, such as searching for a value, inserting a new value, calculating the depth of the tree, etc. Below, we will implement some of these operations.
+通常，你需要定义递归函数来在二叉树上执行操作，例如查找一个值、插入一个新值、计算树的深度等等。下面我们将实现其中一些操作。
 
-## Search and Insertion
+## 查找与插入
 
-{index}[Binary Search Tree]
+{index}[二叉搜索树]
 
-To convert a binary tree into a binary search tree (BST), we need to implement search and insertion operations that maintain the BST property. The search operation checks if a value exists in the tree, while the insertion operation adds a new value with its weight while ensuring the tree satisfies the BST property (left child < parent < right child). We use the {lean}`Ord` typeclass to compare values and maintain the ordering.
+要把一棵二叉树变成二叉搜索树（BST），我们需要实现能维持 BST 性质的查找和插入操作。查找操作检查一个值是否存在于树中，而插入操作在确保树满足 BST 性质（左子节点 < 父节点 < 右子节点）的前提下添加一个带权重的新值。我们使用 {lean}`Ord` 类型类来比较值并维护顺序。
 
 ```lean
 /-- Checks if a value exists in the tree. -/
@@ -92,7 +92,7 @@ def insert [Ord α] (v : α) (w : Nat) :
       | .eq => some (.Node v w l r)
 ```
 
-To find the maximum depth of the tree or calculate the total weight of all nodes, we can define recursive functions that traverse the tree and compute the desired values.
+要找出树的最大深度，或计算所有节点的总权重，我们可以定义遍历树并计算所需值的递归函数。
 
 ```lean
 /-- Computes the maximum depth of the tree. -/
@@ -109,16 +109,16 @@ def totalWeight {α} : Option (BinaryTree α) → Nat
       w + totalWeight l + totalWeight r
 ```
 
-# List to Binary Tree
+# 列表转二叉树
 
 %%%
 tag := "list-to-binary-tree"
 number := false
 %%%
 
-{index}[List to Binary Tree]
+{index}[列表转二叉树]
 
-Often, we get the tree data in the form of a {lean}`List`, and we need to convert it into a binary tree structure. We know that `i`-th element has left child at `2*i + 1` and right child at `2*i + 2`. We convert a sorted list into a balanced tree by selecting the median.
+我们常常以 {lean}`List` 的形式拿到树的数据，需要把它转换成二叉树结构。我们知道第 `i` 个元素的左子节点在 `2*i + 1`、右子节点在 `2*i + 2`。我们通过选取中位数把一个有序列表转换成一棵平衡树。
 
 ```lean
 def listToBinaryTree {α} (xs : List (α × Nat)) : 
@@ -141,9 +141,9 @@ def listToBinaryTree {α} (xs : List (α × Nat)) :
 termination_by xs.length
 ```
 
-# Example Usage
+# 示例用法
 
-We will use the above functions to build a binary tree from a list of values and weights, in an example and perform operations as defined above.
+我们将用上面的函数，在一个示例中从一组值和权重构建一棵二叉树，并执行前面定义的各种操作。
 
 ```lean
 /-- Pretty prints the binary tree for visualization. -/

@@ -20,13 +20,13 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{lean}`HashMap` is a collection of key-value pairs that provides efficient lookup, insertion, and deletion. In Lean 4, the most commonly used implementation is {name}`Std.HashMap`.
+{lean}`HashMap` 是一个键值对的集合，提供高效的查找、插入和删除。在 Lean 4 中，最常用的实现是 {name}`Std.HashMap`。
 
-# Basic Operations
+# 基本操作
 
-{index}[HashMap Basic Operations]
+{index}[HashMap 基本操作]
 
-To use {name}`HashMap`, you usually need to provide types for keys and values. The key type must have {name}`Hashable` and {name}`BEq` instances.
+要使用 {name}`HashMap`，你通常需要提供键和值的类型。键类型必须具有 {name}`Hashable` 和 {name}`BEq` 实例。
 
 ```lean
 -- Creating an empty HashMap
@@ -58,18 +58,18 @@ def increment (map : HashMap String Nat) (key : String)
 #eval (increment updatedMap2 "apple").get? "apple"
 ```
 
-# Memoization with StateM
+# 用 StateM 做记忆化
 
 %%%
 tag := "memoization-hashmap"
 number := false
 %%%
 
-{index}[Memoization using HashMap]
+{index}[使用 HashMap 做记忆化]
 
-Memoization is a technique used to speed up computer programs by storing the results of expensive function calls and returning the cached result when the same inputs occur again. A {name}`HashMap` combined with a {name}`StateM` monad is a powerful way to implement this in Lean. {name}`StateM` allows us to carry the state of our cache (here {name}`HashMap`) through our computations.
+记忆化（memoization）是一种加速计算机程序的技术，它存储昂贵函数调用的结果，并在相同输入再次出现时返回缓存的结果。在 Lean 中，把 {name}`HashMap` 与 {name}`StateM` 单子结合是实现它的一种强大方式。{name}`StateM` 让我们能在计算过程中携带缓存（这里是 {name}`HashMap`）的状态。
 
-Below is an example of the Fibonacci sequence implemented with memoization.
+下面是用记忆化实现斐波那契数列的一个例子。
 
 ```lean
 /--
@@ -103,22 +103,22 @@ def fib (n: Nat) : FibM Nat := do
 #eval fib 50 |>.run {}
 ```
 
-Using memoization allows us to compute `fib 350` almost instantly, whereas a naive recursive implementation would take a very long time.
+使用记忆化让我们几乎瞬间就能算出 `fib 350`，而朴素的递归实现则需要很长时间。
 
-# Application: Advanced Expression Analysis
+# 应用：高级表达式分析
 
 %%%
 tag := "frequency-hashmap-advanced"
 number := false
 %%%
 
-{index}[Advanced HashMap Operations]
+{index}[高级 HashMap 操作]
 
-In metaprogramming, you might want to perform a multi-layered analysis of an expression. Below is an example that:
-1.  Counts how many times each *constant* appears.
-2.  Records the minimum *depth* at which each constant first appeared .
-3.  Demonstrates *merging* two frequency maps.
-4.  Shows how to *filter* a map to keep only specific entries.
+在元编程中，你可能想对一个表达式做多层次的分析。下面的例子：
+1.  统计每个*常量*出现了多少次。
+2.  记录每个常量首次出现时的最小*深度*。
+3.  演示如何*合并*两个频次映射。
+4.  展示如何*过滤*一个映射，只保留特定的条目。
 
 ```lean
 structure ConstInfo where

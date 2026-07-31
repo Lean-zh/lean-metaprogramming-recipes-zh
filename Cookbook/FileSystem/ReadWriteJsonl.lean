@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Handling JSONL File" =>
+#doc (Manual) "处理 JSONL 文件" =>
 
 %%%
 htmlSplit := .never
@@ -17,21 +17,21 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Handling JSONL files]
+{index}[处理 JSONL 文件]
 
-JSONL (JSON Lines) is a format where each line is a valid JSON object. This is particularly useful for large datasets as it allows for stream processing and is less sensitive to file corruption than a single large JSON array.
-Check out the section on {ref "json"}[JSON] for working with regular JSON files.
+JSONL（JSON Lines）是一种每行都是一个有效 JSON 对象的格式。它对大型数据集尤其有用，因为它支持流式处理，并且比单个大型 JSON 数组对文件损坏更不敏感。
+处理常规 JSON 文件的方法参见 {ref "json"}[JSON] 一节。
 
-# How to Read JSONL files
+# 如何读取 JSONL 文件
 
 %%%
 tag := "reading-jsonl-file"
 number := false
 %%%
 
-{index}[Reading JSONL files]
+{index}[读取 JSONL 文件]
 
-To read a JSONL file, we use {lean}`IO.FS.lines` to get an array of strings and then parse each non-empty line.
+要读取一个 JSONL 文件，我们用 {lean}`IO.FS.lines` 获取一个字符串数组，然后解析每个非空行。
 
 ```lean
 def readJsonlFile (path : System.FilePath) :
@@ -48,18 +48,18 @@ def readJsonlFile (path : System.FilePath) :
   return result
 ```
 
-# How to Write JSONL files
+# 如何写入 JSONL 文件
 
 %%%
 tag := "writing-jsonl-file"
 number := false
 %%%
 
-{index}[Writing JSONL files]
+{index}[写入 JSONL 文件]
 
-When writing JSONL, each object must be rendered as a single line without internal newlines. You can use {lean}`Lean.Json.compress` to ensure the output is compact.
+写入 JSONL 时，每个对象都必须渲染为单独一行，内部不含换行。你可以用 {lean}`Lean.Json.compress` 确保输出是紧凑的。
 
-1. Writing an array of JSON objects
+1. 写入一个 JSON 对象数组
 
 ```lean
 def writeJsonlFile (path : System.FilePath)
@@ -69,9 +69,9 @@ def writeJsonlFile (path : System.FilePath)
     lines.toList ++ "\n")
 ```
 
-2. Writing custom structures to JSONL
+2. 把自定义结构体写入 JSONL
 
-For large logs or datasets, it is better to use a handle and write line by line.
+对于大型日志或数据集，最好使用句柄逐行写入。
 
 ```lean
 structure LogEntry where

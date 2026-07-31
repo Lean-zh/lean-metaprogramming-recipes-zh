@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Creating directories" =>
+#doc (Manual) "创建目录" =>
 
 %%%
 tag := "creating-directories"
@@ -18,11 +18,11 @@ number := false
 ::: contributors
 :::
 
-{index}[Creating directories]
+{index}[创建目录]
 
-To create directories, we use functions from the {name}`IO.FS.createDir`
-module. This will create a single directory at the specified path. If the
-parent directories do not exist, it will throw an error.
+要创建目录，我们使用 {name}`IO.FS.createDir`
+模块中的函数。它会在指定路径创建单个目录。如果
+父目录不存在，它会抛出错误。
 
 ```lean
 def createDirectory (path : System.FilePath) : IO Unit := do
@@ -47,9 +47,9 @@ def safeCreateDir (path : System.FilePath) : IO Unit := do
 
 ```
 
-If you want to create a directory along with any necessary parent directories,
-you can use {name}`IO.FS.createDirAll`. This will create the entire directory
-structure specified in the path if it does not already exist.
+如果你想在创建目录的同时创建任何必要的父目录，
+可以使用 {name}`IO.FS.createDirAll`。如果路径中指定的整个目录
+结构尚不存在，它会创建出来。
 
 ```lean
 def createSubDirAll (path : System.FilePath) : IO Unit := do
@@ -63,8 +63,7 @@ catch e =>
 -- #eval createSubDirAll "testDir/subDir"
 ```
 
-Notice that {lean}`String` (like `"testdir/subdir"`) works even though the
-functions expect a {name}`System.FilePath`. This is because Lean has a
-*coercion* (an instance of {lean}`Coe String System.FilePath`) that
-automatically converts string literals into file path objects when needed. See more info on [Coercions here](https://lean-lang.org/doc/reference/latest/Coercions/#coercions).
+注意，尽管这些函数期望的是 {name}`System.FilePath`，{lean}`String`（如 `"testdir/subdir"`）也能用。这是因为 Lean 有一个
+*强制转换*（coercion，即一个 {lean}`Coe String System.FilePath` 实例），
+它在需要时自动把字符串字面量转换为文件路径对象。更多信息参见[这里的 Coercions](https://lean-lang.org/doc/reference/latest/Coercions/#coercions)。
  

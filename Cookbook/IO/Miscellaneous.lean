@@ -10,14 +10,14 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Miscellaneous IO" =>
+#doc (Manual) "杂项 IO" =>
 
 ::: contributors
 :::
 
-These are some Miscellaneous IO functions that you might find useful in your Lean code.
+以下是一些你可能在 Lean 代码中觉得有用的杂项 IO 函数。
 
-# Get a Random Number
+# 获取一个随机数
 
 %%%
 tag := "get-a-random-number"
@@ -25,9 +25,9 @@ number := false
 %%%
 
 
-{index}[Get a Random Number]
+{index}[获取一个随机数]
 
-You can get a random number with lower `low` and upper `high` bounds using the {lean}`IO.rand` function.
+你可以使用 {lean}`IO.rand` 函数获取一个下界为 `low`、上界为 `high` 的随机数。
 
 ```lean
 def getRandomNumber (low high : Nat) : IO Unit := do
@@ -36,16 +36,16 @@ def getRandomNumber (low high : Nat) : IO Unit := do
     {low} and {high}: {random}"
 ```
 
-# Terminating a Process
+# 终止一个进程
 
 %%%
 tag := "terminating-a-process"
 number := false
 %%%
 
-{index}[Terminating a Process]
+{index}[终止一个进程]
 
-You can use {lean}`IO.Process.exit` to terminate current process with a specific exit code. By convention, an exit code of `0` indicates success, and any non-zero code indicates an error.
+你可以使用 {lean}`IO.Process.exit` 以某个特定的退出码终止当前进程。按照惯例，退出码 `0` 表示成功，任何非零码都表示错误。
 
 ```lean
 def terminateProcess (someCondition : Bool) : IO Unit := do
@@ -56,28 +56,28 @@ def terminateProcess (someCondition : Bool) : IO Unit := do
     IO.Process.exit 1
 ```
 
-You can also spawn a new process using {lean}`IO.Process.forceExit` to force kill current process abrupty.
+你也可以使用 {lean}`IO.Process.forceExit` 派生一个新进程来强制、突然地终止当前进程。
 
-Also, you can kill any other process by spawning a child process and giving PID of victim process using Linux's `kill` command(or your machine's version for it) too.
+此外，你还可以通过派生一个子进程，用 Linux 的 `kill` 命令（或你机器上对应的版本）并给出目标进程的 PID，来杀掉任何其他进程。
 
-# File Compression and Decompression
+# 文件压缩与解压
 
 %%%
 tag := "file-compression-decompression"
 number := false
 %%%
 
-{index}[File Compression and Decompression]
+{index}[文件压缩与解压]
 
-Lean does not have built-in support for file compression, but we can easily call external programs like `gzip` or `zip` to perform these tasks. See {ref "spawning-child-process"}[Spawning a Child Process] recipe for more information on how to run external commands from Lean.
+Lean 没有内置的文件压缩支持，但我们可以轻松调用像 `gzip` 或 `zip` 这样的外部程序来完成这些任务。关于如何从 Lean 运行外部命令的更多信息，参见 {ref "spawning-child-process"}[派生子进程] 配方。
 
-*Warning*: Since we are using external programs, these are system-dependent and make sure to have the necessary tools installed on your system. Change the commands accordingly for different operating systems or compression formats.
+*警告*：由于我们使用的是外部程序，这些都依赖于系统，请确保你的系统上装有所需工具。对于不同的操作系统或压缩格式，请相应地更改命令。
 
-Using the functions defined above, we can easily perform common system tasks like compressing files or creating archives.
+利用上面定义的函数，我们可以轻松执行像压缩文件或创建归档这样的常见系统任务。
 
-1. Using `gzip`
+1. 使用 `gzip`
 
-The `gzip` command is a standard tool for single-file compression.
+`gzip` 命令是单文件压缩的标准工具。
 
 ```lean
 def compressFile (path : System.FilePath) : IO Unit := do
@@ -85,9 +85,9 @@ def compressFile (path : System.FilePath) : IO Unit := do
   IO.println s!"Compressed {path}"
 ```
 
-2. Creating a `.zip` Archive
+2. 创建 `.zip` 归档
 
-To archive multiple files or directories, we can use the `zip` utility.
+要归档多个文件或目录，我们可以使用 `zip` 工具。
 
 ```lean
 def createArchive (archiveName : String) 
@@ -96,7 +96,7 @@ def createArchive (archiveName : String)
   IO.println s!"Created archive {archiveName}"
 ```
 
-To decompress a `.zip` file, we can use the `unzip` command:
+要解压一个 `.zip` 文件，我们可以使用 `unzip` 命令：
 
 ```lean
 def decompressArchive (archiveName : String) : IO Unit := do
@@ -104,9 +104,9 @@ def decompressArchive (archiveName : String) : IO Unit := do
   IO.println s!"Decompressed archive {archiveName}"
 ```
 
-For any other compression formats, you can similarly call the appropriate command-line tool using the {name}`runExternalProgram` function.
+对于任何其他压缩格式，你都可以类似地用 {name}`runExternalProgram` 函数调用相应的命令行工具。
 
-# Reading Environment Variables
+# 读取环境变量
 
 %%%
 tag := "reading-environment-variables"
@@ -114,9 +114,9 @@ number := false
 %%%
 
 
-{index}[Reading Environment Variables]
+{index}[读取环境变量]
 
-You can use {lean}`IO.getEnv` to retrieve the value of an environment variable. Since a variable might not be set, it returns an {lean}`Option String`.
+你可以使用 {lean}`IO.getEnv` 获取一个环境变量的值。由于变量可能未被设置，它返回一个 {lean}`Option String`。
 
 ```lean
 def checkUser : IO Unit := do
@@ -126,37 +126,37 @@ def checkUser : IO Unit := do
   | none      => IO.println "Could not find USER variable."
 ```
 
-# Deadlocking the Task System
+# 让任务系统死锁
 
 %%%
 tag := "deadlocking-the-task-system"
 number := false
 %%%
 
-{index}[Deadlocking the Task System]
+{index}[让任务系统死锁]
 
 ::: contributors
 :::
 
-Here we describe about deadlocks and how to prevent yourself from falling into this trap. This is less of a recipe but more of a conceptual understanding about blindly spawning too many Tasks.
+这里我们介绍死锁，以及如何避免自己掉进这个陷阱。与其说这是一篇配方，不如说是对盲目派生过多任务的概念性理解。
 
-To know basics of about {lean}`Task`s, check out {ref "spawning-tasks-and-worker-threads"}[Spawning Tasks and Worker Threads] before this. 
+在此之前，若想了解 {lean}`Task` 的基础，请先查看 {ref "spawning-tasks-and-worker-threads"}[派生任务与工作线程]。
 
-## What is a Deadlock? (The Stuck Pizza Shop)
+## 什么是死锁？（卡住的比萨店）
 
-Imagine a pizza shop with only 4 chefs. These chefs are the Worker Threads. They are the only ones who can actually cook. 
+想象一家只有 4 位厨师的比萨店。这些厨师就是工作线程，只有他们才能真正做菜。
 
-A *Deadlock* happens when all the chefs stop working because they are waiting for each other. Imagine 4 customers order a "Mystery Pizza."
-1. Each chef starts making the dough.
-2. Then, each chef realizes they need a secret sauce made by another chef.
-3. *The Mistake:* Instead of doing other work, every chef stands perfectly still with their hands out, saying: "I will not move until I get my sauce!"
+当所有厨师都因为在互相等待而停止工作时，就发生了*死锁*。设想 4 位顾客点了一份“神秘比萨”。
+1. 每位厨师都开始和面。
+2. 然后，每位厨师都意识到自己需要另一位厨师做的一种秘制酱料。
+3. *错误所在：* 每位厨师不去做其他工作，而是伸着手一动不动地站着，说：“拿不到我的酱料我就不动！”
 
-Because all 4 chefs are standing still waiting, there is nobody left to actually cook the sauce. The shop is stuck forever. In programming, we call this *Thread Starvation*.
+由于 4 位厨师都站着不动地等着，就没人去真正做酱料了。这家店就永远卡住了。在编程中，我们称之为*线程饿死*（Thread Starvation）。
 
 
-## The Deadlocked Code
+## 会死锁的代码
 
-In this example, we try to run 100000 tasks, this will throw an error as mentioned below. Since today machine's are modern, more powerful with multithreading and multicore processing, this number increases before the thread creation stops.
+在本例中，我们尝试运行 100000 个任务，这会抛出下面所示的错误。由于如今的机器现代化程度更高，具备更强的多线程和多核处理能力，在线程创建停止之前这个数字会更大。
 
 ```lean
 def potentialDeadlock (n : Nat := 100000) : IO Unit := do
@@ -184,14 +184,14 @@ lean::exception: failed to create thread
 -- #eval potentialDeadlock
 ```
 
-*Why it fails:*
-When you call {lean}`IO.wait` inside a task, you are telling the Worker Threads to sit down and wait. Since the number of threads is *finite* (limited), once they are all "sitting and waiting," there is no one left to run the subTask.
+*为什么会失败：*
+当你在一个任务内部调用 {lean}`IO.wait` 时，你是在让工作线程坐下来等待。由于线程数是*有限的*，一旦它们全都“坐着等待”，就没有谁去运行 subTask 了。
 
-## Solution Using {lean}`IO.bindTask` (The "Sticky Note" Way)
+## 使用 {lean}`IO.bindTask` 的解决方案（“便利贴”方式）
 
-The Safe Solution is to use *Asynchronous Composition*. Instead of making a chef wait, we give them a "Sticky Note." 
+安全的解决方案是使用*异步组合*。我们不让厨师去等，而是给他一张“便利贴”。
 
-When a chef finishes the dough, they write a note: "When the sauce is ready, whoever is free should finish this pizza." Then, the chef leaves the kitchen so another chef can use their spot to make the sauce!
+当一位厨师和好面后，写一张便条：“等酱料好了，谁有空谁来把这份比萨做完。”然后这位厨师离开厨房，好让另一位厨师用他的位置去做酱料！
 
 ```lean
 def safeFromDeadlock (n : Nat := 1000000) : IO Unit := do
@@ -214,9 +214,9 @@ def safeFromDeadlock (n : Nat := 1000000) : IO Unit := do
 -- #eval safeFromDeadlock
 ```
 
-## Why this is Better
+## 为什么这样更好
 
-- *No Waiting:* {lean}`IO.bindTask` doesn't make a chef stand still. It tells the shop manager to handle the hand-off later.
-- *Thread Recycling:* As soon as the first part of the task is done, the *Worker Thread* is released. It can immediately go back to the pool to work on the next task or a sub-task.
-- *Efficiency:* This allows you to handle thousands of tasks even if you only have a few CPU cores, because no thread is ever wasted just "sitting and waiting."
+- *无需等待：* {lean}`IO.bindTask` 不会让厨师站着不动。它让店经理稍后处理这次交接。
+- *线程回收：* 一旦任务的第一部分完成，*工作线程*就会被释放。它可以立即回到线程池去处理下一个任务或子任务。
+- *高效：* 这让你即便只有少数几个 CPU 核心，也能处理成千上万个任务，因为没有任何线程会因单纯“坐着等待”而被浪费。
 

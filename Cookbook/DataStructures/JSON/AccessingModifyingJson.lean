@@ -8,21 +8,21 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Accessing and Modifying JSON" =>
+#doc (Manual) "访问与修改 JSON" =>
 
 ::: contributors
 :::
 
-# Reading values from JSON
+# 从 JSON 读取值
 
 %%%
 tag := "accessing-json"
 number := false
 %%%
 
-{index}[Reading values from JSON]
+{index}[从 JSON 读取值]
 
-To read values from a {lean}`Json` object, you can use specialized helper functions like {lean}`Json.getObjValAs?` which attempt to retrieve and convert a value to a specific Lean type.
+要从 {lean}`Json` 对象读取值，你可以使用像 {lean}`Json.getObjValAs?` 这样的专用辅助函数，它会尝试取出一个值并把它转换为特定的 Lean 类型。
 
 ```lean
 def getAge (j : Json) : Except String Nat :=
@@ -39,7 +39,7 @@ def getJsonValue (j : Json) (key : String) : Json :=
 #eval getJsonValue (json% { "name": "Bob", "age": 7 }) "age"
 ```
 
-To get all the keys in a {lean}`Json` object, you can simply match on the {lean}`Json.obj` constructor:
+要获取一个 {lean}`Json` 对象中的所有键，你只需对 {lean}`Json.obj` 构造子进行匹配：
 
 ```lean
 def getSortedKeys (j : Json) : List String :=
@@ -50,7 +50,7 @@ def getSortedKeys (j : Json) : List String :=
 #eval getSortedKeys (json% { apple: 1, "b": 2, cats: 3 })
 ```
 
-For more complex structures, you can use the {name}`fromJson?` class to decode the entire object at once:
+对于更复杂的结构，你可以使用 {name}`fromJson?` 类一次性解码整个对象：
 
 ```lean
 structure JsonUser where
@@ -68,20 +68,20 @@ def getUserName (j : Json) : String :=
   "age": 25, "isAdmin": false })
 ```
 
-# Modifying JSON Objects
+# 修改 JSON 对象
 
 %%%
 tag := "modifying-json"
 number := false
 %%%
 
-{index}[Modifying JSON objects]
+{index}[修改 JSON 对象]
 
-Since {lean}`Json` is an immutable inductive type, "modifying" it involves creating a new {lean}`Json` value based on the old one.
+由于 {lean}`Json` 是一个不可变的归纳类型，“修改”它其实是在旧值的基础上创建一个新的 {lean}`Json` 值。
 
-## 1. Direct Object Manipulation
+## 1. 直接操作对象
 
-If you know a {lean}`Json` value is an object, you can pattern match on {lean}`Json.obj` to access the underlying `RBMap`. You can then use methods like `insert` or `erase` and wrap the result back in {lean}`Json.obj`.
+如果你确知某个 {lean}`Json` 值是一个对象，可以对 {lean}`Json.obj` 进行模式匹配来访问底层的 `RBMap`。然后你可以使用像 `insert` 或 `erase` 这样的方法，并把结果重新包回 {lean}`Json.obj`。
 
 ```lean
 /-- Update or add the 'isAdmin' field -/
@@ -104,9 +104,9 @@ def stripAge (j : Json) : Json :=
 #eval stripAge (json% { "name": "Bob", "age": 42 })
 ```
 
-## 2. The Decode-Modify-Encode Pattern
+## 2. 解码—修改—编码模式
 
-For complex modifications, especially those involving nested data or collections, the most robust approach is to decode the JSON into a Lean structure, perform the update using Lean's powerful functional tools, and then re-encode it.
+对于复杂的修改，尤其是涉及嵌套数据或集合的修改，最健壮的做法是把 JSON 解码为一个 Lean 结构体，用 Lean 强大的函数式工具执行更新，然后再重新编码它。
 
 ```lean
 structure Endpoint where

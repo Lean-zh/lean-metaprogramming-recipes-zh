@@ -19,9 +19,9 @@ number := false
 ::: contributors
 :::
 
-{lean}`Json` is one of the most widely used data formats for representing structured data. Lean 4 provides a robust module for working with {lean}`Json`. You can find it under `import Lean.Data.Json`. This chapter covers how to create, manipulate, and persist {lean}`Json` data in Lean.
+{lean}`Json` 是表示结构化数据时使用最广泛的数据格式之一。Lean 4 提供了一个健壮的模块来处理 {lean}`Json`，你可以通过 `import Lean.Data.Json` 找到它。本章讲述如何在 Lean 中创建、操作并持久化 {lean}`Json` 数据。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.DataStructures.JSON.JsonObject}
 {include 1 Cookbook.DataStructures.JSON.AccessingModifyingJson}

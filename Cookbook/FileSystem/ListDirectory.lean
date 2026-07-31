@@ -8,27 +8,28 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Listing Directory" =>
+#doc (Manual) "列出目录" =>
 
 %%%
+tag := "listing-a-directory"
 htmlSplit := .never
 %%%
 
 ::: contributors
 :::
 
-# Listing contents of a directory
+# 列出目录的内容
 
 %%%
 tag := "list-directory"
 number := false
 %%%
 
-{index}[Listing contents of a directory]
+{index}[列出目录的内容]
 
-To list the contents of a directory, we use the {lean}`System.FilePath.readDir` method on a
-{lean}`System.FilePath`. This returns an {lean}`Array IO.FS.DirEntry` containing
-information about each file and subdirectory.
+要列出一个目录的内容，我们对一个 {lean}`System.FilePath` 使用 {lean}`System.FilePath.readDir` 方法。
+它返回一个 {lean}`Array IO.FS.DirEntry`，其中包含
+关于每个文件和子目录的信息。
 
 ```lean
 def listDirectory (path : System.FilePath) : IO Unit := do
@@ -37,23 +38,23 @@ def listDirectory (path : System.FilePath) : IO Unit := do
     IO.println entry.fileName
 ```
 
-Each {lean}`IO.FS.DirEntry` contains the `fileName` (the name of the file or
-directory itself) and its full `path`. 
+每个 {lean}`IO.FS.DirEntry` 都包含 `fileName`（文件或
+目录本身的名称）及其完整的 `path`。
 
-# Recursive directory traversal
+# 递归遍历目录
 
 %%%
 tag := "recursive-directory-traversal"
 number := false
 %%%
 
-{index}[Recursive directory traversal]
-{index}[Walking a directory tree]
+{index}[递归遍历目录]
+{index}[遍历目录树]
 
-If you want to list all files in a directory tree recursively, you can use the
-{lean}`System.FilePath.walkDir` method.
+如果你想递归地列出一个目录树中的所有文件，可以使用
+{lean}`System.FilePath.walkDir` 方法。
 
-*Note*: You can use {lean}`System.FilePath.isDir` method to check if an entry is a directory.
+*注*：你可以用 {lean}`System.FilePath.isDir` 方法检查一个条目是否是目录。
 
 ```lean
 def listAllFiles (path : System.FilePath) : IO Unit := do
@@ -62,11 +63,11 @@ def listAllFiles (path : System.FilePath) : IO Unit := do
     IO.println file
 ```
 
-## Filtering during traversal
+## 遍历时进行过滤
 
-{lean}`System.FilePath.walkDir` takes an optional `enter` parameter—a function that
-decides whether to recurse into a given subdirectory. This is useful for
-skipping large or irrelevant folders like `.git` or `.lake`.
+{lean}`System.FilePath.walkDir` 接受一个可选的 `enter` 参数——一个函数，
+用来决定是否递归进入某个给定的子目录。这对于
+跳过像 `.git` 或 `.lake` 这样庞大或无关的文件夹很有用。
 
 ```lean
 def listSourceFiles (path : System.FilePath) : IO Unit := do

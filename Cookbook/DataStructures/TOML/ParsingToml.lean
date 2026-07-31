@@ -11,7 +11,7 @@ open Lean Elab Meta Lake Toml Lean Parser Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Parsing TOML" =>
+#doc (Manual) "解析 TOML" =>
 
 %%%
 tag := "parsing-toml"
@@ -21,9 +21,9 @@ number := false
 ::: contributors
 :::
 
-{index}[Parsing TOML]
+{index}[解析 TOML]
 
-To parse a TOML string, you first use the TOML parser to get  a {lean}`Syntax` object, and then elaborate that syntax into a {name}`Lake.Toml.Table`. A general purpose TOML parser function example that you can use in your own code is given below. It takes a TOML string as input and returns a {name}`Table` or throws an error if parsing fails.
+要解析一个 TOML 字符串，你首先用 TOML 解析器得到一个 {lean}`Syntax` 对象，然后把该语法精译（elaboration）为一个 {name}`Lake.Toml.Table`。下面给出一个通用的 TOML 解析器函数示例，你可以在自己的代码中使用。它以一个 TOML 字符串作为输入，返回一个 {name}`Table`，若解析失败则抛出错误。
 
 ```lean
 def parseToml (input : String) : CoreM Table := do
@@ -45,7 +45,7 @@ def egTomlParse : CoreM String := do
 #eval egTomlParse
 ```
 
-The above {name}`parseToml` you can use for nested TOML structures as well. You can use {name}`ppTable` to pretty-print the parsed {name}`Table` back into a TOML string, like below:
+上面的 {name}`parseToml` 同样可以用于嵌套的 TOML 结构。你可以用 {name}`ppTable` 把解析得到的 {name}`Table` 漂亮打印回一个 TOML 字符串，如下所示：
 
 ```lean
 def egNestedParse : CoreM String := do
@@ -69,5 +69,5 @@ role = \"user\"
 #eval egNestedParse
 ```
 
-More about Nested TOML handling in {ref "handling-nested-toml"}[Handling Nested TOML] section.
+关于嵌套 TOML 处理的更多内容，见 {ref "handling-nested-toml"}[处理嵌套 TOML] 一节。
 

@@ -14,7 +14,7 @@ open Std (HashMap)
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Trees" =>
+#doc (Manual) "树" =>
 
 %%%
 tag := "trees-intro"
@@ -24,9 +24,9 @@ number := false
 ::: contributors
 :::
 
-Trees are very important data structures in programming. This chapter covers basic definition of trees to specialized tree structures like Red-Black Trees, Binary Search Tree, etc.
+树是编程中非常重要的数据结构。本章从树的基本定义讲到红黑树、二叉搜索树等专门化的树结构。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.DataStructures.Trees.BinaryTree}
 {include 1 Cookbook.DataStructures.Trees.RBTree}
