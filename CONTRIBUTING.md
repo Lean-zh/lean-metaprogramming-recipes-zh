@@ -1,32 +1,35 @@
-# Contributing to Lean 4 (Meta)programming Cookbook
+# 为 Lean 4（元）编程 Cookbook 做贡献
 
-Thank you for your interest in contributing to the Lean 4 (Meta)programming Cookbook! We appreciate any help that makes this resource better for the community.
+感谢你参与 Lean 4（元）编程 Cookbook。修正一个错字、补充一段解释、增加一个配方，都能让这份资料更好用。
 
-## How to Contribute
+## 可以贡献什么
 
-There are many ways to contribute:
+- **翻译与校对**：翻译尚未完成的页面，校对技术含义、术语和中文行文。
+- **新增配方**：用简短、模块化的示例分享一种做法。
+- **改进现有配方**：修正错误，补充解释，或让代码适配当前 Lean 4 版本。
+- **改进文档**：修复链接、索引、构建说明和其他文档问题。
+- **报告问题**：在 GitHub Issues 中报告程序错误、译文错误或内容疏漏。
+- **提出建议**：若想增加新章节或进行较大调整，请先发起讨论。
 
-- **Add a New Recipe**: Share your knowledge by writing a concise, modular example.
-- **Improve Existing Recipes**: Fix typos, improve explanations, or update code to the latest Lean 4 version.
-- **Improving Documentation**: If you find any other documentation issues that could be improved, please feel free to contribute.
-- **Report Issues**: Found a bug or an error? Let us know in the GitHub issues.
-- **Feedback & Suggestions**: Have an idea for a new chapter? Start a discussion.
+## 开始之前
 
-## Getting Started
+1. 阅读[翻译与写作规范](STANDARDS.md)和[术语表](GLOSSARY.md)。若要新增或修改配方，还要阅读 [Cookbook 配方指南](COOKBOOK_GUIDELINES.md)。
+2. 从 `main` 创建分支，在本地完成修改。
+3. 运行完整构建和网页渲染：
 
-1. **Read the Guidelines**: Please read our [Cookbook Guidelines](COOKBOOK_GUIDELINES.md) for technical instructions on how to structure your recipe contribution.
-2. **Setup Locally**: Clone the repository and ensure you can build it.
    ```bash
    lake build lean-cookbook
-   lake exe lean-cookbook # to preview the documentation locally
+   lake exe lean-cookbook
    ```
-3. **Follow the Code of Conduct**: We expect all contributors to adhere to our [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Pull Request Process
+4. 打开 `_out/html-multi` 中受影响的页面，检查标题、正文、代码、链接与索引。
+5. 所有参与者都应遵守本项目的[行为准则](CODE_OF_CONDUCT.md)。
 
-1. Fork the repository and create your branch from `main`.
-2. Ensure your code builds and the documentation previews correctly.
-3. Submit a pull request with a clear description of your changes.
-4. Once reviewed and approved, your contribution will be merged.
+## Pull Request 流程
 
-We look forward to your contributions!
+1. Fork 本仓库，并从 `main` 创建工作分支。
+2. 一个 PR 只处理一类工作。上游同步、正文翻译、中文润色和代码修复尽量分开提交。
+3. 在 PR 说明中列出修改范围、构建结果以及仍需审校的地方。
+4. CI 通过且评审完成后，维护者会合并改动。
+
+翻译章节时请在 [PROGRESS.md](PROGRESS.md) 中同步更新状态。不要仅凭“英文已替换”标为完成；完成状态还要求术语校对、构建、渲染和页面抽查全部通过。

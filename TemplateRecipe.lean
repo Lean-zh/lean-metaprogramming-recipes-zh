@@ -6,30 +6,30 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "title" =>
+#doc (Manual) "配方标题" =>
 
 %%%
 tag := "similar-to-title"
 number := false
--- Optional: If you don't want the recipe to be split into multiple subpages, because of depth.
-htmlSplit := .never 
+-- 可选：若不想让配方因标题层级而拆成多个子页面，请保留这一项。
+htmlSplit := .never
 %%%
 
 ::: contributors
 :::
 
-{index}[Similar to Tag/Title]
+{index}[与标签或标题对应的索引词]
 
-# Your recipe subheaders, etc
+# 配方的小标题
 
 %%%
 tag := "a-different-tag-if-needed"
 number := false
 %%%
 
-{index}[Different Index if Needed]
+{index}[需要时使用不同的索引词]
 
-Write here about your recipe...
+在这里说明配方要解决的问题……
 
 ```lean
 def exampleRecipe (args : String) : IO Unit :=
@@ -37,6 +37,6 @@ def exampleRecipe (args : String) : IO Unit :=
   IO.println s!"This is a template recipe! {args}"
 ```
 
-Some explanation about the recipe, how to use it, why the `Type` used is important, explain to a kid, but don't go into too much theory, just enough to understand the recipe. Refer other sources if needed.
+说明这段代码如何使用、为什么这里的 `Type` 重要，以及读者容易踩到哪些坑。解释应当足够理解配方，但不要展开成大段理论；需要更多背景时链接到相应资料。
 
-Happy cooking Lean4 recipes!
+配方写完后，请运行完整构建并检查生成页面。

@@ -218,7 +218,7 @@ window.addEventListener('load', () => {
     // Copy button
     const copyButton = document.createElement('button');
     copyButton.className = 'copy-button';
-    copyButton.title = 'Copy to clipboard';
+    copyButton.title = '复制到剪贴板';
     const copyIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="pointer-events: none;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
     const checkIcon = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
     copyButton.innerHTML = copyIcon;
@@ -233,16 +233,16 @@ window.addEventListener('load', () => {
     });
 
     // Try it button
-    const header = "import Lean\nopen Lean Meta Elab Tactic Term Command\n-- If any imports are missing from the default header, please manually add them.\n\n";
+    const header = "import Lean\nopen Lean Meta Elab Tactic Term Command\n-- 如果默认头部缺少所需 import，请手动补上。\n\n";
     const url = 'https://live.lean-lang.org/#code=' + encodeURIComponent(header + code);
     const tryItButton = document.createElement('a');
     tryItButton.href = url;
     tryItButton.target = '_blank';
     tryItButton.className = 'try-it-button';
-    tryItButton.title = 'Open in Lean 4 Web Editor';
+    tryItButton.title = '在 Lean 4 在线编辑器中打开';
     tryItButton.innerHTML = `
       <svg width="12" height="12" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
-      <span>Try it!</span>
+      <span>运行</span>
     `;
 
     actions.appendChild(copyButton);

@@ -159,12 +159,12 @@ block_extension contributorsBlock (authors : List (String × String)) (file : Op
         | _ => []
       if authors.isEmpty then pure .empty
       else
-        let repo := "https://github.com/leanprover-cookbook/lean-metaprogramming-recipes"
+        let repo := "https://github.com/Lean-zh/lean-metaprogramming-recipes-zh"
         let links := authors.map fun (name, email) =>
           let url := s!"{repo}/commits?author={email}"
           .tag "a" #[("href", url), ("class", "contributor-link")] (.text true name)
         
-        let mut content := #[.tag "strong" #[] (.text true "Contributors: ")]
+        let mut content := #[.tag "strong" #[] (.text true "贡献者：")]
         for i in [0:links.length] do
           content := content.push links[i]!
           if i < links.length - 1 then
