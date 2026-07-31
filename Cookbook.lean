@@ -23,44 +23,34 @@ open Cookbook
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Lean 4 (Meta)programming Cookbook" =>
+#doc (Manual) "Lean 4（元）编程 Cookbook" =>
 
 %%%
 tag := "lean-metaprogramming-cookbook"
 number := false
 %%%
 
-Welcome to the *Lean 4 (Meta)programming Cookbook*, a collection of recipes and examples for
-programming and metaprogramming in Lean 4. This cookbook provides a wide range of recipes, from basic to advanced which you can easily understand and integrate in your code.
+欢迎阅读 *Lean 4（元）编程 Cookbook*。本书收集 Lean 4 编程与元编程的代码配方和示例，从基础操作到较复杂的用法都有覆盖。每个配方都尽量保持独立，便于理解后放进自己的代码。
 
-If want to write metaprogramming code in Lean 4, this is the right
-place to find the recipes you need. We have organized the recipes into
-different chapters, each focusing on a specific aspect of
-metaprogramming in Lean 4.
+各章按主题组织。你需要编写 Lean 4 元编程代码时，可以直接找到对应章节，再从中查找配方。
 
-If you are new to Lean 4, we recommend you to start with the basics
-of Lean 4 and use this resource to help you get started. You can find
-the official documentation and tutorials on the Lean 4 website.
+如果你刚接触 Lean 4，请先学习 Lean 的基础语法和证明方法。Lean 4 官方网站提供语言文档与教程，本书则适合在掌握基础后按需查阅。
 
-*Important Note*
+*重要说明*
 
-The recipes in this cookbook are NOT meant to replace other resources like Theorem Proving in Lean, Mathematics in Lean, and other Lean 4 references, unless needed for specific topics. This cookbook is meant to cover up the holes which other places doesn't have and are more programming oriented. We may link to other resources whenever necessary to avoid duplication of content or to provide additional conceptual context. We recommend you to go through the basics of Lean 4 from those resources and use this cookbook as a reference for specific recipes and examples.
+本书不代替 *Theorem Proving in Lean*、*Mathematics in Lean* 等系统资料。它主要补充这些资料较少涉及的编程内容，并在需要背景知识时链接到相应来源，以免重复讲解。建议先用系统教材打好 Lean 4 基础，再把本书作为具体配方和示例的参考手册。
 
-We hope that this resource will be helpful for both beginners
-and experienced programmers looking to deepen their understanding of
-Lean 4.
+*更多信息*
 
-*More Information*
+如果你想分享自己的配方或示例，请阅读[如何编写配方](How-to-build-a-Recipe/)。
 
-Check out [How to build a Recipe](How-to-build-a-Recipe/) to contribute to the cookbook if you want to share your own recipes or examples.
+感谢所有帮助本书成长的[贡献者（查看完整名单）](Cookbook-Contributors/)。
 
-Thanks to all the [contributors(view full list)](Cookbook-Contributors/) who have helped make this cookbook possible.
-
-*Other References*
-- [Lean 4 Language Reference](https://lean-lang.org/doc/reference/latest/)
+*其他参考资料*
+- [Lean 4 语言参考手册](https://lean-lang.org/doc/reference/latest/)
 - [Theorem Proving in Lean](https://leanprover.github.io/theorem_proving_in_lean4/)
 - [Mathematics in Lean](https://leanprover-community.github.io/mathematics_in_lean/)
-- [Mathlib](https://leanprover-community.github.io/mathlib4_docs/)
+- [Mathlib 文档](https://leanprover-community.github.io/mathlib4_docs/)
 
 
 

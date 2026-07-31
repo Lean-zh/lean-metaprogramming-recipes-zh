@@ -1,34 +1,41 @@
-# (Meta)programming in Lean4 Cookbook
+# Lean 4（元）编程 Cookbook
 
-A cookbook containing recipes(code snippets) for both programming and metaprogramming in Lean4. Visit the [website](https://leanprover-cookbook.github.io/lean-metaprogramming-recipes) to read the cookbook.
+这是 [Lean 4 (Meta)programming Cookbook](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes) 的简体中文译本，收录 Lean 4 编程与元编程中可直接复用的代码配方。
 
-This repository does not contain any recipes for proving in mathematics, it is only focused on (meta)programming in Lean4.
+在线阅读：<https://lean-zh.github.io/lean-metaprogramming-recipes-zh/>
 
-> [!Important]
-> This repository is under development and we are working hard to add more recipes to it.
-> If you have any recipes that you would like to contribute, please feel free to create a pull request.
+> 本项目仍在翻译和校对。进度见 [PROGRESS.md](PROGRESS.md)。
 
-> [!Note]
-> This repository is not a conceptual book but a recipe book, hence it may not always explain concepts in full depth from basics. It is just a collection of recipes that can help you in your coding journey. Wherever required we will mention recipe related concepts. It is recommended that you clear your Lean basics from other books and resources of Lean4.
+这不是一本从基础概念讲起的线性教材。它更像一册按问题查阅的配方集：需要操作语法、表达式、策略、文件系统、JSON 或 TOML 时，可以找到一段能够运行的最小代码，再按自己的项目改造。如果你刚接触 Lean，建议先阅读《Theorem Proving in Lean》《Functional Programming in Lean》或《Mathematics in Lean》，再把本书当作参考资料使用。
 
-## Motivation for Cookbook
+本书只讨论 Lean 4 的编程与元编程，不收录数学定理证明配方。
 
-It's like a cheatsheet, IT IS VERY USEFUL!
+## 本地构建
 
-## Getting Started
+项目固定使用 `lean-toolchain` 与 `lake-manifest.json` 中记录的版本。首次构建会下载 Verso 等依赖。
 
-If you are new to Lean4 and (meta)programming, we recommend you to start with basics of Lean4 clearing your basics from resources like MIL, TPIL, FPIL, etc. This will help you understand the recipes in this repository better. You can also use this repository for learning purposes by seeing simple snippets and practically using them in your code.
+```bash
+lake build lean-cookbook
+lake exe lean-cookbook
+python3 -m http.server -d _out/html-multi
+```
 
-For the audience familiar with Lean4, you can directly visit the website, and search for the recipes that you are looking for. You can also contribute to the repository by adding new recipes or improving existing ones.
+随后访问 <http://localhost:8000/>。
 
-## Contributing
+## 参与翻译
 
-This repository is very much under development and we would welcome your contributions. This contributions must follow the [contributing guidelines](CONTRIBUTING.md) and your code should be specific format as mentioned in the [Cookbook guidelines](COOKBOOK_GUIDELINES.md).
+翻译前请阅读：
 
-Please create a pull request with your code snippet and we will review it as soon as possible.
+- [翻译与写作规范](STANDARDS.md)
+- [术语表](GLOSSARY.md)
+- [翻译进度](PROGRESS.md)
+- [上游同步说明](UPSTREAM.md)
+- [贡献指南](CONTRIBUTING.md)
 
-## Acknowledgements
+新增或修改配方时，还要遵守 [Cookbook 配方指南](COOKBOOK_GUIDELINES.md)。
 
-This is an initiative to help everyone learn metaprogramming in Lean4 and we would like to thank everyone from the Lean4 community who has contributed to this repository.
+## 版权与致谢
 
-This repository is built using Verso.
+原书由 Lean 社区贡献者共同维护，完整名单见上游仓库与本书贡献者页面。中文译本保留上游 Git 历史，并在此基础上记录译者贡献。
+
+源码沿用上游的 MIT License。`LICENSE` 为具有法律效力的英文原文。
