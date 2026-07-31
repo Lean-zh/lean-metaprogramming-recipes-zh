@@ -3,7 +3,7 @@ import Cookbook.Lean
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Index" =>
+#doc (Manual) "索引" =>
 
 %%%
 tag := "index"

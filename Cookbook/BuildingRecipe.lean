@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "How to build a Recipe" =>
+#doc (Manual) "如何编写配方" =>
 
 %%%
 tag := "building-recipe"
@@ -18,32 +18,40 @@ number := false
 ::: contributors
 :::
 
-{index}[How to build a Recipe]
+{index}[如何编写配方]
 
-This chapter demonstrates the standard layout and features available for cookbook entries. Make sure to visit the website to see how the documentation is rendered and to get a better sense of how to structure your recipe.
-You can use the template recipe  as a starting point.
+本章演示 Cookbook 配方的标准结构，以及配方中可以使用的文档功能。请同时查看网页中的渲染效果，这比只读源码更容易看清各部分的关系。仓库根目录的 `TemplateRecipe.lean` 可以直接作为起点。
 
-This cookbook is built using Verso, hence understanding how to write in Verso is essential. Please go through this page to get familiar with writing styled documentation in Verso. You can also refer other recipes for the same or checkout the [Verso Manual](https://verso-user-manual.netlify.app/) for more detailed information.
+本书使用 Verso 构建，因此编写配方前需要了解 Verso 的基本标记。以下内容概括本项目最常用的写法。需要完整说明时，请查阅 [Verso Manual](https://verso-user-manual.netlify.app/)，也可以参考已有配方的源码。
 
-A typical recipe should have the following structure:
-1. A simple readable title that clearly indicates the problem being solved.
-2. An introduction that gives a brief overview of the problem and the solution.
-3. A code snippet that demonstrates the solution.
-4. Any explanation required or referencing other resources for further reading.
-5. Any more follow up usecases of this solution in a subsection, for example, for reading a file, you can also mention on how to read a JSON, CSV, etc. filetypes. No need for another recipe for each filetype. Please do add Tags and Index to each of the subheader for easy referencing.
-6. Please do mention any other debugging tips, expected errors, further usage of the solution, etc.
+一个典型配方包含：
 
-You can find this template in the repository [here](https://github.com/leanprover-cookbook/lean-metaprogramming-recipes/blob/main/TemplateRecipe.lean).
+1. 简短、易读，并能清楚指出所解决问题的标题。
+2. 简要介绍问题和解决办法的开头。
+3. 展示解决办法的代码片段。
+4. 理解代码所需的解释，以及供进一步阅读的资料链接。
+5. 适合放在同一配方中的后续用法。例如介绍读取普通文件后，可以在小节中补充 JSON、CSV 等文件类型，而不必为每种类型另建配方。每个小标题都应设置 tag 和索引，方便引用。
+6. 调试技巧、预期错误和进一步用法。
 
-# Adding Sections
+模板源码见[这里](https://github.com/Lean-zh/lean-metaprogramming-recipes-zh/blob/main/TemplateRecipe.lean)。
 
-Use the `#` symbol for top-level section like below. Each chapter should start with a clear problem statement and a summary of the solution. Just like `Introduction` here.
+# 添加章节
 
-You can use `##` for subheaders to organize your content into sections. You can use `*` for a bolding - *Like this*.
+%%%
+tag := "adding-sections"
+%%%
 
-## Metadata and Tagging
+一级小节使用 `#`，如下所示。每个章节应从明确的问题陈述和解决办法概览开始，本节的写法就是一个例子。
 
-Inside each header/subheader you can define metadata like this-
+内容内部可以用 `##` 组织二级小节。用 `*` 标记强调文字，例如 *这样*。
+
+## 元数据与标签
+
+%%%
+tag := "metadata-and-tagging"
+%%%
+
+每个标题下面都可以定义元数据：
 
 ```
 %%%
@@ -53,26 +61,29 @@ htmlSplit := .never
 %%%
 ```
 
-This way, you can refer to this section later using the tag.
+以后可以通过 tag 引用这一节。
 
-*How to get the link to the tag?* - You can find the tag in the URL when you navigate to that section on the website after clicking on the header.
+*怎样取得 tag 对应的链接？* 在网页中点击标题并跳转到该节，浏览器 URL 中会出现这个 tag。
 
-- *Note 1*: The `htmlSplit := .never` is Optional and use only if you want to prevent the section from being split across multiple pages. Since this cookbook is built using Verso with `htmlDepth := 3`, till 3rd level of depth isn't reached, a `#` header will split the page into a subpage instead of keeping it in the same page. Thus to be sure you don't want any such breaking of page, add this line in your metadata.
+- *说明 1*：`htmlSplit := .never` 是可选项，只在不想把本节拆成多个页面时使用。本书的 Verso 配置为 `htmlDepth := 3`。在达到第三层深度之前，`#` 标题会生成子页面，而不是留在当前页面。如果确定不应分页，就在元数据中加入这一行。
+- *说明 2*：本书不是按固定顺序阅读的线性教材，而是可以直接跳到任意条目的参考手册，因此用 `number := false` 关闭编号。
 
-- *Note 2*: We use `number := false` to enforce that no numbering shuold happen since this cookbook is not particularly meant to be read in a linear order. It is meant to be read as a reference guide and readers can go where they want independent of previous chapters.
-
-
-# Formatting Text
+# 文本格式
 
 %%%
+tag := "formatting-text"
 htmlSplit := .never
 %%%
 
-A detailed information on formatting on Verso is explained at [Verso Markup](https://verso-user-manual.netlify.app/Verso-Markup/?terms=--verso#verso-markup) page. Read below for a consise summary of some of the most commonly used formatting options.
+Verso 的完整格式说明见 [Verso Markup](https://verso-user-manual.netlify.app/Verso-Markup/?terms=--verso#verso-markup)。下面只列出本书最常用的功能。
 
-## Adding inline Lean Code
+## 插入行内 Lean 代码
 
-You can include Lean code that is elaborated directly within the document. This is useful for small snippets. Please note that your lean code should follow the Lean syntax conventions of naming, casing variables, etc.
+%%%
+tag := "adding-inline-lean-code"
+%%%
+
+文档可以包含由 Lean 直接精译的代码，适合短小片段。代码仍应遵守 Lean 的命名、大小写等语法约定。
 
 ```lean
 def helloCookbook := "Welcome!"
@@ -80,38 +91,49 @@ def helloCookbook := "Welcome!"
 #eval helloCookbook
 ```
 
-## Interactive Symbols
+## 可交互符号
 
-To provide interactive features like hovers and type information for Lean symbols in your text, use the `{name}` and `{lean}` roles instead of plain backticks.
+%%%
+tag := "interactive-symbols"
+%%%
 
-*   *`{lean}`* `` `term` ``: Elaborates a full Lean expression (like `` {lean}`1 + 2` ``). It provides interactive info for every token in the expression.
+若希望正文中的 Lean 符号支持悬停信息和类型提示，请使用 `{name}` 与 `{lean}` role，而不是普通反引号。
 
-*   *`{name}`* `` `ConstName` ``: Resolves a global constant (like `` {name}`Nat` ``). It shows the docstring and type signature on hover.
+- *`{lean}`* `` `term` ``：精译一个完整的 Lean 表达式，例如 `` {lean}`1 + 2` ``。表达式中的每个 token 都会带有交互信息。
+- *`{name}`* `` `ConstName` ``：解析一个全局常量，例如 `` {name}`Nat` ``。悬停时显示其 docstring 和类型签名。
 
-*Syntax:*
+*写法：*
 
-The type `` {name}`Nat` `` is used for numbers. 
-An example term is `` {lean}`[1, 2].map (· + 1)` ``.
+数字使用类型 `` {name}`Nat` ``。
+示例项可以写成 `` {lean}`[1, 2].map (· + 1)` ``。
 
-*Effect:*
+*效果：*
 
-When rendered, hovering over {name}`Nat` will show its definition and docstring. Hovering over parts of {lean}`[1, 2].map (· + 1)` will show types for the list, the map function, and the lambda abstraction.
+渲染后，把鼠标悬停在 {name}`Nat` 上会看到它的定义和 docstring。悬停在 {lean}`[1, 2].map (· + 1)` 的不同部分，则会看到列表、`map` 函数和 lambda 抽象的类型。
 
-## Docstrings
+## Docstring
 
-Verso provides a way to include docstrings for Lean definitions directly in the documentation. This is done using the `{docstring}` role(see more information [here](https://verso.lean-lang.org/doc/latest/Manuals-and-Books/#docstrings).
+%%%
+tag := "docstrings"
+%%%
+
+Verso 可以通过 `{docstring}` role 把 Lean 定义的 docstring 直接嵌入文档。详细说明见[这里](https://verso.lean-lang.org/doc/latest/Manuals-and-Books/#docstrings)。
 
 ```
 {docstring Nat.add}
 ```
 
-which will look like this:
+渲染结果如下：
 
 {docstring Nat.add}
 
-## Errors and Warnings
+## 错误与警告
 
-If your code snippet will throw errors, you can indicate that using the usual `#guard_msgs` just above your code. The below example is taken from {ref "displaying-in-the-infoview"}[Displaying in the Infoview] recipe.
+%%%
+tag := "errors-and-warnings"
+%%%
+
+若代码片段应当报错，可以像普通 Lean 文件一样在代码前使用 `#guard_msgs`。下面的例子来自 {ref "displaying-in-the-infoview"}[在信息视图中显示内容]配方。
 
 ```
 def errorMessage' (msg : String) : CoreM Unit := do
@@ -122,7 +144,7 @@ def errorMessage' (msg : String) : CoreM Unit := do
 #eval errorMessage' "something went wrong"
 ```
 
-This will look like this:
+渲染结果如下：
 
 ```lean
 def errorMessage' (msg : String) : CoreM Unit := do
@@ -133,30 +155,45 @@ def errorMessage' (msg : String) : CoreM Unit := do
 #eval errorMessage' "something went wrong"
 ```
 
-## Cross-References
+## 交叉引用
 
-You can link to other sections using their tags like: `{ref "tag-name"}[link text]`.
+%%%
+tag := "cross-references"
+%%%
 
-An example would be ` {ref "building-recipe"}[Back to top] `. This would give effect as: {ref "building-recipe"}[Back to top].
+通过 tag 可以链接其他章节：`{ref "tag-name"}[链接文字]`。
 
-## Marginal Notes
+例如，源码 `` {ref "building-recipe"}[返回开头] `` 的效果是 {ref "building-recipe"}[返回开头]。
 
-You can add marginal notes that appear in the side margin like: `{margin}[Marginal text]`. This would give effect as: {margin}[Marginal notes are great for extra context.]
+## 边注
 
-## Indexing
+%%%
+tag := "marginal-notes"
+%%%
 
-To add a term to the index, use the `{index}` role. This will not render anything in the text but will add the entry to the generated index, like: `{index}[Term to index]`
+`{margin}[边注文字]` 会在页边显示补充内容，效果如下：{margin}[边注适合补充不应打断正文的背景。]
 
+## 索引
 
-# Contributor Section
+%%%
+tag := "indexing"
+%%%
 
-Every page at the top contains the contributors section, just below the `#doc (Manual) "Title" =>` line. These are automatically picked up from `git` and you don't have to do anything. Details on who is acknowledged as a contributor for that page is mentioned in [COOKBOOK\_GUIDELINES](../COOKBOOK_GUIDELINES.md) file. 
+用 `{index}` role 把术语加入索引。它不会在正文中显示内容，只会在生成的索引中增加条目，例如 `{index}[要索引的术语]`。
 
-Note that only once at the top of the page, you need to add the line below to show the contributors section.
+# 贡献者区块
+
+%%%
+tag := "contributor-section"
+%%%
+
+每个页面顶部都应在 `#doc (Manual) "标题" =>` 和元数据之后放置贡献者区块。贡献者信息由 `git` 自动读取，不需要手工填写。哪些贡献会进入页面署名，见 [COOKBOOK\_GUIDELINES](../COOKBOOK_GUIDELINES.md)。
+
+每页只添加一次：
 
 ```
 ::: contributors
 :::
 ```
 
-Verso follows a strict rule of where you can place the `:::` block. You cannot place this block above `%%%` block, it has to be below it. Hence it is advised to keep this contributor block at the top of the page, as mentioned above. If you have `%%%` block below `#doc` line, then contributor block should be below the `%%%` block. See other recipes for examples.
+Verso 对 `:::` 区块的位置有严格要求：它不能放在 `%%%` 元数据之前。如果 `#doc` 后面紧接元数据，贡献者区块必须放在元数据之后。已有配方可以作为参考。
