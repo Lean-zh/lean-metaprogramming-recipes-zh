@@ -34,7 +34,7 @@ partial def splitAnds (e: Expr) : List Expr :=
   | none => [e]
 ```
 
-为了看到这个函数的实际效果，我们写一个精译器，它在证明过程中获取主目标并把它传给 `matchNatLe`（关于如何用精译器编写策略见 {ref "viewing-closing-goals"}[查看与关闭目标]，关于如何在信息视图中显示信息见 {ref "displaying-in-the-infoview"}[在信息视图中显示]）。
+为了看到这个函数的实际效果，我们写一个精译器，它在证明过程中获取主目标并把它传给 `splitAnds`（关于如何用精译器编写策略见 {ref "viewing-closing-goals"}[查看与关闭目标]，关于如何在信息视图中显示信息见 {ref "displaying-in-the-infoview"}[在信息视图中显示]）。
 
 ```lean
 elab "splitAnds" : tactic => do
@@ -63,6 +63,6 @@ example: (123 ≤ 234) ∧ (234 ≤ 345) ∧
 
 如上所述，还有若干其他识别器，可用来检查一个表达式是否匹配某个模式并提取相关的子表达式。也有相关的布尔函数，它们检查一个表达式是否匹配某个模式，但不提取子表达式。
 
-例如，函数 {lean}`Expr.isLambda` 检查一个表达式是否是 lambda 抽象并提取该 lambda 的主体。函数 {lean}`Expr.isForall` 检查一个表达式是否是全称量化并提取该量化的主体。函数 {lean}`Expr.isAppOfArity` 检查一个表达式是否是某个函数带一定数量参数的应用并提取该应用的参数。我们还有匹配器 {lean}`Expr.eq?`、{lean}`Expr.const?`、{lean}`Expr.prod?` 等，它们检查一个表达式是否为某种形式并提取相关的子表达式。
+例如，函数 {lean}`Expr.isLambda` 检查一个表达式是否是 λ 抽象并提取该 λ 抽象的主体。函数 {lean}`Expr.isForall` 检查一个表达式是否是全称量化并提取该量化的主体。函数 {lean}`Expr.isAppOfArity` 检查一个表达式是否是某个函数带一定数量参数的应用并提取该应用的参数。我们还有匹配器 {lean}`Expr.eq?`、{lean}`Expr.const?`、{lean}`Expr.prod?` 等，它们检查一个表达式是否为某种形式并提取相关的子表达式。
 
 你可以在 [Lean 4 文档](https://leanprover-community.github.io/mathlib4_docs/Lean/Util/Recognizers.html)中找到识别器的完整列表。

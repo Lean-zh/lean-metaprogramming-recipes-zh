@@ -40,7 +40,7 @@ number := false
 ```lean
 declare_syntax_cat mySyntax
 ```
-该类别的新自定义规则通过 `syntax <my-syntax-rule> : mySyntax` 添加。当 Lean 的解析器遇到 `<my-syntax-rule>` 时，会按照 `mySyntax` 规则来解析它。例如，你可以在 mySyntax 中定义一个像 `<p> … </p>`（内部含一个字符串）的 HTML 段落块，它会被解析为 `mySyntax`。
+该类别的新自定义规则通过 `syntax <my-syntax-rule> : mySyntax` 添加。当 Lean 的解析器遇到 `<my-syntax-rule>` 时，会按照 `mySyntax` 规则来解析它。例如，你可以在 `mySyntax` 中定义一个像 `<p> … </p>`（内部含一个字符串）的 HTML 段落块，它会被解析为 `mySyntax`。
 
 ```lean
 syntax "<p>" str "</p>" : mySyntax
@@ -81,7 +81,7 @@ def liTerm : TSyntax `listItem → MacroM Syntax.Term
 我们来拆解 `liTerm` 函数的类型签名：
 - {lean}`` TSyntax `listItem `` 确保该函数的输入严格属于我们刚刚定义的 `listItem` 类别。
 - `liTerm` 的输出是一个表示 Lean 项的语法（{name}`Syntax.Term`），包裹在 {name}`MacroM` 单子里。宏展开需要由 {name}`MacroM` 提供的上下文。
-- 如果函数收到不匹配我们期望的 `<li>` 模式的语法，它会通过抛出 {name}`Macro.throwUnsupported` 错误安全地失败。
+- 如果输入语法不匹配预期的 `<li>` 模式，函数会抛出 {name}`Macro.throwUnsupported` 错误并安全退出。
 
 ```lean
 macro_rules

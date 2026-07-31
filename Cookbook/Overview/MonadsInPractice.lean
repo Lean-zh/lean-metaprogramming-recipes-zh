@@ -22,7 +22,7 @@ htmlSplit := .never
 
 # 实践中的单子：`MacroM`、`CoreM`、`MetaM`、`TermElabM` 与 `TacticM`
 
-在 Lean 中做元编程，通常都要和所谓的_单子_（monad）打交道。这里不打算解释单子，而是给出相关单子 `MacroM`、`CoreM`、`MetaM`、`TermElabM` 和 `TacticM` 的一个简化的、卡通式的说明。
+在 Lean 中做元编程，通常都要和所谓的_单子_（monad）打交道。这里不解释单子，只给出 `MacroM`、`CoreM`、`MetaM`、`TermElabM` 和 `TacticM` 这些相关单子的简化示意。
 
 ## 状态单子
 
@@ -30,7 +30,7 @@ htmlSplit := .never
 
 ## 单子层级结构
 
-进一步细化来看，这些单子构成一个层级：_较高_的单子在较低的单子之上，附加了*额外的*状态。于是 `MetaM α` 在 `Core.State` 之外还有状态 `Meta.State`，`TermElabM α` 在 `Meta.State` 和 `Core.State` 之外还有状态 `TermElab.State`。它们之上是 `TacticM α`，它在 `TermElab.State`、`Meta.State` 和 `Core.State` 之外还有状态 `Tactic.State`。所以当我们使用 `TacticM α` 时，可以访问策略状态、项精译状态、meta 状态和 core 状态。当我们使用 `MetaM α` 时，可以访问 meta 状态和 core 状态，但不能访问项精译状态或策略状态。使用较高的单子时，我们可以使用所有较低单子的函数。
+进一步细化来看，这些单子构成一个层级：_较高_的单子在较低的单子之上，附加了*额外的*状态。于是 `MetaM α` 在 `Core.State` 之外还有状态 `Meta.State`，`TermElabM α` 在 `Meta.State` 和 `Core.State` 之外还有状态 `TermElab.State`。它们之上是 `TacticM α`，它在 `TermElab.State`、`Meta.State` 和 `Core.State` 之外还有状态 `Tactic.State`。所以当我们使用 `TacticM α` 时，可以访问策略状态、项精译状态、`Meta.State` 状态和 `Core.State` 状态。当我们使用 `MetaM α` 时，可以访问 `Meta.State` 状态和 `Core.State` 状态，但不能访问项精译状态或策略状态。使用较高的单子时，我们可以使用所有较低单子的函数。
 
 当我们只处理 Syntax 时，使用单子 `MacroM α`，它的状态是 `Macro.State`。它不属于上述层级。
 

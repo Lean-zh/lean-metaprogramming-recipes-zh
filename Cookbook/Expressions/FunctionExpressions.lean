@@ -6,7 +6,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "（依值）函数与函数类型的表达式" =>
+#doc (Manual) "函数、依值函数与函数类型的表达式" =>
 
 %%%
 tag := "expressions-for-functions"
@@ -18,11 +18,11 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[（依值）函数与函数类型的表达式]
+{index}[函数、依值函数与函数类型的表达式]
 
-# 用 λ 表达式定义函数
+# 用 λ 抽象定义函数
 
-假设我们想为一个函数定义表达式，该函数接受一个自然数 `n` 并返回 `n + n`。不建议直接用 lambda 表达式的构造子 `Expr.lam` 来构建表达式，因为 Lean 的卫生（hygiene）机制会修改该表达式。不过，Lean 提供了引入局部变量并构建 lambda 表达式的便捷方式，即 `withLocalDeclD`（或 `withLocalDecl`）和 `mkLambdaFVars`。下面是我们定义倍增函数表达式的方法：
+假设我们想为一个函数定义表达式，该函数接受一个自然数 `n` 并返回 `n + n`。不建议直接用 λ 抽象的构造子 `Expr.lam` 来构建表达式，因为 Lean 的卫生（hygiene）机制会修改该表达式。不过，Lean 提供了引入局部变量并构建 λ 抽象的便捷方式，即 `withLocalDeclD`（或 `withLocalDecl`）和 `mkLambdaFVars`。下面是我们定义倍增函数表达式的方法：
 
 ```lean
 open Lean Meta Elab
@@ -33,7 +33,7 @@ def doubleExpr : MetaM Expr :=
     mkLambdaFVars #[n] double
 ```
 
-函数 `withLocalDeclD` 有三个参数：局部变量的名字、它的类型（此处为 `Nat`），以及一个把新创建的局部变量作为参数的续延函数。在续延内部，我们可以用 `mkAppM` 把加法函数应用到 `n` 和 `n` 上，从而构建 lambda 表达式的主体。最后，我们用 `mkLambdaFVars` 创建一个对局部变量 `n` 进行抽象的 lambda 表达式。
+函数 `withLocalDeclD` 有三个参数：局部变量的名字、它的类型（此处为 `Nat`），以及一个把新创建的局部变量作为参数的续延函数。在续延内部，我们可以用 `mkAppM` 把加法函数应用到 `n` 和 `n` 上，从而构建 λ 抽象的主体。最后，我们用 `mkLambdaFVars` 创建一个对局部变量 `n` 进行抽象的 λ 抽象。
 
 为了说明如何使用这个表达式，我们可以写一个精译器（见 {ref "elaboration-extending-syntax"}[精译]），让我们能在项位置使用它：
 

@@ -109,7 +109,7 @@ tag := "interactive-symbols"
 
 *效果：*
 
-渲染后，把鼠标悬停在 {name}`Nat` 上会看到它的定义和 docstring。悬停在 {lean}`[1, 2].map (· + 1)` 的不同部分，则会看到列表、`map` 函数和 lambda 抽象的类型。
+渲染后，把鼠标悬停在 {name}`Nat` 上会看到它的定义和 docstring。悬停在 {lean}`[1, 2].map (· + 1)` 的不同部分，则会看到列表、`map` 函数和 λ 抽象的类型。
 
 ## Docstring
 

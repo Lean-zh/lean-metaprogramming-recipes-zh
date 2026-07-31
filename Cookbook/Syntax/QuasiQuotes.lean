@@ -24,7 +24,7 @@ htmlSplit := .never
 
 处理语法时，我们几乎总是使用_准引用_（quasi-quotation），它是创建和匹配语法的便捷方式。准引用是形如 `` `(<syntax>) `` 或更一般的 `` `(<category>| <syntax>) `` 的语法表示。这里的 `category` 可以是例如 `command` 或 `tactic`。如果省略类别，则默认为 `term`。我们也可以用一个解析器代替类别。
 
-使用准引用构造表达式只能在具备 `Lean.MonadQuotation` 的单子中进行，元编程单子都属于此类。它们既可以表示语法，也可以表示_有类型语法_（typed syntax）。因此，下面这些表达式都定义了命令的语法：
+使用准引用构造语法只能在具备 `Lean.MonadQuotation` 的单子中进行，元编程单子都属于此类。它们既可以表示语法，也可以表示_有类型语法_（typed syntax）。因此，下面这些表达式都定义了命令的语法：
 
 ```lean
 def egCommand : Lean.CoreM Lean.Syntax.Command := do

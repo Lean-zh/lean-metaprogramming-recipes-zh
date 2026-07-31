@@ -25,7 +25,7 @@ htmlSplit := .never
 
 这里介绍的函数依赖于 {name}`MessageData`，它让你能够记录富文本和表达式。为了方便地构造 {name}`MessageData` 对象，Lean 提供了 `m!` 插值字符串宏，它能把纯文本和 Lean 项无缝组合成信息视图可以渲染的格式。
 
-这些日志函数并不直接接受任意项。要在信息视图中打印某个东西，Lean 必须知道如何把它转换成 {name}`MessageData`，通常是通过 {name}`ToMessageData` 的一个实例。很多情况下这些实例是现成的。例如，一个 {name}`ToFormat` 实例会自然导出一个 {name}`ToMessageData` 实例，而一个 {name}`ToString` 实例又可以用来构造一个 {name}`ToFormat` 实例。
+这些日志函数并不直接接受任意项。要在信息视图中打印某个东西，Lean 必须知道如何把它转换成 {name}`MessageData`，通常是通过 {name}`ToMessageData` 的一个实例。很多情况下这些实例是现成的。例如，`ToFormat` 实例可以自动提供 `ToMessageData` 实例，而 `ToString` 实例又可用于构造 `ToFormat` 实例。
 
 像 {name}`Nat` 这样的内置类型已经有了 {name}`ToMessageData` 实例，所以 ` m!"The number is {42}" ` 开箱即用。对于自定义类型，你需要告诉 Lean 它应该如何在信息视图中显示：
 
@@ -47,7 +47,7 @@ def showPoint : MetaM Unit := do
 
 # `logInfo`、`logWarning` 与 `logError`
 
-三个主要的日志函数都是单子式的，最常用在 {name}`CoreM`、{name}`MetaM`、{name}`TermElabM` 和 {name}`TacticM` 单子中。
+三个主要的日志函数都在单子中运行，最常用在 {name}`CoreM`、{name}`MetaM`、{name}`TermElabM` 和 {name}`TacticM` 单子中。
 
 与 {name}`Lean.throwError` 不同，这些日志函数都不会中断或终止执行。它们只是向信息视图发送一条消息，并让程序继续运行。
 
@@ -55,7 +55,7 @@ def showPoint : MetaM Unit := do
 
 {index}[`logInfo`]
 
-{name}`logInfo` 在信息视图中显示标准的信息类消息。由于它是单子式的，可以用在策略、命令以及其他精译上下文中。
+{name}`logInfo` 在信息视图中显示标准的信息类消息。由于它在单子中运行，可以用在策略、命令以及其他精译上下文中。
 
 ```lean
 def message (msg: String) : MetaM Unit :=
@@ -64,7 +64,7 @@ def message (msg: String) : MetaM Unit :=
 #eval message "logInfo worked"
 ```
 
-下面是一个名为 `readGoal` 的策略示例，它用 {name}`getMainTarget` 获取当前目标的期望类型，然后配合 `m!` 宏使用 `logInfo`，直接在信息视图中漂亮地打印该目标。
+下面是一个名为 `readGoal` 的策略示例，它用 {name}`getMainTarget` 获取当前目标的期望类型，然后配合 `m!` 宏使用 `logInfo`，直接在信息视图中格式化打印该目标。
 
 ```lean
 elab "readGoal" : tactic => do
@@ -76,7 +76,7 @@ example : 2 + 3 = 5 := by
   rfl
 ```
 
-注意 `m!` 宏如何处理插值表达式：`m!"Current goal: {goal}"` 展开成一个 {name}`MessageData` 对象，其中既包含一个文本部分（`"Current goal: "`），又包含一个表达式部分（漂亮打印后的 `goal`）。{name}`logInfo` 接受这个对象并把它推送到信息视图。
+注意 `m!` 宏如何处理插值表达式：`m!"Current goal: {goal}"` 展开成一个 {name}`MessageData` 对象，其中既包含一个文本部分（`"Current goal: "`），又包含一个表达式部分（格式化打印后的 `goal`）。{name}`logInfo` 接受这个对象并把它推送到信息视图。
 
 ## {name}`Lean.logWarning`
 
