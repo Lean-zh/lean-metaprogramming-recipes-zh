@@ -4,7 +4,7 @@ import Cookbook.Infoview.DisplayingInTheInfoView
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Working with the Infoview" =>
+#doc (Manual) "使用信息视图" =>
 
 %%%
 tag := "working-with-the-infoview"
@@ -14,8 +14,8 @@ number := false
 ::: contributors
 :::
 
-In this chapter we collect recipes to explore the Lean Infoview. We cover how to display messages in the Infoview, how to use the Infoview to debug and to interact with the user.
+本章收集探索 Lean 信息视图（Infoview）的配方。我们会介绍如何在信息视图中显示消息，以及如何用信息视图进行调试并与用户交互。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.Infoview.DisplayingInTheInfoView}

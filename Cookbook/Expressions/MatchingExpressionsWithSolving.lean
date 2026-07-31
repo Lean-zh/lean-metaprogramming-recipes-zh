@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Pattern-Matching Expressions by Solving" =>
+#doc (Manual) "通过求解对表达式进行模式匹配" =>
 
 %%%
 tag := "matching-expressions-by-solving"
@@ -19,21 +19,21 @@ number := false
 :::
 
 
-{index}[Pattern-matching expressions by solving]
+{index}[通过求解对表达式进行模式匹配]
 
-In the recipe {ref "pattern-matching-expressions-directly"}[Pattern-matching expressions directly], we saw how to match expressions by checking their structure. However, this method is brittle as Lean may, for example, reduce expressions or unfold definitions, causing the structure to change and the match to fail.
+在配方 {ref "pattern-matching-expressions-directly"}[直接对表达式进行模式匹配]中，我们看到了如何通过检查表达式的结构来匹配表达式。然而，这种方法很脆弱，因为 Lean 可能会（例如）化简表达式或展开定义，导致结构改变、匹配失败。
 
-A more robust way to match expressions is to use Lean's *unification*. This is done by building an expression with _metavariables_ and using the {lean}`isDefEq` function to _solve_ for by unifying expressions. Here you should think of metavaiables like variables in mathematical equations (e.g., the variable `x` in the equation `2x+5=9`).
+一种更稳健的匹配表达式的方式是使用 Lean 的*合一*（unification）。做法是构建一个带_元变量_的表达式，并用 {lean}`isDefEq` 函数通过合一表达式来_求解_。这里你可以把元变量想象成数学方程中的变量（例如方程 `2x+5=9` 中的变量 `x`）。
 
 
 
-# Example : Inequalities between natural numbers
+# 例子：自然数之间的不等式
 
-Suppose we want to inspect a goal to see if it is an inequality of the form `a ≤ b`, where a and b are natural numbers. If it is, we want to extract those values (to illustrate, we print these to the Infoview). Because this involves creating and assigning metavariables (temporary placeholders), we need to work inside the {lean}`MetaM` monad.
+假设我们想检查一个目标，看它是否为 `a ≤ b` 形式的不等式，其中 a 和 b 是自然数。如果是，我们想提取这些值（为了说明，我们把它们打印到信息视图）。由于这涉及创建和赋值元变量（临时占位符），我们需要在 {lean}`MetaM` 单子内部工作。
 
-We will start by writing a function that takes an expression (`Expr`) as input. Its output will be an {lean}`Option (Expr × Expr)` wrapped inside the MetaM monad, allowing it to return the two sides of the inequality if a match is found, or none if it is not.
+我们先写一个以表达式（`Expr`）为输入的函数。它的输出是一个包裹在 MetaM 单子里的 {lean}`Option (Expr × Expr)`，如果找到匹配就返回不等式的两侧，否则返回 none。
 
-Therefore, the type signature of our function will be {lean}`Expr → MetaM (Option (Expr × Expr))`.
+因此，我们函数的类型签名将是 {lean}`Expr → MetaM (Option (Expr × Expr))`。
 
 ```lean
 def matchNatLe? (e: Expr) :
@@ -48,9 +48,9 @@ def matchNatLe? (e: Expr) :
     return none
 ```
 
-{lean}`mkFreshExprMVar` constructs a metavariable of the given type, here `nat`, where `nat` is an expression. This creates a blank hole that Lean can fill in later. The expression `isDefEq ineq e` checks whether the constructed expression ineq and the target expression e are definitionally equal. Crucially, as it checks for equality, it attempts to unify them by assigning concrete values from e to our blank metavariables a and b.
+{lean}`mkFreshExprMVar` 构造一个给定类型的元变量，这里是 `nat`，其中 `nat` 是一个表达式。这会创建一个 Lean 之后可以填入的空洞。表达式 `isDefEq ineq e` 检查所构造的表达式 ineq 与目标表达式 e 是否在定义上相等。关键在于，在检查相等的同时，它会尝试合一二者，把 e 中的具体值赋给我们的空元变量 a 和 b。
 
-Now, to see this function in action we write an elaborator that fetches the main goal during the proof and passes it to `matchNatLe` (see {ref "viewing-closing-goals"}[Viewing and Closing Goals] for how to write tactics using elaborators and {ref "displaying-in-the-infoview"}[Displaying in the Infoview] for how to display information in the Infoview).
+现在，为了看到这个函数的实际效果，我们写一个精译器，它在证明过程中获取主目标并把它传给 `matchNatLe`（关于如何用精译器编写策略见 {ref "viewing-closing-goals"}[查看与关闭目标]，关于如何在信息视图中显示信息见 {ref "displaying-in-the-infoview"}[在信息视图中显示]）。
 
 ```lean
 elab "matchNatLe?" : tactic => do

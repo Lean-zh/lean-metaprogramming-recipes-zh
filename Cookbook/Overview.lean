@@ -5,7 +5,7 @@ import Cookbook.Overview.MonadsInPractice
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "What is Metaprogramming?" =>
+#doc (Manual) "什么是元编程？" =>
 %%%
 tag := "overview"
 number := false
@@ -14,11 +14,11 @@ number := false
 ::: contributors
 :::
 
-Metaprogramming in Lean refers to the ability to write code that manipulates other code. As code is represented by strings, the simpleminded way to do metaprogramming is to manipulate strings. However, this is  very error-prone and not very powerful or efficient.
+Lean 中的元编程指编写操作其他代码的代码的能力。由于代码用字符串表示，最朴素的元编程方式就是直接操作字符串。但这样做非常容易出错，也不够强大和高效。
 
-Instead, in metaprogramming one manipulates the _internal representations_ of code. In Lean, there are two levels of internal representations of code: *Syntax* and *Expressions* (in most other languages one manipulates the *Abstract Syntax Tree*). The easier form of metaprogramming is to manipulate syntax (so called *Macro*s), and the more powerful form is to manipulate expressions. The recipes in this manual will cover both levels of metaprogramming, but most of the recipes will be at the level of expressions.
+因此，元编程操作的是代码的_内部表示_。在 Lean 中，代码的内部表示有两个层次：*语法*（Syntax）与*表达式*（Expressions）（在多数其他语言中操作的是*抽象语法树*）。较简单的元编程形式是操作语法（即所谓的*宏*），更强大的形式是操作表达式。本手册中的配方会覆盖这两个层次的元编程，但大多数配方都在表达式这一层。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.Overview.CodeSyntaxExpressions}
 {include 1 Cookbook.Overview.MonadsInPractice}

@@ -7,7 +7,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Quasi-Quotes: Creating and Matching Syntax" =>
+#doc (Manual) "准引用：创建与匹配语法" =>
 
 %%%
 tag := "quasi-quotes"
@@ -18,13 +18,13 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Quasi-Quotes: Creating and Matching Syntax]
+{index}[准引用：创建与匹配语法]
 
-# Quasi-Quotes
+# 准引用
 
-When working with syntax, we almost always use _quasi-quotes_, which are a convenient way to create and match syntax. Quasi-quotes are representations of syntax in the form `` `(<syntax>) `` or more generally `` `(<category>| <syntax>) ``. The `category` can be, for example, `command` or `tactic`. If the category is omitted, it defaults to `term`. We can use a parser in place of a category.
+处理语法时，我们几乎总是使用_准引用_（quasi-quotation），它是创建和匹配语法的便捷方式。准引用是形如 `` `(<syntax>) `` 或更一般的 `` `(<category>| <syntax>) `` 的语法表示。这里的 `category` 可以是例如 `command` 或 `tactic`。如果省略类别，则默认为 `term`。我们也可以用一个解析器代替类别。
 
-Constructions of expressions using quasi-quote can only be done in a monad with `Lean.MonadQuotation`, which includes the metaprogramming monads. They can represent either syntax or _typed syntax_. Thus, the following expressions all define syntax for commands:
+使用准引用构造表达式只能在具备 `Lean.MonadQuotation` 的单子中进行，元编程单子都属于此类。它们既可以表示语法，也可以表示_有类型语法_（typed syntax）。因此，下面这些表达式都定义了命令的语法：
 
 ```lean
 def egCommand : Lean.CoreM Lean.Syntax.Command := do
@@ -37,9 +37,9 @@ def egCommand'' : Lean.CoreM (Lean.TSyntax `command) := do
   `(command| example := "Hello World")
 ```
 
-## Quasi-quotes with interpolation
+## 带插值的准引用
 
-In the above examples, we exactly specified the syntax we wanted to create. However, we can also use _interpolation_ to create syntax that depends on variables. An expression beginning with `$` is an interpolation, and it can be used to insert the value of a variable into the syntax. For example, we can define a term that is the sum of two natural numbers as follows:
+在上面的例子中，我们精确指定了想要创建的语法。不过，我们也可以用_插值_（interpolation）来创建依赖于变量的语法。以 `$` 开头的表达式是一个插值，可以用来把某个变量的值插入到语法中。例如，我们可以按如下方式定义一个表示两个自然数之和的项：
 
 ```lean
 open Lean
@@ -49,11 +49,11 @@ def sumTerm (a b : Nat) : CoreM Syntax.Term := do
   `($aLit + $bLit)
 ```
 
-Here we used the function `Syntax.mkNatLit` that makes a syntax representing a natural number literal from a natural number.
+这里我们用了函数 `Syntax.mkNatLit`，它从一个自然数构造出一个表示自然数字面量的语法。
 
-## Matching syntax with quasi-quotes
+## 用准引用匹配语法
 
-We can also use quasi-quotes to match syntax. For example, we can define a function that checks if a given syntax is of the form `a + b` for some `a` and `b` and flips the order of `a` and `b` if it is:
+我们也可以用准引用来匹配语法。例如，我们可以定义一个函数，检查给定的语法是否为某个 `a` 和 `b` 的 `a + b` 形式，如果是，就交换 `a` 和 `b` 的顺序：
 
 ```lean
 def flipSum : Lean.Syntax.Term → CoreM Lean.Syntax.Term

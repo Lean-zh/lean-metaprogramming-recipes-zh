@@ -7,7 +7,7 @@ open Lean Meta
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Expressions from Function Applications" =>
+#doc (Manual) "从函数应用构造表达式" =>
 
 %%%
 tag := "expressions-from-function-applications"
@@ -19,15 +19,15 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Expressions from Function Applications]
+{index}[从函数应用构造表达式]
 
-# Constant Expressions
+# 常量表达式
 
-The simplest expressions are constants. These can be built using the {lean}`mkConst` function, which takes the name of a constant and returns an expression representing that constant. For example, ```mkConst ``Nat``` returns an expression representing the type of natural numbers.
+最简单的表达式是常量。它们可以用 {lean}`mkConst` 函数构建，该函数接受一个常量的名字，返回表示该常量的表达式。例如，```mkConst ``Nat``` 返回一个表示自然数类型的表达式。
 
-# Direct Application
+# 直接应用
 
-The simplest way to build an expression representing a function application is to use the {lean}`mkApp` function, which takes a function expression and an argument expression and returns an expression representing the application of the function to the argument. For example, we can build an expression for `1` as follows:
+构建表示函数应用的表达式，最简单的方式是使用 {lean}`mkApp` 函数，它接受一个函数表达式和一个参数表达式，返回一个表示把该函数应用到该参数的表达式。例如，我们可以按如下方式为 `1` 构建一个表达式：
 
 ```lean
 open Lean in
@@ -35,7 +35,7 @@ def oneExpr : Expr :=
   mkApp (mkConst ``Nat.succ) (mkConst ``Nat.zero)
 ```
 
-In case of functions with multiple arguments, we can use {lean}`mkAppN`, which takes a function expression and a list of argument expressions. For example, we can build an expression for `2` as follows:
+对于有多个参数的函数，我们可以使用 {lean}`mkAppN`，它接受一个函数表达式和一个参数表达式列表。例如，我们可以按如下方式为 `2` 构建一个表达式：
 
 ```lean
 open Lean in
@@ -43,11 +43,11 @@ def twoExpr : Expr :=
   mkAppN (mkConst ``Nat.add) #[oneExpr, oneExpr]
 ```
 
-# Function application with implicit arguments, typeclasses etc.
+# 带隐式参数、类型类等的函数应用
 
-While simple expressions can be built using {lean}`mkApp` and {lean}`mkAppN`, these functions do not handle implicit arguments, typeclass instances, universe levels, unification or other features of Lean's elaboration process. To build expressions that correctly handle these features, we can use the {lean}`mkAppM` function, which takes the name of a function and a list of argument expressions, and returns an expression representing the application of the function to the arguments, while correctly handling implicit arguments and typeclass instances.
+虽然用 {lean}`mkApp` 和 {lean}`mkAppN` 可以构建简单的表达式，但这些函数不处理隐式参数、类型类实例、宇宙层级、合一（unification）或 Lean 精译过程的其他特性。要构建正确处理这些特性的表达式，我们可以使用 {lean}`mkAppM` 函数，它接受一个函数的名字和一个参数表达式列表，返回一个表示把该函数应用到这些参数的表达式，同时正确处理隐式参数和类型类实例。
 
-For instance, we can build an expression for `2` corresponding to `Add.add 1 1` using {lean}`mkAppM` as follows:
+例如，我们可以用 {lean}`mkAppM` 按如下方式为对应于 `Add.add 1 1` 的 `2` 构建一个表达式：
 
 ```lean
 open Lean Meta in
@@ -55,11 +55,11 @@ def twoExprM : MetaM Expr := do
   mkAppM ``Add.add #[oneExpr, oneExpr]
 ```
 
-There is a related function {lean}`mkAppM'` where the first argument is an expression instead of a name. If one needs finer control over which arguments should be inferred and which are given explicitly, there is a function {lean}`mkAppOptM` that takes an array of `Option Expr`, where `none` indicates that the argument should be inferred and `some e` indicates that the argument should be given explicitly as `e`.
+还有一个相关的函数 {lean}`mkAppM'`，它的第一个参数是表达式而不是名字。如果需要更精细地控制哪些参数应被推断、哪些应被显式给出，则有一个函数 {lean}`mkAppOptM`，它接受一个 `Option Expr` 数组，其中 `none` 表示该参数应被推断，而 `some e` 表示该参数应被显式给出为 `e`。
 
-## Example: Commutativity of addition
+## 例子：加法的交换律
 
-As an example of using `mkAppM`, we can build an expression for the commutativity of addition on natural numbers, which states that for all natural numbers `a` and `b`, `a + b = b + a`. We first build expressions for natural numbers, then for the proposition of commutativity of addition, and finally for a proof of this proposition using `Nat.add_comm`.
+作为使用 `mkAppM` 的一个例子，我们可以为自然数加法的交换律构建一个表达式，它断言对所有自然数 `a` 和 `b` 都有 `a + b = b + a`。我们先为自然数构建表达式，再为加法交换律这个命题构建表达式，最后用 `Nat.add_comm` 为该命题的一个证明构建表达式。
 
 ```lean
 open Lean Meta in
@@ -69,7 +69,7 @@ def natExpr (n : Nat) : Expr :=
   | Nat.succ m => mkApp (mkConst ``Nat.succ) (natExpr m)
 ```
 
-We next build an expression for the proposition of commutativity of addition:
+接下来我们为加法交换律这个命题构建一个表达式：
 
 ```lean
 open Lean Meta in
@@ -81,7 +81,7 @@ def addCommPropExpr (a b : Nat) : MetaM Expr := do
   mkAppM ``Eq #[addAB, addBA]
 ```
 
-Finally, we can build an expression for a proof of this proposition using `Nat.add_comm`:
+最后，我们可以用 `Nat.add_comm` 为该命题的一个证明构建表达式：
 
 ```lean
 open Lean Meta in
@@ -91,7 +91,7 @@ def addCommProofExpr (a b : Nat) : MetaM Expr := do
   mkAppM ``Nat.add_comm #[aExpr, bExpr]
 ```
 
-We can check that the type of this proof expression is indeed the proposition of commutativity of addition. For this, we use the `inferType` function to infer the type of the proof expression and check that it is definitionally equal to the proposition expression using `isDefEq`:
+我们可以检查这个证明表达式的类型确实是加法交换律这个命题。为此，我们用 `inferType` 函数推断证明表达式的类型，并用 `isDefEq` 检查它与命题表达式在定义上相等：
 
 ```lean
 open Lean Meta in

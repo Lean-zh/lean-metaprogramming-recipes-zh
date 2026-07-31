@@ -6,7 +6,7 @@ import Cookbook.Syntax.WritingAMacro
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Syntax and Macros" =>
+#doc (Manual) "语法与宏" =>
 
 %%%
 tag := "syntax"
@@ -16,11 +16,11 @@ number := false
 ::: contributors
 :::
 
-In Lean, code is first _parsed_ into syntax, which is then _elaborated_ into expressions. The easiest way to create new tactics, commands and terms is to work at the syntax level, with new syntax mapped to existing syntax. Functions that transform syntax are called _macros_.
+在 Lean 中，代码首先被_解析_成语法，然后被_精译_成表达式。创建新的策略、命令和项，最简单的方式是在语法层面工作，把新语法映射到现有语法。变换语法的函数称为_宏_。
 
-In this chapter we give recipes for matching, creating and transforming syntax.
+本章给出匹配、创建和变换语法的配方。
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.Syntax.QuasiQuotes}
 {include 1 Cookbook.Syntax.WritingAMacro}

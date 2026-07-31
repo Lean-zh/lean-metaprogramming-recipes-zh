@@ -8,7 +8,7 @@ open Lean Elab Meta Tactic Command Term Parser Category
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Writing a Macro" =>
+#doc (Manual) "编写一个宏" =>
 
 %%%
 tag := "writing-a-macro"
@@ -20,19 +20,19 @@ htmlSplit := .never
 :::
 
 
-{index}[Writing a Macro]
-New syntax for a {name}`term`, `tactic`, {lean}`command` can be easily added in Lean. The easiest way to do this is to write a macro that transforms the new syntax into existing syntax. In this recipe, we show how to write macros for new syntax for terms and commands.
+{index}[编写一个宏]
+在 Lean 中可以很容易地为 {name}`term`、`tactic`、{lean}`command` 添加新语法。最简单的方式是写一个宏，把新语法变换成现有语法。在本配方中，我们演示如何为项和命令的新语法编写宏。
 
-We will start with a simple example of parsing Python exponentiation syntax and then move on to the more complex example of parsing Python `for` loop syntax.
+我们将从一个解析 Python 幂运算语法的简单例子开始，然后转到解析 Python `for` 循环语法这个更复杂的例子。
 
-# Syntax for Python exponentiation
+# Python 幂运算的语法
 %%%
 tag := "syntax-for-python-exponentiation"
 number := false
 %%%
-{index}[Python exponentiation DSL]
+{index}[Python 幂运算 DSL]
 
-We will start with a simple example for parsing Python exponentiation syntax in Lean. The following `macro` declaration tells Lean how to parse something of the form `2**4` and expands it into Lean's exponentiation syntax.
+我们先从一个解析 Lean 中 Python 幂运算语法的简单例子开始。下面的 `macro` 声明告诉 Lean 如何解析形如 `2**4` 的东西，并把它展开成 Lean 的幂运算语法。
 
 ```lean
 macro n:num "**" m:num : term => `($n^$m)
@@ -40,30 +40,30 @@ macro n:num "**" m:num : term => `($n^$m)
 #eval 2**3 --8
 ```
 
-Here, `num` is a parser that accepts strictly numeric literals and rejects everything else.
+这里，`num` 是一个解析器，它只接受纯数字字面量，拒绝其他一切。
 
-# Syntax for Python `for` loop
+# Python `for` 循环的语法
 %%%
 tag := "syntax-for-python-for-loop"
 number := false
 %%%
-{index}[Python `for` loop DSL]
+{index}[Python `for` 循环 DSL]
 
-In Python, list comprehensions provide a concise way to create lists. For example, the expression `[x^2 for x in [1,2,3,4,5]]` generates a list of the squares of the first five natural numbers. We will define similar syntax in Lean and then implement the logic to evaluate it.
+在 Python 中，列表推导式提供了一种创建列表的简洁方式。例如，表达式 `[x^2 for x in [1,2,3,4,5]]` 生成前五个自然数的平方组成的列表。我们将在 Lean 中定义类似的语法，然后实现求值它的逻辑。
 
-In Lean, this can be accomplished by using the {name}`List.map` function.
+在 Lean 中，这可以用 {name}`List.map` 函数来完成。
 
 ```lean
 #eval List.map (fun x => x * x) [1, 2, 3, 4]
 ```
 
-## A `macro` that parses Python-like `for` loop
+## 一个解析 Python 风格 `for` 循环的 `macro`
 %%%
 tag := "macro-for-python-for-loop"
 number := false
 %%%
 
-Next, we define a `macro` that lets us write syntax similar to Python syntax in Lean. It parses expressions of the form `[<term> pyfor <ident> in <term>]` and transforms them into a standard Lean expression using {name}`List.map`. The {name}`ident` is a placeholder for the variable name used in the comprehension, and the two {name}`term` placeholders represent the expression being generated and the collection being iterated over. To avoid conflicts with the `for` keyword in Lean, we use `pyfor` instead.
+接下来，我们定义一个 `macro`，让我们能在 Lean 中写出类似 Python 的语法。它解析形如 `[<term> pyfor <ident> in <term>]` 的表达式，并用 {name}`List.map` 把它们变换成标准的 Lean 表达式。{name}`ident` 是推导式中所用变量名的占位符，两个 {name}`term` 占位符分别表示要生成的表达式和要遍历的集合。为了避免与 Lean 中的 `for` 关键字冲突，我们改用 `pyfor`。
 
 ```lean
 macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do
@@ -72,7 +72,7 @@ macro "[" t:term "pyfor" x:ident "in" l:term "]": term => do
 
 #eval [x * 2 pyfor x in [1, 2, 3, 4]] --> [2, 4, 6, 8]
 ```
-If you prefer to separate the syntax declaration from the macro expansion, Lean also lets you define the syntax first with `syntax` and then add macro rules separately.
+如果你更愿意把语法声明和宏展开分开，Lean 也允许你先用 `syntax` 定义语法，再单独添加宏规则。
 
 ```lean
 syntax "[" term "pyfor'" ident "in" term "]" : term
@@ -83,6 +83,6 @@ macro_rules
     `(List.map $fn $l)
 ```
 
-The `macro_rules` command is used to pattern-match on our custom syntax and define exactly how it should be translated (or "expanded") into standard Lean code. In this case, we take the term `t`, the identifier `x`, and the list `l` from our custom syntax and construct a new expression that applies `List.map` to a lambda function `fn`(created from `t` and `x`) and the list `l`.
+`macro_rules` 命令用来对我们的自定义语法进行模式匹配，并精确定义它应如何被翻译（或“展开”）成标准 Lean 代码。在本例中，我们从自定义语法中取出项 `t`、标识符 `x` 和列表 `l`，构造一个新表达式，把 `List.map` 应用到一个 lambda 函数 `fn`（由 `t` 和 `x` 构造）和列表 `l` 上。
 
-Macros only act as syntactic sugar and are only expanded to a different "already-existing" syntax. In a later recipe, {ref "elaborator-for-python-for-loop"}[An elaborator that parses Python-like `for` loop], we will see how to write an elaborator that parses the same syntax and performs additional checks during elaboration.
+宏只充当语法糖，只会展开成另一段“已经存在的”语法。在后面的配方 {ref "elaborator-for-python-for-loop"}[一个解析 Python 风格 `for` 循环的精译器]中，我们会看到如何编写一个精译器，它解析同样的语法，并在精译过程中执行额外的检查。
