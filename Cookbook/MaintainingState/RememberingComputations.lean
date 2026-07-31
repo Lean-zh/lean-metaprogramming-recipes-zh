@@ -7,7 +7,7 @@ open Std
 
 set_option pp.rawOnError true
 
-#doc (Manual) "State Monad: Remembering Computations" =>
+#doc (Manual) "状态单子：记住计算结果" =>
 
 %%%
 tag := "state-monad"
@@ -18,25 +18,25 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[State Monad: Remembering Computations]
+{index}[状态单子：记住计算结果]
 
-# State Monad
+# 状态单子
 
-Since Lean is a functional programming language, it does not have mutable state. However, we often want to write code that manipulates state. For example, we may want to remember the result of a computation for a recursive function to avoid redundant computations.
+由于 Lean 是函数式编程语言，它没有可变状态。然而，我们常常想编写操作状态的代码。例如，我们可能想在递归函数中记住某次计算的结果，以避免冗余计算。
 
-The _State Monad_ is a powerful tool for doing this. It allows us to write code that looks like it is manipulating state, but under the hood it is actually passing the state around as an argument. Given a state type `S` and a value type `A`, the State Monad is defined as follows:
+_状态单子（State Monad）_ 是实现这一点的强大工具。它让我们能编写看起来像是在操作状态的代码，但在底层，它实际上是把状态作为参数传来传去。给定状态类型 `S` 和值类型 `A`，状态单子定义如下：
 ```lean
 def State (S A : Type) : Type := S → (A × S)
 ```
-This means that a value of type `State S A` is a function that takes a state of type `S` and returns a pair of a value of type `A` and a new state of type `S`.
+这意味着，一个类型为 `State S A` 的值是一个函数，它接受一个类型为 `S` 的状态，返回一个由类型为 `A` 的值和类型为 `S` 的新状态构成的对。
 
-Using the `do` notation, we can write code that is concise and readable while handling state. As an example, we use a state monad to implement a memoized function computing so called _Catalan numbers_, which are a sequence of natural numbers that occur in various counting problems in combinatorics.
+利用 `do` 记法，我们可以在处理状态的同时编写简洁易读的代码。作为例子，我们用状态单子实现一个带记忆化的函数，用来计算所谓的 _卡塔兰数（Catalan numbers）_，它是一列自然数，出现在组合数学的各种计数问题中。
 
-The Catalan numbers satisfy the recurrence relation:
+卡塔兰数满足如下递推关系：
 * `C(0) = 1`
 * `C(n+1) = Σ (C(i) * C(n-i)) for i = 0 to n`
 
-We can naively implement this recurrence relation in Lean, but it will be inefficient for large `n` due to repeated calculations. The following is a naive implementation of the Catalan numbers (which we do not prove terminates):
+我们可以在 Lean 中朴素地实现这个递推关系，但由于重复计算，它对较大的 `n` 会很低效。下面是卡塔兰数的一个朴素实现（我们不证明它会终止）：
 
 ```lean
 partial def catalanNaive : Nat → Nat
@@ -49,15 +49,15 @@ partial def catalanNaive : Nat → Nat
 ```
 
 
-We show how to use memoization to optimize the computation of Catalan numbers using `State` Monad. We store the previously computed values of Catalan numbers in a {lean}`HashMap` and use it to avoid redundant computations. We define a type alias for our state monad as follows:
+我们展示如何用 `State` 单子通过记忆化来优化卡塔兰数的计算。我们把先前计算出的卡塔兰数值存储在一个 {lean}`HashMap` 中，并用它来避免冗余计算。我们为状态单子定义一个类型别名如下：
 
 ```lean
 abbrev CatalanM := StateM (HashMap Nat Nat)
 ```
 
-Thus, a term of type `CatalanM α` is a function that takes a state of type `HashMap Nat Nat` and returns a pair of a value of type `α` and a new state of type `HashMap Nat Nat`.
+因此，一个类型为 `CatalanM α` 的项是一个函数，它接受一个类型为 `HashMap Nat Nat` 的状态，返回一个由类型为 `α` 的值和类型为 `HashMap Nat Nat` 的新状态构成的对。
 
-To compute the `n`-th Catalan number, we first check if it is already computed and stored in the state. If it is, we return it. If not, we compute it using the recurrence relation, store it in the state, and then return it. Here is the implementation:
+要计算第 `n` 个卡塔兰数，我们先检查它是否已经计算并存储在状态中。如果是，就返回它。如果不是，就用递推关系计算它，把它存储到状态中，然后返回它。下面是实现：
 
 ```lean
 partial def catalanMemo (n : Nat) : CatalanM Nat := do
@@ -79,9 +79,9 @@ partial def catalanMemo (n : Nat) : CatalanM Nat := do
       return sum
 ```
 
-When the statement `let ci ← catalanMemo i` is executed, the function `catalanMemo i` is called with the current state. This returns a pair of the computed value `ci` and a new state. The natural number is assigned to `ci`, and the new state is passed along to the next computation. This way, we can efficiently compute the Catalan numbers without redundant calculations.
+当执行语句 `let ci ← catalanMemo i` 时，函数 `catalanMemo i` 以当前状态被调用。这会返回一个由计算出的值 `ci` 和新状态构成的对。自然数被赋给 `ci`，新状态则被传递给下一次计算。这样，我们就能高效地计算卡塔兰数而不做冗余计算。
 
-With the memoized version, we can compute much larger Catalan numbers efficiently. For example, we can compute the 32nd Catalan number in a fraction of a second as follows:
+有了记忆化版本，我们就能高效地计算大得多的卡塔兰数。例如，我们可以在几分之一秒内计算出第 32 个卡塔兰数，如下所示：
 
 ```lean
 #eval catalanMemo 32 |>.run' {}

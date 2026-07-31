@@ -7,7 +7,7 @@ open Std
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Mutable Variables across commands" =>
+#doc (Manual) "跨命令的可变变量" =>
 
 %%%
 tag := "mutable-variables"
@@ -18,15 +18,15 @@ htmlSplit := .never
 ::: contributors
 :::
 
-{index}[Mutable Variables across commands]
+{index}[跨命令的可变变量]
 
-# Mutable Variables across commands
+# 跨命令的可变变量
 
-In the recipe {ref "state-monad"}[State Monad] we saw how to preserve state in a function. However, sometimes we want to preserve state across different commands. If we evaluate `catalanMemo 32` in the Infoview, in the process we have also computed all the Catalan numbers from `C(0)` to `C(32)`. However, if we next evaluate `catalanMemo 31`, we will have to recompute all the Catalan numbers from `C(0)` to `C(31)`, which is inefficient. In this section, we show how to preserve state across different commands using mutable variables.
+在配方 {ref "state-monad"}[状态单子] 中，我们看到了如何在一个函数内保留状态。然而，有时我们想跨不同的命令保留状态。如果我们在 Infoview 中求值 `catalanMemo 32`，在这个过程中我们也已经计算出了从 `C(0)` 到 `C(32)` 的所有卡塔兰数。然而，如果接下来我们求值 `catalanMemo 31`，就不得不重新计算从 `C(0)` 到 `C(31)` 的所有卡塔兰数，这很低效。本节我们展示如何用可变变量跨不同命令保留状态。
 
-We can use either {lean}`IO.Ref` or {lean}`Std.Mutex` to create mutable variables in Lean. The `IO.Ref` is a mutable reference that can be used in the `IO` monad, while `Std.Mutex` is a mutex that can be used to protect access to a mutable variable in a concurrent setting. In this recipe, we use `Std.Mutex` to create a mutable variable that stores the computed Catalan numbers. We use a mutex to ensure that the mutable variable is accessed in a thread-safe manner.
+我们可以用 {lean}`IO.Ref` 或 {lean}`Std.Mutex` 在 Lean 中创建可变变量。`IO.Ref` 是一个可以在 `IO` 单子中使用的可变引用，而 `Std.Mutex` 是一个互斥量，可用于在并发环境下保护对可变变量的访问。在本配方中，我们用 `Std.Mutex` 创建一个存储已计算卡塔兰数的可变变量。我们用互斥量确保以线程安全的方式访问该可变变量。
 
-We initialize a mutable variable `catalanCache` of type `Mutex (HashMap Nat Nat)` to store the computed Catalan numbers. The `HashMap` is used to store the computed values of Catalan numbers, where the key is the natural number `n` and the value is the corresponding Catalan number `C(n)`. We then implement helper functions to get from and save to the cache.
+我们初始化一个类型为 `Mutex (HashMap Nat Nat)` 的可变变量 `catalanCache`，用来存储已计算的卡塔兰数。`HashMap` 用来存储卡塔兰数的已计算值，其中键是自然数 `n`，值是对应的卡塔兰数 `C(n)`。然后我们实现辅助函数来从缓存读取和向缓存保存。
 
 ```lean
 initialize catalanCache : Mutex (HashMap Nat Nat) ←

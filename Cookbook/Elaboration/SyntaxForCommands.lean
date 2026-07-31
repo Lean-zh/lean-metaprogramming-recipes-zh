@@ -10,7 +10,7 @@ open Category hiding grind
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Adding syntax for commands" =>
+#doc (Manual) "为命令添加语法" =>
 
 %%%
 tag := "adding-syntax-for-command"
@@ -22,11 +22,11 @@ htmlSplit := .never
 :::
 
 
-{index}[Adding syntax for commands]
+{index}[为命令添加语法]
 
-Lean allows you to define custom syntax for a {name}`command`. As with terms, this can be done in a simple way with `macro`, or in a more complex way with `elab`. The `elab` approach is more powerful, since it allows you to generate an expression from the syntax and perform checks during elaboration. In this recipe, we will show how to define custom syntax for commands using `elab`, which lets you specify both the syntax and its elaboration in one place.
+Lean 允许你为 {name}`command` 定义自定义语法。和项一样，这既可以用 `macro` 以简单的方式完成，也可以用 `elab` 以更复杂的方式完成。`elab` 的方式更强大，因为它允许你从语法生成表达式，并在精译（elaboration）过程中执行检查。本配方展示如何用 `elab` 为命令定义自定义语法，它让你在同一处同时指定语法及其精译。
 
-# "Hello World" command
+# “Hello World” 命令
 
 %%%
 tag := "hello-world-command"
@@ -34,9 +34,9 @@ number := false
 %%%
 
 
-{index}["Hello World" Command]
+{index}[“Hello World” 命令]
 
-We start with a simple example of a command that prints "Hello World". The following `elab` declaration tells Lean to parse `#helloWorld` as a command and explains what that command should do.
+我们从一个简单的例子开始：一个打印 "Hello World" 的命令。下面的 `elab` 声明告诉 Lean 把 `#helloWorld` 解析为一个命令，并说明该命令应当做什么。
 
 ```lean
 elab "#helloWorld" : command => do
@@ -44,19 +44,19 @@ elab "#helloWorld" : command => do
 
 #helloWorld
 ```
-Here, `logInfo s` prints the string `s` in the InfoView.
+这里，`logInfo s` 会在 InfoView 中打印字符串 `s`。
 
-# Command for checking whether a proposition is solved by grind
+# 检查某个命题是否能被 grind 解决的命令
 
 %%%
 tag := "command-for-checking-whether-a-proposition-is-solved-by-grind"
 number := false
 %%%
 
-{index}[Command for checking whether a proposition is solved by grind]
-We define a custom command that tests whether a proposition can be solved automatically by the {name}`grind` tactic. The goal is to provide a small command-line-style tool that reports whether {name}`grind` can close a goal.
+{index}[检查某个命题是否能被 grind 解决的命令]
+我们定义一个自定义命令，用来测试某个命题能否被 {name}`grind` 策略自动解决。目标是提供一个小巧的命令行风格工具，报告 {name}`grind` 能否关闭一个目标。
 
-Again, we can define the command directly with `elab`. In the declaration below, Lean parses inputs of the form `#grindable? <term>` as a command, and the elaborator says how that command should behave.
+同样，我们可以直接用 `elab` 定义该命令。在下面的声明中，Lean 把形如 `#grindable? <term>` 的输入解析为一个命令，精译器则说明该命令应如何行为。
 
 ```lean
 elab "#grindable?" t:term : command => do
@@ -79,16 +79,16 @@ elab "#grindable?" t:term : command => do
 #grindable? ∃ x : Nat, x > 100 -- not grindable
 ```
 
-Let's break down the specific metaprogramming functions used in the elaborator above:
-- The call to {name}`Command.liftTermElabM` is needed because command elaboration happens in the {name}`CommandElabM` monad, while elaborating terms and running tactics uses the term elaboration machinery in the {name}`TermElabM` monad.
-- Lean's elaborator sometimes turns elaboration errors into sorries. {name}`withoutErrToSorry` prevents that from happening, so we can catch the exceptions thrown while elaborating.
-- We write a `try … catch` block and place {name}`withoutErrToSorry` inside the `try` block.
-- {name}`Lean.Elab.Term.elabTerm` elaborates the user-provided proposition (i.e., `t`) into an expression.
-- Then {name}`mkFreshExprMVar` creates a fresh metavariable goal whose type is given as an expression (i.e., `tExpr`).
-- {name}`Elab.runTactic` runs the tactic {lean}`grind` on that fresh goal and returns a tuple of type {lean}`List MVarId × Term.State`. In this example, the first component is exactly the list of goals left open after {name}`grind`, while the second component is the updated state of the {name}`TermElabM` monad, which we ignore with `_`.
-- Finally, we inspect the remaining goals. If the list is empty, then `grind` managed to prove the proposition completely.
+我们逐一分析上面精译器中用到的具体元编程函数：
+- 需要调用 {name}`Command.liftTermElabM`，因为命令精译发生在 {name}`CommandElabM` 单子中，而精译项和运行策略用的是 {name}`TermElabM` 单子里的项精译机制。
+- Lean 的精译器有时会把精译错误转成 sorry。{name}`withoutErrToSorry` 阻止这种转换，从而让我们能捕获精译过程中抛出的异常。
+- 我们写一个 `try … catch` 块，并把 {name}`withoutErrToSorry` 放在 `try` 块内部。
+- {name}`Lean.Elab.Term.elabTerm` 把用户提供的命题（即 `t`）精译成一个表达式。
+- 然后 {name}`mkFreshExprMVar` 创建一个新的元变量目标，其类型由一个表达式给出（即 `tExpr`）。
+- {name}`Elab.runTactic` 在这个新目标上运行策略 {lean}`grind`，返回一个类型为 {lean}`List MVarId × Term.State` 的元组。在本例中，第一个分量恰好是 {name}`grind` 之后仍未关闭的目标列表，第二个分量是 {name}`TermElabM` 单子的更新后状态，我们用 `_` 忽略它。
+- 最后，我们检查剩余的目标。如果列表为空，说明 `grind` 完整地证明了该命题。
 
-If you prefer to separate the syntax declaration from the elaboration logic, Lean also lets you define the syntax first with `syntax` and then add elaboration rules with `elab_rules`.
+如果你更愿意把语法声明与精译逻辑分开，Lean 也允许你先用 `syntax` 定义语法，再用 `elab_rules` 添加精译规则。
 
 ```lean
 syntax "#grindable'?" term : command
@@ -112,4 +112,4 @@ elab_rules : command
 
 ```
 
-The `elab_rules` command lets us define elaboration rules by pattern matching on the command syntax that was parsed. Both styles are useful, but the direct `elab` form is often a good starting point for a compact one-off command, while `syntax` plus `elab_rules` is helpful when you want to separate the parser and elaborator more explicitly.
+`elab_rules` 命令让我们通过对解析出的命令语法进行模式匹配来定义精译规则。两种风格都有用：直接的 `elab` 形式通常是紧凑的一次性命令的良好起点，而 `syntax` 加 `elab_rules` 则在你想更明确地把解析器和精译器分开时更有帮助。

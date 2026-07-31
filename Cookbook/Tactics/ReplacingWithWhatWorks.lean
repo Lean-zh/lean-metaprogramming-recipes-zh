@@ -9,7 +9,7 @@ open Lean Elab Meta Tactic Command
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Replacing with What Works" =>
+#doc (Manual) "替换为可行的策略" =>
 
 %%%
 tag := "replacing-with-what-works"
@@ -21,11 +21,11 @@ htmlSplit := .never
 :::
 
 
-{index}[Replacing with What Works]
+{index}[替换为可行的策略]
 
-It is a common pattern that tactics involve a search but, if a search is succesful, we want to narrow down the search to a specific tactic that we know works. For example, we may want to check if a tactic sequence can be applied to the main target, and if so, apply a specific tactic that we know works. We can achieve this by using the {lean}`TryThis.addSuggestion` function, which adds a suggestion to try a specific tactic at a given syntax node.
+有一种常见模式：策略涉及一次搜索，但如果搜索成功，我们希望把搜索结果收窄为一个我们已知可行的具体策略。例如，我们可能想检查某个策略序列能否应用于主目标类型，如果能，就应用一个我们已知可行的具体策略。我们可以用 {lean}`TryThis.addSuggestion` 函数来做到这一点，它在给定的语法节点处添加一条“尝试某个具体策略”的建议。
 
-Here we use the function defined in the recipe {ref "checking-tactics"}[Checking Tactics] and build a tactic that checks if a given tactic sequence can be applied to the main target, and if so, runs the tactic and adds a suggestion to try the first successful tactic in the sequence.
+这里我们使用配方 {ref "checking-tactics"}[检查策略] 中定义的函数，构建一个策略，它检查给定的策略序列能否应用于主目标类型，如果能，就运行该策略，并添加一条建议，提示尝试该序列中第一个成功的策略。
 
 ```lean
 syntax (name:= check_tactic) "check_tactic?"

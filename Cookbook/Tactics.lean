@@ -9,7 +9,7 @@ import Cookbook.Tactics.ReplacingWithWhatWorks
 
 open Verso.Genre Manual Cookbook
 
-#doc (Manual) "Tactics" =>
+#doc (Manual) "策略" =>
 
 %%%
 tag := "tactics"
@@ -19,7 +19,7 @@ number := false
 ::: contributors
 :::
 
-*Recipes:*
+*配方：*
 
 {include 1 Cookbook.Tactics.HelloWorldTactics}
 {include 1 Cookbook.Tactics.TacticsAsShortcuts}

@@ -7,7 +7,7 @@ open Verso.Genre.Manual.InlineLean
 
 set_option pp.rawOnError true
 
-#doc (Manual) "Hello World Tactic" =>
+#doc (Manual) "Hello World 策略" =>
 
 %%%
 tag := "hello-world-tactics"
@@ -19,11 +19,11 @@ htmlSplit := .never
 :::
 
 
-{index}[Hello World Tactic]
+{index}[Hello World 策略]
 
-# A Basic Tactic
+# 一个基础策略
 
-This is a very basic tactic that does nothing. This is just to show how to define a tactic in Lean. Note that we should begin a tactic with {lean}`Lean.Elab.Tactic.withMainContext` to ensure that the tactic is executed in the context of the main goal.
+这是一个什么都不做的极其基础的策略，只是用来展示如何在 Lean 中定义一个策略。注意，我们应当以 {lean}`Lean.Elab.Tactic.withMainContext` 作为策略的开头，以确保该策略在主目标的上下文中执行。
 
 ```lean
 open Lean Elab Tactic
