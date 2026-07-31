@@ -14,6 +14,7 @@ open Verso.Genre.Manual.InlineLean
 %%%
 tag := "json"
 number := false
+file := "json"
 %%%
 
 ::: contributors

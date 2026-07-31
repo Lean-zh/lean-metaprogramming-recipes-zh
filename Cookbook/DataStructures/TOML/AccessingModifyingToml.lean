@@ -16,6 +16,7 @@ set_option pp.rawOnError true
 %%%
 tag := "accessing-modifying-toml"
 number := false
+file := "accessing-modifying-toml"
 %%%
 
 ::: contributors
@@ -25,6 +26,10 @@ number := false
 把 TOML 表转换成 Lean 结构，反之亦然。
 
 # 从 TOML 读取值
+
+%%%
+file := "data-structures-toml-accessing-modifying-toml-section-02"
+%%%
 
 {index}[从 TOML 读取值]
 
@@ -91,6 +96,10 @@ is_active = true
 ```
 
 # 编码与修改 TOML
+
+%%%
+file := "data-structures-toml-accessing-modifying-toml-section-03"
+%%%
 
 {index}[编码 TOML]
 {index}[修改 TOML 对象]

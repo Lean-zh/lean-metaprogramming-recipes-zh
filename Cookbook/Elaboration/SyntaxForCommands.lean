@@ -16,6 +16,7 @@ set_option pp.rawOnError true
 tag := "adding-syntax-for-command"
 number := false
 htmlSplit := .never
+file := "adding-syntax-for-command"
 %%%
 
 ::: contributors
@@ -31,6 +32,7 @@ Lean 允许你为 {name}`command` 定义自定义语法。和项一样，这既�
 %%%
 tag := "hello-world-command"
 number := false
+file := "hello-world-command"
 %%%
 
 
@@ -51,6 +53,7 @@ elab "#helloWorld" : command => do
 %%%
 tag := "command-for-checking-whether-a-proposition-is-solved-by-grind"
 number := false
+file := "command-for-checking-whether-a-proposition-is-solved-by-grind"
 %%%
 
 {index}[检查某个命题是否能被 grind 解决的命令]

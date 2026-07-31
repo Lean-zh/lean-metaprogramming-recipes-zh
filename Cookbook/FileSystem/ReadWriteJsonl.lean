@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 
 %%%
 htmlSplit := .never
+file := "file-system-read-write-jsonl"
 %%%
 
 ::: contributors
@@ -27,6 +28,7 @@ JSONL（JSON Lines）是一种每行都是一个有效 JSON 对象的格式。�
 %%%
 tag := "reading-jsonl-file"
 number := false
+file := "reading-jsonl-file"
 %%%
 
 {index}[读取 JSONL 文件]
@@ -53,6 +55,7 @@ def readJsonlFile (path : System.FilePath) :
 %%%
 tag := "writing-jsonl-file"
 number := false
+file := "writing-jsonl-file"
 %%%
 
 {index}[写入 JSONL 文件]

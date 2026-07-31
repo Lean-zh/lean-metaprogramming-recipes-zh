@@ -17,6 +17,7 @@ set_option linter.unusedVariables false
 tag := "binary-tree"
 number := false
 htmlSplit := .never
+file := "binary-tree"
 %%%
 
 ::: contributors
@@ -29,6 +30,7 @@ htmlSplit := .never
 %%%
 tag := "binary-tree-definition"
 number := false
+file := "binary-tree-definition"
 %%%
 
 {index}[定义二叉树]
@@ -51,6 +53,7 @@ deriving Inhabited, Repr
 %%%
 tag := "binary-tree-operations"
 number := false
+file := "binary-tree-operations"
 %%%
 
 {index}[二叉树上的操作]
@@ -58,6 +61,10 @@ number := false
 通常，你需要定义递归函数来在二叉树上执行操作，例如查找一个值、插入一个新值、计算树的深度等等。下面我们将实现其中一些操作。
 
 ## 查找与插入
+
+%%%
+file := "data-structures-trees-binary-tree-section-04"
+%%%
 
 {index}[二叉搜索树]
 
@@ -114,11 +121,12 @@ def totalWeight {α} : Option (BinaryTree α) → Nat
 %%%
 tag := "list-to-binary-tree"
 number := false
+file := "list-to-binary-tree"
 %%%
 
 {index}[列表转二叉树]
 
-我们常常以 {lean}`List` 的形式拿到树的数据，需要把它转换成二叉树结构。我们知道第 `i` 个元素的左子节点在 `2*i + 1`、右子节点在 `2*i + 2`。我们通过选取中位数把一个有序列表转换成一棵平衡树。
+我们常常以 {lean}`List` 的形式拿到树的数据，需要把它转换成二叉树结构。下面的函数要求输入列表已经按所需顺序排列：它选取中间元素作为根，再对左右两半递归地做同样的事，从而得到一棵平衡树。
 
 ```lean
 def listToBinaryTree {α} (xs : List (α × Nat)) : 
@@ -142,6 +150,10 @@ termination_by xs.length
 ```
 
 # 示例用法
+
+%%%
+file := "data-structures-trees-binary-tree-section-06"
+%%%
 
 我们将用上面的函数，在一个示例中从一组值和权重构建一棵二叉树，并执行前面定义的各种操作。
 

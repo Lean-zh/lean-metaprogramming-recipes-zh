@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "访问与修改 JSON" =>
 
+%%%
+file := "data-structures-json-accessing-modifying-json"
+%%%
+
 ::: contributors
 :::
 
@@ -18,6 +22,7 @@ set_option pp.rawOnError true
 %%%
 tag := "accessing-json"
 number := false
+file := "accessing-json"
 %%%
 
 {index}[从 JSON 读取值]
@@ -73,6 +78,7 @@ def getUserName (j : Json) : String :=
 %%%
 tag := "modifying-json"
 number := false
+file := "modifying-json"
 %%%
 
 {index}[修改 JSON 对象]
@@ -80,6 +86,10 @@ number := false
 由于 {lean}`Json` 是一个不可变的归纳类型，“修改”它其实是在旧值的基础上创建一个新的 {lean}`Json` 值。
 
 ## 1. 直接操作对象
+
+%%%
+file := "data-structures-json-accessing-modifying-json-section-04"
+%%%
 
 如果你确知某个 {lean}`Json` 值是一个对象，可以对 {lean}`Json.obj` 进行模式匹配来访问底层的 `RBMap`。然后你可以使用像 `insert` 或 `erase` 这样的方法，并把结果重新包回 {lean}`Json.obj`。
 
@@ -105,6 +115,10 @@ def stripAge (j : Json) : Json :=
 ```
 
 ## 2. 解码—修改—编码模式
+
+%%%
+file := "data-structures-json-accessing-modifying-json-section-05"
+%%%
 
 对于复杂的修改，尤其是涉及嵌套数据或集合的修改，最健壮的做法是把 JSON 解码为一个 Lean 结构体，用 Lean 强大的函数式工具执行更新，然后再重新编码它。
 

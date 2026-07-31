@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "viewing-closing-goals"
 number := false
 htmlSplit := .never
+file := "viewing-closing-goals"
 %%%
 
 ::: contributors
@@ -32,6 +33,7 @@ htmlSplit := .never
 tag := "tactic-to-print-the-main-goal"
 number := false
 htmlSplit := .never
+file := "tactic-to-print-the-main-goal"
 %%%
 {index}[打印主目标的策略]
 
@@ -49,6 +51,10 @@ example: 2 + 3 = 5 := by
 关于如何在信息视图（Infoview）中使用字符串格式化，参见 {ref "displaying-in-the-infoview"}[在信息视图中显示内容]。
 
 # 关闭目标：自定义的 `sorry` 策略
+
+%%%
+file := "tactics-viewing-closing-goals-section-03"
+%%%
 
 接下来说明如何用精译器关闭目标。我们将实现一个定制版的 `sorry` 策略，它不仅关闭目标，还会向信息视图记录一条自定义消息。
 

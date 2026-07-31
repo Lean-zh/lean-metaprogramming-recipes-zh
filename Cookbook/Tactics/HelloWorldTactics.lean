@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 tag := "hello-world-tactics"
 number := false
 htmlSplit := .never
+file := "hello-world-tactics"
 %%%
 
 ::: contributors
@@ -22,6 +23,10 @@ htmlSplit := .never
 {index}[Hello World 策略]
 
 # 一个基础策略
+
+%%%
+file := "tactics-hello-world-tactics-section-02"
+%%%
 
 这是一个什么都不做的极其基础的策略，只是用来展示如何在 Lean 中定义一个策略。注意，我们应当以 {lean}`Lean.Elab.Tactic.withMainContext` 作为策略的开头，以确保该策略在主目标的上下文中执行。
 

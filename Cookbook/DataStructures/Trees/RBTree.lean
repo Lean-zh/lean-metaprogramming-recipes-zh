@@ -15,6 +15,7 @@ set_option pp.rawOnError true
 %%%
 tag := "rbmap-rbtree"
 number := false
+file := "rbmap-rbtree"
 %%%
 
 ::: contributors
@@ -23,6 +24,10 @@ number := false
 {lean}`RBMap` 和 {lean}`RBTree` 是红黑树，在整个 Lean 4 编译器中被广泛使用。与需要 {lean}`Hashable` 实例的 {lean}`HashMap` 不同，这些结构只需要一个排序实例（{lean}`Ord`）。
 
 # RBMap（红黑映射）
+
+%%%
+file := "data-structures-trees-rbtree-section-02"
+%%%
 
 {index}[RBMap 操作]
 
@@ -52,6 +57,10 @@ def rb2 := rb1.insert `banana 2
 
 # RBTree（红黑树）
 
+%%%
+file := "data-structures-trees-rbtree-section-03"
+%%%
+
 {index}[RBTree 基本操作]
 
 {lean}`RBTree` 是用红黑树实现的集合。在元编程中，Lean 提供了若干 {lean}`RBTree` 的“别名”（预定义版本），这样你就不必手动提供比较函数，例如 {lean}`NameSet` 就是 {lean}`RBTree Name Name.quickCmp` 的别名。
@@ -71,6 +80,7 @@ def s3 := s2.insert `y
 %%%
 tag := "rbmap-scheduling"
 number := false
+file := "rbmap-scheduling"
 %%%
 
 {index}[用 RBMap 调度进程]
@@ -185,6 +195,7 @@ def egRunSchedule : IO Unit := do
 %%%
 tag := "rbtree-tracking-undefined"
 number := false
+file := "rbtree-tracking-undefined"
 %%%
 
 {index}[用 RBTree 追踪未定义的标识符]

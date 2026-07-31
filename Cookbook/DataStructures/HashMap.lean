@@ -15,6 +15,7 @@ set_option pp.rawOnError true
 tag := "hashmap"
 number := false
 htmlSplit := .never
+file := "hashmap"
 %%%
 
 ::: contributors
@@ -23,6 +24,10 @@ htmlSplit := .never
 {lean}`HashMap` 是一个键值对的集合，提供高效的查找、插入和删除。在 Lean 4 中，最常用的实现是 {name}`Std.HashMap`。
 
 # 基本操作
+
+%%%
+file := "data-structures-hash-map-section-02"
+%%%
 
 {index}[HashMap 基本操作]
 
@@ -63,6 +68,7 @@ def increment (map : HashMap String Nat) (key : String)
 %%%
 tag := "memoization-hashmap"
 number := false
+file := "memoization-hashmap"
 %%%
 
 {index}[使用 HashMap 做记忆化]
@@ -110,6 +116,7 @@ def fib (n: Nat) : FibM Nat := do
 %%%
 tag := "frequency-hashmap-advanced"
 number := false
+file := "frequency-hashmap-advanced"
 %%%
 
 {index}[高级 HashMap 操作]

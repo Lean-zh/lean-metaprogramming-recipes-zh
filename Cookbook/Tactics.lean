@@ -14,6 +14,7 @@ open Verso.Genre Manual Cookbook
 %%%
 tag := "tactics"
 number := false
+file := "tactics"
 %%%
 
 ::: contributors

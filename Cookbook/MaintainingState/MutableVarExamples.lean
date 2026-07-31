@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "mutable-variables-example"
 number := false
 htmlSplit := .never
+file := "mutable-variables-example"
 %%%
 
 ::: contributors
@@ -26,6 +27,7 @@ htmlSplit := .never
 %%%
 tag := "mutable-variables-example-overview"
 number := false
+file := "mutable-variables-example-overview"
 %%%
 
 由 `IO.Ref` 和 `Std.Mutex` 定义的可变变量无法在定义它们的同一个文件中求值。这里，我们延续上一个配方 {ref "mutable-variables"}[跨命令的可变变量] 中计算卡塔兰数的例子，展示如何用可变变量跨不同命令保留已计算的值。

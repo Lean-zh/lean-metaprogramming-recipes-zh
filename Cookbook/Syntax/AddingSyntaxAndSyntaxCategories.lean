@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "adding-syntax-and-syntax-categories"
 number := false
 htmlSplit := .never
+file := "adding-syntax-and-syntax-categories"
 %%%
 
 ::: contributors
@@ -32,6 +33,7 @@ Lean 已经内置了像 `term`（用于像 1+2 这样的表达式）、`tactic`�
 tag := "declaring-a-syntax-category"
 number := false
 
+file := "declaring-a-syntax-category"
 %%%
 
 {index}[声明一个语法类别]
@@ -51,6 +53,7 @@ syntax "<p>" str "</p>" : mySyntax
 %%%
 tag := "dsl-for-html-unordered-lists"
 number := false
+file := "dsl-for-html-unordered-lists"
 %%%
 
 {index}[HTML 无序列表的 DSL]

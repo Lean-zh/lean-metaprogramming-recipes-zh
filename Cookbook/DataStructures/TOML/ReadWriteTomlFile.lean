@@ -16,6 +16,7 @@ set_option pp.rawOnError true
 %%%
 tag := "reading-writing-toml"
 number := false
+file := "reading-writing-toml"
 %%%
 
 {index}[读取 TOML 文件]
@@ -27,6 +28,10 @@ number := false
 处理文件包括从磁盘读取字符串并传给我们的解析器，或者把一个 {name}`Table` 格式化输出到文件。我们将使用上一节中定义的 {name}`ServiceConfig` 结构。
 
 # 从 TOML 文件读取
+
+%%%
+file := "data-structures-toml-read-write-toml-file-section-02"
+%%%
 
 要读取一个 TOML 文件，我们把文件内容读为字符串，解析成一个 {name}`Table`，然后把该表解码成一个 Lean 结构。
 
@@ -50,6 +55,10 @@ def loadTomlConfig (path : System.FilePath) :
 
 # 写入 TOML 文件
 
+%%%
+file := "data-structures-toml-read-write-toml-file-section-03"
+%%%
+
 要写入 TOML，我们用 `toToml` 把 Lean 结构转换成一个 {name}`Value`，提取其底层的 {name}`Table`，然后用 `ppTable` 把它格式化为标准的多行 TOML 字符串。
 
 ```lean
@@ -65,6 +74,10 @@ def saveTomlConfig (path : System.FilePath)
 ```
 
 ## 示例：嵌套的往返转换
+
+%%%
+file := "data-structures-toml-read-write-toml-file-section-04"
+%%%
 
 ```lean
 def egRoundTrip : CoreM String := do

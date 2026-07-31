@@ -17,6 +17,7 @@ open Lean Lake Toml
 %%%
 tag := "toml"
 number := false
+file := "toml"
 %%%
 
 ::: contributors

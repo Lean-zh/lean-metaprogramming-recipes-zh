@@ -38,13 +38,13 @@ number := false
 
 *重要说明*
 
-本书不代替 *Theorem Proving in Lean*、*Mathematics in Lean* 等系统资料。它主要补充这些资料较少涉及的编程内容，并在需要背景知识时链接到相应来源，以免重复讲解。建议先用系统教材打好 Lean 4 基础，再把本书作为具体配方和示例的参考手册。
+本书不代替 *Theorem Proving in Lean*、*Mathematics in Lean* 等系统资料。它主要补充这些资料较少涉及的编程内容，并在需要背景知识时链接到相应来源，以免重复讲解。建议先用系统教材打好 Lean 4 基础，再把本书作为具体配方和示例的参考手册。无论是刚开始写元编程代码，还是已经有经验、想进一步理解 Lean 4 的程序员，都可以按问题查阅本书。
 
 *更多信息*
 
-如果你想分享自己的配方或示例，请阅读[如何编写配方](How-to-build-a-Recipe/)。
+如果你想分享自己的配方或示例，请阅读[如何编写配方](building-recipe/)。
 
-感谢所有帮助本书成长的[贡献者（查看完整名单）](Cookbook-Contributors/)。
+感谢所有帮助本书成长的[贡献者（查看完整名单）](cookbook-contributors/)。
 
 *其他参考资料*
 - [Lean 4 语言参考手册](https://lean-lang.org/doc/reference/latest/)

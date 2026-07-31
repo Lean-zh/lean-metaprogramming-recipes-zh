@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "spawning-a-child-process"
 htmlSplit := .never
+file := "spawning-a-child-process"
 %%%
 
 ::: contributors
@@ -24,6 +25,7 @@ htmlSplit := .never
 %%%
 tag := "spawning-child-process"
 number := false
+file := "spawning-child-process"
 %%%
 
 {index}[派生子进程]
@@ -78,6 +80,7 @@ def spawnExternalProgram (cmd : String)
 %%%
 tag := "get-pid-process"
 number := false
+file := "get-pid-process"
 %%%
 
 {index}[获取进程的 PID]
@@ -105,6 +108,7 @@ def getProcessInfo (cmd : String) (args : Array String)
 %%%
 tag := "setting-environment-variables-child-process"
 number := false
+file := "setting-environment-variables-child-process"
 %%%
 
 {index}[为子进程设置环境变量]

@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 tag := "mutable-variables"
 number := false
 htmlSplit := .never
+file := "mutable-variables"
 %%%
 
 ::: contributors
@@ -21,6 +22,10 @@ htmlSplit := .never
 {index}[跨命令的可变变量]
 
 # 跨命令的可变变量
+
+%%%
+file := "maintaining-state-mutable-variables-section-02"
+%%%
 
 在配方 {ref "state-monad"}[状态单子] 中，我们看到了如何在一个函数内保留状态。然而，有时我们想跨不同的命令保留状态。如果我们在信息视图（Infoview）中求值 `catalanMemo 32`，在这个过程中我们也已经计算出了从 `C(0)` 到 `C(32)` 的所有卡塔兰数。然而，如果接下来我们求值 `catalanMemo 31`，就不得不重新计算从 `C(0)` 到 `C(31)` 的所有卡塔兰数，这很低效。本节我们展示如何用可变变量跨不同命令保留状态。
 

@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 %%%
 tag := "file-permissions"
 number := false
+file := "file-permissions"
 %%%
 
 ::: contributors
@@ -26,6 +27,7 @@ number := false
 %%%
 tag := "setting-file-permissions"
 number := false
+file := "setting-file-permissions"
 %%%
 
 {index}[设置文件权限]
@@ -55,6 +57,10 @@ def setFilePermissions (path : System.FilePath) :
 ```
 
 # 读取文件权限
+
+%%%
+file := "file-system-file-permissions-section-03"
+%%%
 
 要读取一个文件的权限，Lean 没有提供内置 API（如果你知道有，请告诉我们！我在文档里没有找到）。不过，我们可以用 Linux 的 `stat` 命令以八进制格式获取权限，然后把它转换为一个 {lean}`IO.FileRight` 结构体。
 

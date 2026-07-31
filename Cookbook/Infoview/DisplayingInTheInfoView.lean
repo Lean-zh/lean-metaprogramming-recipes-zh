@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "displaying-in-the-infoview"
 number := false
 htmlSplit := .never
+file := "displaying-in-the-infoview"
 %%%
 
 ::: contributors
@@ -47,11 +48,19 @@ def showPoint : MetaM Unit := do
 
 # `logInfo`、`logWarning` 与 `logError`
 
+%%%
+file := "infoview-displaying-in-the-info-view-section-02"
+%%%
+
 三个主要的日志函数都在单子中运行，最常用在 {name}`CoreM`、{name}`MetaM`、{name}`TermElabM` 和 {name}`TacticM` 单子中。
 
 与 {name}`Lean.throwError` 不同，这些日志函数都不会中断或终止执行。它们只是向信息视图发送一条消息，并让程序继续运行。
 
 ## {name}`Lean.logInfo`
+
+%%%
+file := "infoview-displaying-in-the-info-view-section-03"
+%%%
 
 {index}[`logInfo`]
 
@@ -79,6 +88,10 @@ example : 2 + 3 = 5 := by
 注意 `m!` 宏如何处理插值表达式：`m!"Current goal: {goal}"` 展开成一个 {name}`MessageData` 对象，其中既包含一个文本部分（`"Current goal: "`），又包含一个表达式部分（格式化打印后的 `goal`）。{name}`logInfo` 接受这个对象并把它推送到信息视图。
 
 ## {name}`Lean.logWarning`
+
+%%%
+file := "infoview-displaying-in-the-info-view-section-04"
+%%%
 
 {index}[`logWarning`]
 
@@ -109,6 +122,10 @@ example : ∀ x : Nat, (x = x ↔ x - x = 0) := by
 
 
 ## {name}`Lean.logError`
+
+%%%
+file := "infoview-displaying-in-the-info-view-section-05"
+%%%
 
 {index}[`logError`]
 

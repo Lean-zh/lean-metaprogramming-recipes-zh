@@ -12,6 +12,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "其他 I/O 操作" =>
 
+%%%
+file := "io-miscellaneous"
+%%%
+
 ::: contributors
 :::
 
@@ -22,6 +26,7 @@ set_option pp.rawOnError true
 %%%
 tag := "get-a-random-number"
 number := false
+file := "get-a-random-number"
 %%%
 
 
@@ -41,6 +46,7 @@ def getRandomNumber (low high : Nat) : IO Unit := do
 %%%
 tag := "terminating-a-process"
 number := false
+file := "terminating-a-process"
 %%%
 
 {index}[终止一个进程]
@@ -65,6 +71,7 @@ def terminateProcess (someCondition : Bool) : IO Unit := do
 %%%
 tag := "file-compression-decompression"
 number := false
+file := "file-compression-decompression"
 %%%
 
 {index}[文件压缩与解压]
@@ -111,6 +118,7 @@ def decompressArchive (archiveName : String) : IO Unit := do
 %%%
 tag := "reading-environment-variables"
 number := false
+file := "reading-environment-variables"
 %%%
 
 
@@ -126,23 +134,28 @@ def checkUser : IO Unit := do
   | none      => IO.println "Could not find USER variable."
 ```
 
-# 任务系统死锁
+# 任务系统中的阻塞与资源耗尽
 
 %%%
 tag := "deadlocking-the-task-system"
 number := false
+file := "deadlocking-the-task-system"
 %%%
 
-{index}[任务系统死锁]
+{index}[任务系统中的阻塞与资源耗尽]
 
 ::: contributors
 :::
 
-这里我们介绍死锁，以及如何避免自己掉进这个陷阱。与其说这是一篇配方，不如说是对盲目派生过多任务的概念性理解。
+这里区分两类容易混淆的并发故障。第一类是任务在有限的工作线程池中互相等待，导致没有线程能够继续执行，这属于死锁或线程饥饿。第二类是一次创建过多任务或底层线程，耗尽操作系统资源。下面的程序可能因运行时和系统限制表现为其中任一种，因此诊断时必须查看实际错误，不能只凭“程序卡住”判断原因。
 
 在此之前，若想了解 {lean}`Task` 的基础，请先查看 {ref "spawning-tasks-and-worker-threads"}[派生任务与工作线程]。
 
 ## 什么是死锁？（卡住的比萨店）
+
+%%%
+file := "io-miscellaneous-section-07"
+%%%
 
 想象一家只有 4 位厨师的比萨店。这些厨师就是工作线程，只有他们才能真正做菜。
 
@@ -154,9 +167,13 @@ number := false
 由于 4 位厨师都站着不动地等着，就没人去真正做酱料了。这家店就永远卡住了。在编程中，我们称之为*线程饥饿*（thread starvation）。
 
 
-## 会死锁的代码
+## 会阻塞或耗尽线程资源的代码
 
-在本例中，我们尝试运行 100000 个任务，这会抛出下面所示的错误。由于如今的机器现代化程度更高，具备更强的多线程和多核处理能力，在线程创建停止之前这个数字会更大。
+%%%
+file := "io-miscellaneous-section-08"
+%%%
+
+本例尝试运行 100000 个任务，并在每个任务中等待另一个子任务。实际结果取决于运行时实现和系统资源：程序可能因工作线程全部阻塞而停滞，也可能在创建足够多的底层线程之前就因资源耗尽而失败。下方记录的 `failed to create thread` 属于后一种情况。
 
 ```lean
 def potentialDeadlock (n : Nat := 100000) : IO Unit := do
@@ -185,11 +202,15 @@ lean::exception: failed to create thread
 ```
 
 *为什么会失败：*
-当你在一个任务内部调用 {lean}`IO.wait` 时，你是在让工作线程坐下来等待。由于线程数是*有限的*，一旦它们全都“坐着等待”，就没有谁去运行 subTask 了。
+在任务内部调用 {lean}`IO.wait` 会占住当前工作线程等待子任务。如果有限线程池中的线程都这样等待，子任务便得不到执行机会，形成线程饥饿。另一方面，大量创建任务也可能先触发操作系统线程或内存上限；示例中的错误正是资源耗尽。两种故障的修复方向相近：不要为等待而长期占住工作线程，也不要无界地创建并发工作。
 
 ## 使用 {lean}`IO.bindTask` 的解决方案（“便利贴”方式）
 
-安全的解决方案是使用*异步组合*。我们不让厨师去等，而是给他一张“便利贴”。
+%%%
+file := "io-miscellaneous-section-09"
+%%%
+
+针对嵌套等待，更安全的方案是使用*异步组合*。我们不让厨师去等，而是给他一张“便利贴”。
 
 当一位厨师和好面后，写一张便条：“等酱料好了，谁有空谁来把这份比萨做完。”然后这位厨师离开厨房，好让另一位厨师用他的位置去做酱料！
 
@@ -216,7 +237,11 @@ def safeFromDeadlock (n : Nat := 1000000) : IO Unit := do
 
 ## 为什么这样更好
 
+%%%
+file := "io-miscellaneous-section-10"
+%%%
+
 - *无需等待：* {lean}`IO.bindTask` 不会让厨师站着不动。它让店经理稍后处理这次交接。
 - *线程回收：* 一旦任务的第一部分完成，*工作线程*就会被释放。它可以立即回到线程池去处理下一个任务或子任务。
-- *高效：* 这让你即便只有少数几个 CPU 核心，也能处理成千上万个任务，因为没有任何线程会因单纯“坐着等待”而被浪费。
+- *高效：* 这避免把线程浪费在单纯等待上。不过并发任务本身仍会占用内存和调度资源，实际程序还应限制任务数量。
 

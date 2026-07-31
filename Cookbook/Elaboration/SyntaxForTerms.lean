@@ -16,6 +16,7 @@ set_option pp.rawOnError true
 tag := "adding-syntax-for-terms"
 number := false
 htmlSplit := .never
+file := "adding-syntax-for-terms"
 %%%
 
 ::: contributors
@@ -24,6 +25,10 @@ htmlSplit := .never
 {index}[为项添加语法]
 
 # Python `for` 循环的语法
+
+%%%
+file := "elaboration-syntax-for-terms-section-02"
+%%%
 
 我们将改进配方 {ref "macro-for-python-for-loop"}[解析类 Python `for` 循环的 `macro`] 中定义的、用于解析 Python `for` 循环语法的 `macro`。这里我们用精译器（`elab`）而非 `macro` 来解析相同的语法。这样一来，我们不再只做简单的语法变换，而是从语法生成一个表达式。这让我们能够在精译过程中执行更复杂的变换和检查。
 
@@ -34,6 +39,7 @@ htmlSplit := .never
 %%%
 tag := "elaborator-for-python-for-loop"
 number := false
+file := "elaborator-for-python-for-loop"
 %%%
 
 下面是用精译器（`elab`）实现的一个更健壮、更完整的版本。这个版本会检查被遍历的集合是 {name}`List` 还是 {name}`Array`，并分别处理各种情况：

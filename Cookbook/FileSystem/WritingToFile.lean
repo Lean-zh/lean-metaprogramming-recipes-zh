@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "writing-to-a-file"
 htmlSplit := .never
+file := "writing-to-a-file"
 %%%
 
 ::: contributors
@@ -23,6 +24,7 @@ htmlSplit := .never
 %%%
 tag := "writing-to-file"
 number := false
+file := "writing-to-file"
 %%%
 
 {index}[写入文件]
@@ -47,6 +49,7 @@ def writeToFile' (path s : String) : IO Unit := do
 %%%
 tag := "appending-to-file"
 number := false
+file := "appending-to-file"
 %%%
 
 {index}[向文件追加]
@@ -93,6 +96,7 @@ def prependToFile' (path : System.FilePath) (s : String)
 %%%
 tag := "renaming-file-path"
 number := false
+file := "renaming-file-path"
 %%%
 
 {index}[重命名文件路径]

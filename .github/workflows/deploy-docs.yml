@@ -37,7 +37,10 @@ jobs:
         run: |
           lake update
           lake build lean-cookbook
+          rm -rf _out
           lake exe lean-cookbook
+          python3 scripts/localize_generated_html.py
+          python3 scripts/check_generated_site.py
       - name: 配置 Pages
         uses: actions/configure-pages@v4
 

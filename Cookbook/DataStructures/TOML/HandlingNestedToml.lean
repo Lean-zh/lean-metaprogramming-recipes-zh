@@ -17,6 +17,7 @@ set_option pp.rawOnError true
 %%%
 tag := "handling-nested-toml"
 number := false
+file := "handling-nested-toml"
 %%%
 
 {index}[处理嵌套 TOML]
@@ -37,6 +38,7 @@ TOML 通过表（如 `[server]` 这样的小节）和表数组（用 `[[endpoint
 %%%
 tag := "defining-nested-toml"
 number := false
+file := "defining-nested-toml"
 %%%
 
 首先，我们定义 Lean 结构，并提供把它们与 TOML 相互转换的逻辑。
@@ -84,6 +86,7 @@ instance : ToToml ServiceConfig where
 %%%
 tag := "encoding-nested-toml"
 number := false
+file := "encoding-nested-toml"
 %%%
 
 要查看嵌套结构在 TOML 格式下的样子，我们使用 {name}`Lake.Toml.ppTable`。
@@ -111,6 +114,7 @@ def egEncodeNested : CoreM String := do
 %%%
 tag := "decoding-nested-toml"
 number := false
+file := "decoding-nested-toml"
 %%%
 
 {index}[读取嵌套 TOML]
@@ -171,6 +175,7 @@ port = 80
 %%%
 tag := "modifying-nested-toml"
 number := false
+file := "modifying-nested-toml"
 %%%
 
 要修改嵌套结构，你既可以更新 Lean 对象再重新编码，也可以使用 {name}`decodeTomlValue` 和 {name}`updateValue` 之类的辅助函数直接操作 {name}`Table`。

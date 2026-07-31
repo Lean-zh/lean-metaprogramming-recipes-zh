@@ -19,6 +19,7 @@ set_option pp.rawOnError true
 %%%
 tag := "trees-intro"
 number := false
+file := "trees-intro"
 %%%
 
 ::: contributors

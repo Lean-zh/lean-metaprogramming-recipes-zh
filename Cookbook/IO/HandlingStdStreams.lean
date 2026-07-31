@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "handling-std-streams"
 number := false
 htmlSplit := .never
+file := "handling-std-streams"
 %%%
 
 ::: contributors
@@ -24,6 +25,7 @@ htmlSplit := .never
 %%%
 tag := "read-stdin"
 number := false
+file := "read-stdin"
 %%%
 
 {index}[从 Stdin 读取]
@@ -47,6 +49,10 @@ def readAllFromStdin : IO String := do
 ```
 
 ## 有趣的例子：交互式的玩家输入
+
+%%%
+file := "io-handling-std-streams-section-03"
+%%%
 
 CLI 工具中的一个常见模式是请求特定类型的数据（如数字），并在输入无效时重新提示用户。
 
@@ -85,6 +91,10 @@ def playerInput : IO Unit := do
 
 # 如何打印到 Stdout 和 Stderr
 
+%%%
+file := "io-handling-std-streams-section-04"
+%%%
+
 {index}[打印到 Stdout 和 Stderr]
 
 你可以分别用 {name}`IO.println` 和 {name}`IO.eprintln` 函数打印到 `stdout` 和 `stderr`。和其他语言一样，`ln` 用于在输出末尾添加一个换行符。
@@ -100,6 +110,10 @@ def printToStderr : IO Unit := do
 ```
 
 ## 有趣的例子：覆盖输出与刷新缓冲
+
+%%%
+file := "io-handling-std-streams-section-05"
+%%%
 
 {index}[进度条与旋转指示符]
 {index}[覆盖 CLI 行]
@@ -140,6 +154,10 @@ def showSpinner (n: Nat) : IO Unit := do
 ```
 
 ## 有趣的例子：使用 ANSI 颜色与辅助函数
+
+%%%
+file := "io-handling-std-streams-section-06"
+%%%
 
 {index}[ANSI 颜色]
 

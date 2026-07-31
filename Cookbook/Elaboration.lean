@@ -10,6 +10,7 @@ open Verso.Genre Manual Cookbook
 %%%
 tag := "elaboration-extending-syntax"
 number := false
+file := "elaboration-extending-syntax"
 %%%
 
 ::: contributors

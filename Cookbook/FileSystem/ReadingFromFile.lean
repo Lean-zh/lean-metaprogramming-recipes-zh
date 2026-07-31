@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "reading-from-file"
 number := false
+file := "reading-from-file"
 %%%
 
 ::: contributors

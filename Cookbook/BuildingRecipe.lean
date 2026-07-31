@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "building-recipe"
 number := false
+file := "building-recipe"
 %%%
 
 ::: contributors
@@ -39,6 +40,7 @@ number := false
 
 %%%
 tag := "adding-sections"
+file := "adding-sections"
 %%%
 
 一级小节使用 `#`，如下所示。每个章节应从明确的问题陈述和解决办法概览开始，本节的写法就是一个例子。
@@ -49,6 +51,7 @@ tag := "adding-sections"
 
 %%%
 tag := "metadata-and-tagging"
+file := "metadata-and-tagging"
 %%%
 
 每个标题下面都可以定义元数据：
@@ -73,6 +76,7 @@ htmlSplit := .never
 %%%
 tag := "formatting-text"
 htmlSplit := .never
+file := "formatting-text"
 %%%
 
 Verso 的完整格式说明见 [Verso Markup](https://verso-user-manual.netlify.app/Verso-Markup/?terms=--verso#verso-markup)。下面只列出本书最常用的功能。
@@ -81,6 +85,7 @@ Verso 的完整格式说明见 [Verso Markup](https://verso-user-manual.netlify.
 
 %%%
 tag := "adding-inline-lean-code"
+file := "adding-inline-lean-code"
 %%%
 
 文档可以包含由 Lean 直接精译的代码，适合短小片段。代码仍应遵守 Lean 的命名、大小写等语法约定。
@@ -95,6 +100,7 @@ def helloCookbook := "Welcome!"
 
 %%%
 tag := "interactive-symbols"
+file := "interactive-symbols"
 %%%
 
 若希望正文中的 Lean 符号支持悬停信息和类型提示，请使用 `{name}` 与 `{lean}` role，而不是普通反引号。
@@ -111,10 +117,11 @@ tag := "interactive-symbols"
 
 渲染后，把鼠标悬停在 {name}`Nat` 上会看到它的定义和 docstring。悬停在 {lean}`[1, 2].map (· + 1)` 的不同部分，则会看到列表、`map` 函数和 λ 抽象的类型。
 
-## Docstring
+## 文档字符串（docstring）
 
 %%%
 tag := "docstrings"
+file := "docstrings"
 %%%
 
 Verso 可以通过 `{docstring}` role 把 Lean 定义的 docstring 直接嵌入文档。详细说明见[这里](https://verso.lean-lang.org/doc/latest/Manuals-and-Books/#docstrings)。
@@ -131,6 +138,7 @@ Verso 可以通过 `{docstring}` role 把 Lean 定义的 docstring 直接嵌入�
 
 %%%
 tag := "errors-and-warnings"
+file := "errors-and-warnings"
 %%%
 
 若代码片段应当报错，可以像普通 Lean 文件一样在代码前使用 `#guard_msgs`。下面的例子来自 {ref "displaying-in-the-infoview"}[在信息视图中显示内容]配方。
@@ -159,6 +167,7 @@ def errorMessage' (msg : String) : CoreM Unit := do
 
 %%%
 tag := "cross-references"
+file := "cross-references"
 %%%
 
 通过 tag 可以链接其他章节：`{ref "tag-name"}[链接文字]`。
@@ -169,6 +178,7 @@ tag := "cross-references"
 
 %%%
 tag := "marginal-notes"
+file := "marginal-notes"
 %%%
 
 `{margin}[边注文字]` 会在页边显示补充内容，效果如下：{margin}[边注适合补充不应打断正文的背景。]
@@ -177,6 +187,7 @@ tag := "marginal-notes"
 
 %%%
 tag := "indexing"
+file := "indexing"
 %%%
 
 用 `{index}` role 把术语加入索引。它不会在正文中显示内容，只会在生成的索引中增加条目，例如 `{index}[要索引的术语]`。
@@ -185,9 +196,10 @@ tag := "indexing"
 
 %%%
 tag := "contributor-section"
+file := "contributor-section"
 %%%
 
-每个页面顶部都应在 `#doc (Manual) "标题" =>` 和元数据之后放置贡献者区块。贡献者信息由 `git` 自动读取，不需要手工填写。哪些贡献会进入页面署名，见 [COOKBOOK\_GUIDELINES](../COOKBOOK_GUIDELINES.md)。
+每个页面顶部都应在 `#doc (Manual) "标题" =>` 和元数据之后放置贡献者区块。贡献者信息由 `git` 自动读取，不需要手工填写。哪些贡献会进入页面署名，见 [Cookbook 配方指南](https://github.com/Lean-zh/lean-metaprogramming-recipes-zh/blob/main/COOKBOOK_GUIDELINES.md)。
 
 每页只添加一次：
 

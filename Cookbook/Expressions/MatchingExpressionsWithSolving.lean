@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "matching-expressions-by-solving"
 number := false
+file := "matching-expressions-by-solving"
 %%%
 
 ::: contributors
@@ -28,6 +29,10 @@ number := false
 
 
 # 例子：自然数之间的不等式
+
+%%%
+file := "expressions-matching-expressions-with-solving-section-02"
+%%%
 
 假设我们想检查一个目标，看它是否为 `a ≤ b` 形式的不等式，其中 `a` 和 `b` 是自然数。如果是，我们想提取这些值（为了说明，我们把它们打印到信息视图）。由于这涉及创建和赋值元变量（临时占位符），我们需要在 {lean}`MetaM` 单子内部工作。
 

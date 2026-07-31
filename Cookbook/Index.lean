@@ -9,6 +9,7 @@ open Verso.Genre Manual Cookbook
 tag := "index"
 number := false
 htmlSplit := .never
+file := "index"
 %%%
 
 {theIndex}

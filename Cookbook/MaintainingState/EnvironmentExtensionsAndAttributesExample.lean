@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "environment-extensions-and-attributes-example"
 number := false
 htmlSplit := .never
+file := "environment-extensions-and-attributes-example"
 %%%
 
 ::: contributors

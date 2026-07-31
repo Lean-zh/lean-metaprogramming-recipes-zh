@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "process-time-measurement"
 htmlSplit := .never
+file := "process-time-measurement"
 %%%
 
 ::: contributors
@@ -23,6 +24,7 @@ htmlSplit := .never
 %%%
 tag := "time-measurement"
 number := false
+file := "time-measurement"
 %%%
 
 {index}[性能计时]
@@ -42,6 +44,10 @@ def timeTask : IO Unit := do
 ```
 
 ## 高精度计时（纳秒）
+
+%%%
+file := "io-time-performance-measure-section-03"
+%%%
 
 如果你需要更高的精度，可以使用 {lean}`IO.monoNanosNow`。
 

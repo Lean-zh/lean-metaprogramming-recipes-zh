@@ -41,4 +41,7 @@ jobs:
       - name: 验证文档生成程序
         run: |
           # 捕获普通 build 可能漏掉的 "INTERNAL PANIC"。
+          rm -rf _out
           lake exe lean-cookbook
+          python3 scripts/localize_generated_html.py
+          python3 scripts/check_generated_site.py

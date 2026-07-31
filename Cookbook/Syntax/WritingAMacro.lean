@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "writing-a-macro"
 number := false
 htmlSplit := .never
+file := "writing-a-macro"
 %%%
 
 ::: contributors
@@ -29,6 +30,7 @@ htmlSplit := .never
 %%%
 tag := "syntax-for-python-exponentiation"
 number := false
+file := "syntax-for-python-exponentiation"
 %%%
 {index}[Python 幂运算 DSL]
 
@@ -46,6 +48,7 @@ macro n:num "**" m:num : term => `($n^$m)
 %%%
 tag := "syntax-for-python-for-loop"
 number := false
+file := "syntax-for-python-for-loop"
 %%%
 {index}[Python `for` 循环 DSL]
 
@@ -61,6 +64,7 @@ number := false
 %%%
 tag := "macro-for-python-for-loop"
 number := false
+file := "macro-for-python-for-loop"
 %%%
 
 接下来，我们定义一个 `macro`，让我们能在 Lean 中写出类似 Python 的语法。它解析形如 `[<term> pyfor <ident> in <term>]` 的表达式，并用 {name}`List.map` 把它们变换成标准的 Lean 表达式。{name}`ident` 是推导式中所用变量名的占位符，两个 {name}`term` 占位符分别表示要生成的表达式和要遍历的集合。为了避免与 Lean 中的 `for` 关键字冲突，我们改用 `pyfor`。

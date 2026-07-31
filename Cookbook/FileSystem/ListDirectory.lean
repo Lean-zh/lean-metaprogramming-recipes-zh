@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "listing-a-directory"
 htmlSplit := .never
+file := "listing-a-directory"
 %%%
 
 ::: contributors
@@ -23,6 +24,7 @@ htmlSplit := .never
 %%%
 tag := "list-directory"
 number := false
+file := "list-directory"
 %%%
 
 {index}[列出目录的内容]
@@ -46,6 +48,7 @@ def listDirectory (path : System.FilePath) : IO Unit := do
 %%%
 tag := "recursive-directory-traversal"
 number := false
+file := "recursive-directory-traversal"
 %%%
 
 {index}[递归遍历目录]
@@ -64,6 +67,10 @@ def listAllFiles (path : System.FilePath) : IO Unit := do
 ```
 
 ## 遍历时进行过滤
+
+%%%
+file := "file-system-list-directory-section-04"
+%%%
 
 {lean}`System.FilePath.walkDir` 接受一个可选的 `enter` 参数——一个函数，
 用来决定是否递归进入某个给定的子目录。这对于

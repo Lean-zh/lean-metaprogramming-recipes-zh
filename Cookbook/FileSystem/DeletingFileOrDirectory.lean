@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 
 %%%
 htmlSplit := .never
+file := "file-system-deleting-file-or-directory"
 %%%
 
 ::: contributors
@@ -22,6 +23,7 @@ htmlSplit := .never
 %%%
 tag := "deleting-a-file"
 number := false
+file := "deleting-a-file"
 %%%
 
 {index}[删除文件]
@@ -43,6 +45,7 @@ def deleteFile (path : String) : IO Unit := do
 %%%
 tag := "delete-a-directory"
 number := false
+file := "delete-a-directory"
 %%%
 
 {index}[删除目录]

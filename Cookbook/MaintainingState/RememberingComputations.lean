@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 tag := "state-monad"
 number := false
 htmlSplit := .never
+file := "state-monad"
 %%%
 
 ::: contributors
@@ -21,6 +22,10 @@ htmlSplit := .never
 {index}[状态单子：记住计算结果]
 
 # 状态单子
+
+%%%
+file := "maintaining-state-remembering-computations-section-02"
+%%%
 
 由于 Lean 是函数式编程语言，它没有可变状态。然而，我们常常想编写操作状态的代码。例如，我们可能想在递归函数中记住某次计算的结果，以避免冗余计算。
 

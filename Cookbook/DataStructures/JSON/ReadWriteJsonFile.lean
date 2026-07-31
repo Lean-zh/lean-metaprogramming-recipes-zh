@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "读取与写入 JSON 文件" =>
 
+%%%
+file := "data-structures-json-read-write-json-file"
+%%%
+
 ::: contributors
 :::
 
@@ -22,6 +26,7 @@ set_option pp.rawOnError true
 %%%
 tag := "reading-json-file"
 number := false
+file := "reading-json-file"
 %%%
 
 {index}[读取 JSON 文件]
@@ -43,6 +48,7 @@ def readJsonFile (path : System.FilePath) : IO Json := do
 %%%
 tag := "writing-json-file"
 number := false
+file := "writing-json-file"
 %%%
 
 {index}[写入 JSON 文件]

@@ -9,6 +9,7 @@ open Verso.Genre Manual Cookbook
 %%%
 tag := "working-with-the-infoview"
 number := false
+file := "working-with-the-infoview"
 %%%
 
 ::: contributors

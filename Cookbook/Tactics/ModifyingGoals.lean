@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "modifying-goals"
 number := false
 htmlSplit := .never
+file := "modifying-goals"
 %%%
 
 ::: contributors
@@ -25,6 +26,10 @@ htmlSplit := .never
 策略可以用多种方式处理目标。它们可以检查目标、修改目标，甚至关闭目标。本节我们探讨如何用精译器编写修改目标的策略。
 
 # 修改目标
+
+%%%
+file := "tactics-modifying-goals-section-02"
+%%%
 
 策略状态中的目标，特别是主目标，用元变量表示。主目标的类型称为主目标类型（main target）。主目标和主目标类型分别通过 {lean}`getMainGoal` 和 {lean}`getMainTarget` 函数获得。
 
@@ -51,6 +56,10 @@ example : 1 + 1 = 2 := by -- goal `1 + 1 = 2`
 我们要强调，确保以下这点是策略作者的责任：如果给一个元变量（例如一个目标）赋了某个表达式，那么该表达式的类型必须与目标的类型在定义等价意义下相同。作者还必须正确地修改目标列表，以反映引入的任何新元变量，并移除那些已被赋值的元变量。否则，使用该策略时我们会得到一个底层错误。
 
 ## 拆分 `∧` 目标
+
+%%%
+file := "tactics-modifying-goals-section-03"
+%%%
 
 作为一个稍微复杂一点的例子，我们可以编写一个策略，把形如 `P ∧ Q` 的目标拆成两个独立的目标 `P` 和 `Q`。做法是给主目标赋一个形如 `And.intro p q` 的表达式，其中 `p` 和 `q` 是分别表示 `P` 和 `Q` 的证明的新元变量。然后我们用对应这些元变量的新目标替换主目标。为了识别主目标类型是否为 `P ∧ Q` 的形式，我们可以使用 {lean}`Expr.app2?` 函数，它检查一个表达式是否是某个给定常量带两个参数的应用，如果是，则返回该应用的参数。
 

@@ -13,6 +13,7 @@ open Verso.Genre.Manual.InlineLean
 %%%
 tag := "data-structures"
 number := false
+file := "data-structures"
 %%%
 
 ::: contributors

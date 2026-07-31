@@ -17,6 +17,7 @@ open Verso.Genre.Manual.InlineLean
 %%%
 tag := "file-system"
 number := false
+file := "file-system"
 %%%
 
 ::: contributors

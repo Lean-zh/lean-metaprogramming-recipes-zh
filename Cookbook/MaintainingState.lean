@@ -13,6 +13,7 @@ open Verso.Genre Manual Cookbook
 %%%
 tag := "state"
 number := false
+file := "state"
 %%%
 
 ::: contributors

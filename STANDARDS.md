@@ -46,6 +46,8 @@
   LEAN_NUM_THREADS=6 lake build lean-cookbook
   rm -rf _out
   LEAN_NUM_THREADS=6 lake exe lean-cookbook
+  python3 scripts/localize_generated_html.py
+  python3 scripts/check_generated_site.py
   ```
 
   Verso 不会主动删除旧标题生成的页面；渲染前必须清空 `_out`，否则本地目录会同时保留英文旧页面和中文新页面。

@@ -11,6 +11,7 @@ open Verso.Genre Manual Cookbook
 %%%
 tag := "syntax"
 number := false
+file := "syntax"
 %%%
 
 ::: contributors

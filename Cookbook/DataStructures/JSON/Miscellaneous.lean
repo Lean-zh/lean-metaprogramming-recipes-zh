@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "其他 JSON 操作" =>
 
+%%%
+file := "data-structures-json-miscellaneous"
+%%%
+
 ::: contributors
 :::
 
@@ -18,6 +22,7 @@ set_option pp.rawOnError true
 %%%
 tag := "misc-json-operations"
 number := false
+file := "misc-json-operations"
 %%%
 
 派生实例虽然方便，但现实中的 JSON 常常
@@ -29,6 +34,7 @@ number := false
 %%%
 tag := "json-field-renaming"
 number := false
+file := "json-field-renaming"
 %%%
 
 {index}[Json 字段重命名]
@@ -67,6 +73,7 @@ instance : FromJson Person where
 %%%
 tag := "json-default-values"
 number := false
+file := "json-default-values"
 %%%
 
 {index}[Json 处理默认值]

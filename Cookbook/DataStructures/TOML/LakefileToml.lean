@@ -17,6 +17,7 @@ set_option pp.rawOnError true
 %%%
 tag := "lakefile-toml"
 number := false
+file := "lakefile-toml"
 %%%
 
 ::: contributors
@@ -29,6 +30,7 @@ Lean 4 使用 *lakefile.toml* 进行包配置。虽然你通常手动编辑这�
 %%%
 tag := "parsing-lakefile-toml"
 number := false
+file := "parsing-lakefile-toml"
 %%%
 
 {index}[解析 lakefile.toml]
@@ -78,6 +80,7 @@ def readLibName (path : System.FilePath) :
 %%%
 tag := "updating-lakefile-toml"
 number := false
+file := "updating-lakefile-toml"
 %%%
 
 {index}[更新 lakefile.toml]

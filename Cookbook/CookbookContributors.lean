@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "cookbook-contributors"
 number := false
 htmlSplit := .never
+file := "cookbook-contributors"
 %%%
 
 本书由社区共同维护。感谢每一位贡献者，也希望这些配方能真正帮助 Lean 社区。以下名单按字母顺序排列。

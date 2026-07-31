@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 %%%
 tag := "parsing-command-line-arguments"
 htmlSplit := .never
+file := "parsing-command-line-arguments"
 %%%
 
 ::: contributors
@@ -25,6 +26,7 @@ htmlSplit := .never
 %%%
 tag := "parsing-cli-args"
 number := false
+file := "parsing-cli-args"
 %%%
 
 在 Lean 4 中，访问命令行参数最常见、最地道的方式是把 `main` 函数定义为接受一个 {lean}`List String`。当你运行可执行文件时，Lean 会自动用所提供的参数填充这个列表。
@@ -39,6 +41,10 @@ def getCliArgs (args : List String) : IO Unit := do
 如果你用 `lean --run test.lean arg1 arg2` 运行脚本，那么 `args` 将是 `["arg1", "arg2"]`。
 
 # 简单的参数解析
+
+%%%
+file := "io-cli-args-section-03"
+%%%
 
 对许多工具来说，你只需检查特定的标志或单个输入文件。对字符串列表进行模式匹配是做这件事最地道的方式。
 
@@ -62,6 +68,10 @@ def parseArgs (args : List String) : IO Unit := do
 ```
 
 # 递归解析选项
+
+%%%
+file := "io-cli-args-section-04"
+%%%
 
 如果你的工具以任意顺序接受多个选项，推荐使用一个递归函数来逐步构建一个配置结构体。
 

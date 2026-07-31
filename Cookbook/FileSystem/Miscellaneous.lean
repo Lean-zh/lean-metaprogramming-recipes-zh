@@ -10,6 +10,10 @@ set_option pp.rawOnError true
 
 #doc (Manual) "其他文件系统操作" =>
 
+%%%
+file := "file-system-miscellaneous"
+%%%
+
 ::: contributors
 :::
 
@@ -20,6 +24,7 @@ set_option pp.rawOnError true
 %%%
 tag := "concatenating-file-paths"
 number := false
+file := "concatenating-file-paths"
 %%%
 
 {index}[拼接文件路径]
@@ -42,6 +47,7 @@ def concatPaths (base : System.FilePath) (sub : String)
 %%%
 tag := "getting-current-working-directory"
 number := false
+file := "getting-current-working-directory"
 %%%
 
 
@@ -60,6 +66,7 @@ def getCurrentWorkingDirectory : IO Unit := do
 %%%
 tag := "checking-metadata-for-path"
 number := false
+file := "checking-metadata-for-path"
 %%%
 
 {index}[检查路径的元数据]
@@ -78,6 +85,7 @@ def checkFileSize (path : System.FilePath) : IO Unit := do
 %%%
 tag := "checking-if-path-is-absolute-or-relative"
 number := false
+file := "checking-if-path-is-absolute-or-relative"
 %%%
 
 {index}[检查路径是绝对路径还是相对路径]
@@ -101,6 +109,7 @@ def checkAbsolutePath (path₁ path₂: System.FilePath)
 %%%
 tag := "normalizing-file-path"
 number := false
+file := "normalizing-file-path"
 %%%
 
 要规范化一个文件路径——也就是解析其中的任何 `.` 或 `..` 组成部分、去掉多余的分隔符并使其与操作系统兼容——你可以使用 {lean}`System.FilePath.normalize` 方法。

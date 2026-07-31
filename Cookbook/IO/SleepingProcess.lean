@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 %%%
 tag := "sleeping-process"
 htmlSplit := .never
+file := "sleeping-process"
 %%%
 
 ::: contributors
@@ -24,6 +25,7 @@ htmlSplit := .never
 %%%
 tag := "sleep-process"
 number := false
+file := "sleep-process"
 %%%
 
 
@@ -45,6 +47,7 @@ def sleepProcessHello : IO Unit := do
 %%%
 tag := "async-sleep"
 number := false
+file := "async-sleep"
 %%%
 
 {index}[异步休眠]

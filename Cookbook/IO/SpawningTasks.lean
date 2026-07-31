@@ -12,6 +12,7 @@ set_option pp.rawOnError true
 
 %%%
 htmlSplit := .never
+file := "io-spawning-tasks"
 %%%
 
 ::: contributors
@@ -22,6 +23,7 @@ htmlSplit := .never
 %%%
 tag := "spawning-tasks-and-worker-threads"
 number := false
+file := "spawning-tasks-and-worker-threads"
 %%%
 
 
@@ -33,6 +35,10 @@ Lean 4 通过 {lean}`Task` 支持轻量级并发。你可以派生任务在后�
 
 
 ## 派生一个任务
+
+%%%
+file := "io-spawning-tasks-section-03"
+%%%
 
 如果你有一个非常繁重的纯计算，可以使用 {lean}`Task.spawn` 在不借助 {lean}`IO` 单子的情况下并行运行它。如前所述，当派生一个 {lean}`Task` `α` 时，它会给你一个 `α` 类型的输出。每个 {lean}`Task` `α` 由 Lean 派生的一个工作线程完成。
 
@@ -47,6 +53,7 @@ def computeSomething : Nat :=
 %%%
 tag := "spawning-background-task"
 number := false
+file := "spawning-background-task"
 %%%
 
 
@@ -83,6 +90,10 @@ Task returned: Result Data
 ```
 
 ## 任务状态
+
+%%%
+file := "io-spawning-tasks-section-05"
+%%%
 
 你可以使用 {lean}`IO.TaskState` 检查一个任务是否仍在运行。它会告诉你任务是仍在运行、等待运行还是已经完成。注意 {lean}`Task` 不是进程也不是线程，因此你不能用 {lean}`IO.TaskState` 检查子进程的状态。
 
@@ -123,6 +134,7 @@ Task has finished.
 %%%
 tag := "io-baseio-astask"
 number := false
+file := "io-baseio-astask"
 %%%
 
 {index}[IO.asTask 与 BaseIO.asTask]
@@ -167,13 +179,14 @@ def computeWithBaseIO : IO Unit := do
 %%%
 tag := "get-thread-ids"
 number := false
+file := "get-thread-ids"
 %%%
 
 {index}[获取线程 ID]
 
 为了执行任何 {lean}`Task`，Lean 会为同一进程派生工作线程来并行执行任务。因此同一进程可以有多个线程在运行。由于这些都是异步任务，输出也可能以任意顺序出现。{lean}`Task` 的执行被调度在一个有界的工作线程池上，因此它不一定总是由一个独立的工作线程完成。
 
-本例说明每个 {lean}`Task` 都由各自独立的工作线程运行，因此有不同的 TID 但相同的 PID。你可以用 {lean}`IO.getTID` 获取线程 ID。
+下面的例子用 {lean}`IO.getTID` 观察任务实际运行时的线程 ID。各任务属于同一个进程，因此 PID 相同；一次运行中可能看到不同的 TID，但线程池调度并不保证每个任务都独占一条线程。
 
 
 ```lean

@@ -18,6 +18,7 @@ open Verso.Genre.Manual.InlineLean
 %%%
 tag := "io"
 number := false
+file := "io"
 %%%
 
 ::: contributors

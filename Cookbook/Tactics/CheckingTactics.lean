@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "checking-tactics"
 number := false
 htmlSplit := .never
+file := "checking-tactics"
 %%%
 
 ::: contributors
@@ -27,6 +28,7 @@ htmlSplit := .never
 %%%
 tag := "checking-tactics-overview"
 number := false
+file := "checking-tactics-overview"
 %%%
 
 在编写策略以及实现其他形式的自动化时，常常需要检查某个策略能否应用于一个目标，如果能，应用之后还剩下多少个目标（尤其是它是否关闭了目标）。重要的是，这种检查不能修改策略状态。我们可以用 {lean}`@withoutModifyingState` 函数来做到这一点，它执行给定的计算而不修改策略状态。我们用 {lean}`Elab.runTactic` 函数运行策略（更确切地说是策略序列），它接受一个目标和一个策略序列，返回在给定目标上执行该策略序列之后的新目标列表和新策略状态。下面的函数检查某个策略能否应用于一个目标，如果能，返回应用该策略之后剩下的目标数。

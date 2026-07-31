@@ -13,6 +13,7 @@ set_option pp.rawOnError true
 tag := "environment-extensions-and-attributes"
 number := false
 htmlSplit := .never
+file := "environment-extensions-and-attributes"
 %%%
 
 ::: contributors
@@ -22,11 +23,19 @@ htmlSplit := .never
 
 # 环境扩展与属性
 
+%%%
+file := "maintaining-state-environment-extensions-and-attributes-section-02"
+%%%
+
 Lean 允许状态跨文件、跨会话持久化，甚至在导入的已编译代码中也是如此，方法是使用 _环境扩展（Environment extensions）_。环境扩展的一个常见应用是实现像 `@[simp]` 和 `@[grind]` 这样的属性。本章给出定义环境扩展和属性的配方，并以 `@[distribute]` 属性为例。
 
 具体来说，我们实现一个策略 `distribute`，它尝试应用所有带 `@[distribute]` 属性标记的引理。我们首先创建一个环境扩展来存储带 `@[distribute]` 标记的引理，然后定义 `@[distribute]` 属性，把引理添加到这个环境扩展中。最后，我们实现 `distribute` 策略，它从环境扩展中取出这些引理并应用它们。
 
 ## 环境扩展
+
+%%%
+file := "maintaining-state-environment-extensions-and-attributes-section-03"
+%%%
 
 环境扩展有若干不同类型，其中我们将使用 {lean}`SimpleScopedEnvExtension`。`SimpleScopedEnvExtension` 接受两个类型参数：存储在环境扩展中的条目的类型，以及由环境扩展维护的状态的类型。“有作用域”（scoped）意味着可以将条目的作用域限定在某个命名空间或某个 `section` 的局部作用域内。
 
@@ -56,6 +65,10 @@ def distributeLemmas : MetaM (Array Name) := do
 
 ## 属性
 
+%%%
+file := "maintaining-state-environment-extensions-and-attributes-section-04"
+%%%
+
 和环境扩展一样，属性也有若干不同类型。我们将用 `registerBuiltinAttribute` 来定义 `@[distribute]` 属性。下面的代码定义 `@[distribute]` 属性，并指定当一个引理被标记 `@[distribute]` 时，应把它添加到 `distributeExt` 环境扩展中。
 
 ```lean
@@ -75,6 +88,7 @@ open Distribute
 %%%
 tag := "distribute-tactic-implementation"
 number := false
+file := "distribute-tactic-implementation"
 %%%
 
 最后，我们实现 `distribute` 策略，它从环境扩展中取出这些引理。我们用 `rw` 策略依次尝试用这些引理重写目标。

@@ -18,6 +18,8 @@
 lake build lean-cookbook
 rm -rf _out                 # 避免旧标题对应的 HTML 页面残留
 lake exe lean-cookbook
+python3 scripts/localize_generated_html.py
+python3 scripts/check_generated_site.py
 python3 -m http.server -d _out/html-multi
 ```
 

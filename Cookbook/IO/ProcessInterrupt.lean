@@ -14,6 +14,7 @@ set_option pp.rawOnError true
 tag := "process-interrupt-idle-sleep"
 number := false
 htmlSplit := .never
+file := "process-interrupt-idle-sleep"
 %%%
 
 ::: contributors
@@ -26,6 +27,7 @@ Lean 4 提供了若干机制来管理并发任务并处理中断。本节探讨�
 %%%
 tag := "interruptible-sleep-pattern"
 number := false
+file := "interruptible-sleep-pattern"
 %%%
 
 {index}[可中断的休眠]
@@ -33,6 +35,10 @@ number := false
 一个常见需求是让线程休眠一段时间，但允许在时间到期之前被“唤醒”或中断。在 Lean 中，这可以用 {lean}`IO.Promise` 实现，见[参考文档](https://lean-lang.org/doc/reference/latest/IO/Tasks-and-Threads/#The-Lean-Language-Reference--IO--Tasks-and-Threads--Promises)。{lean}`IO.Promise` 是一种同步原语，允许一个线程等待由另一个线程稍后提供的值。在这里，它充当一个“信号”或“信箱”，休眠的线程在其中等待承诺（promise）被兑现，从而让外部触发能够中断这次等待。
 
 ## 使用额外的任务（超时任务）
+
+%%%
+file := "io-process-interrupt-section-03"
+%%%
 
 这种方法会派生一个独立的任务，在延迟后兑现一个承诺。主工作者等待同一个承诺。
 
@@ -62,6 +68,10 @@ def interruptibleWorker (p : IO.Promise Bool)
 
 ## 使用 `IO.waitAny`（逻辑上不需要额外的任务）
 
+%%%
+file := "io-process-interrupt-section-04"
+%%%
+
 如果你已经有多个任务在运行，并且想等待其中*第一个*完成的（或某个特定的“中断”任务），可以使用 {name}`IO.waitAny`。
 
 ```lean
@@ -89,6 +99,7 @@ def waitWithTimeout {α : Type} (action : Task α)
 %%%
 tag := "idle-sleep-application"
 number := false
+file := "idle-sleep-application"
 %%%
 
 {index}[进程空闲休眠]
