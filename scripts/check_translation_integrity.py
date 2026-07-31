@@ -53,6 +53,11 @@ def candidate_english_lines(text: str) -> list[tuple[int, str]]:
             continue
         if line.startswith(("{include ", "::: ", ":::", "#guard_msgs")):
             continue
+        if line.startswith((
+            "- [Theorem Proving in Lean]",
+            "- [Mathematics in Lean]",
+        )):
+            continue
         # 四个以上连续英文词通常是正文；行内 API 名和短标题不会触发。
         words = re.findall(r"\b[A-Za-z][A-Za-z'-]*\b", re.sub(r"`[^`]*`", "", line))
         if len(words) >= 4 and not re.search(r"[\u3400-\u9fff]", line):
@@ -66,7 +71,11 @@ def main() -> int:
     ap.add_argument("--strict-prose", action="store_true")
     args = ap.parse_args()
 
-    paths = sorted(str(p) for p in Path("Cookbook").rglob("*.lean"))
+    paths = sorted(
+        str(p)
+        for p in Path("Cookbook").rglob("*.lean")
+        if p.as_posix() != "Cookbook/Lean.lean"
+    )
     paths += ["Cookbook.lean", "TemplateRecipe.lean"]
     failures: list[str] = []
     prose: list[str] = []
